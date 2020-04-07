@@ -50,6 +50,9 @@ test:
 #
 production:
   <<: *default
-  database: portfolio_app_production
-  username: portfolio_app
-  password: <%= ENV['PORTFOLIO_APP_DATABASE_PASSWORD'] %>
+  database: <%= ENV['DB_NAME'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  master_key: <%= ENV['RAILS_MASTER_KEY'] %>
+  host: <%= ENV['DB_HOSTNAME'] %>
