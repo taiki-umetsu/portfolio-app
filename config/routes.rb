@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'application#hello'
+  devise_for :users
+  resources :users
+  root 'users#index'
 end
