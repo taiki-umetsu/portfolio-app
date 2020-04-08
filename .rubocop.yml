@@ -1,0 +1,9 @@
+inherit_from: .rubocop_todo.yml
+require:
+  - rubocop-rails
+AllCops:
+  TargetRubyVersion: 2.7.1
+# ignore top-level class documentation comment
+Documentation:
+  Enabled: false
+
