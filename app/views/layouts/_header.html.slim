@@ -1,6 +1,12 @@
-.app-title.navbar.navbar-expand-md.navbar-light.bg-light
-	.navbar-brand FaceOnlyAvatarMaker
-	ul.nav.navbar-nav.navbar-right
-		li = link_to '登録内容編集', edit_user_registration_path
-		li = link_to '新規登録', new_user_session_path
-		li = link_to 'ログアウト', destroy_user_session_path, method: :delete
+  header.navbar.navbar-dark.bg-dark
+    .container
+      = link_to "FaceOnlyAvatarMaker", root_path
+      nav
+        ul.nav.list-group-horizontal
+          - if user_signed_in?
+						li= link_to 'ユーザ', current_user
+						li= link_to '編集', edit_user_registration_path
+						li= link_to 'ログアウト', destroy_user_session_path, method: :delete
+          - else
+						li = link_to '新規登録', new_user_registration_path
+						li = link_to 'ログイン', new_user_session_path

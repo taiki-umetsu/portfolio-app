@@ -1,1 +1,15 @@
 @import "bootstrap";
+
+header {
+  a {
+    text-decoration: none; 
+    color: white;
+    &:hover {
+      color: gray;
+      text-decoration: none;
+    }
+  }
+  ul {
+    li { margin: 0 10px; }
+  }
+}
