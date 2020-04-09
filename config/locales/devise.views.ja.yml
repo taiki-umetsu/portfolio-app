@@ -9,6 +9,15 @@ ja:
         remember_me: "ログインを記憶"
     models:
       user: "ユーザ"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "を記入してください"
+            password:
+              blank: "を記入してください"
+
   devise:
     confirmations:
       new:

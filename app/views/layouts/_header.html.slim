@@ -1,0 +1,12 @@
+  header.navbar.navbar-dark.bg-dark
+    .container
+      = link_to "FaceOnlyAvatarMaker", root_path
+      nav
+        ul.nav.list-group-horizontal
+          - if user_signed_in?
+						li= link_to 'USER', current_user
+						li= link_to 'SETTING', edit_user_registration_path
+						li= link_to 'LOGOUT', destroy_user_session_path, method: :delete
+          - else
+						li = link_to 'SIGNUP', new_user_registration_path
+						li = link_to 'LOGIN', new_user_session_path
