@@ -13,3 +13,36 @@ header {
     li { margin: 0 10px; }
   }
 }
+
+.center {
+  text-align: center;
+}
+
+#error_explanation{
+  color: red; 
+}
+input, textarea {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+h2 {
+  margin: 20px 0px;
+}
+
+.actions {
+  input{
+    color: white;
+    background-color: rgb(58, 58, 63);
+  }
+}
+
+.form-check-label{
+  margin: 0px 5px;
+}
+.form-check-input{
+  width:25px;
+  height:25px;
+  margin: 10px 0px;
+}
