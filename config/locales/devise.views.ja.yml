@@ -28,7 +28,6 @@ ja:
               confirmation: "が内容とあっていません。"
             password_confirmation:
               confirmation: "がパスワードと一致しません"
-
   devise:
     confirmations:
       new:
