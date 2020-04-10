@@ -9,9 +9,9 @@ h2.center SIGNUP
     = f.label :password
     - if @minimum_password_length
       em
-        | (
+        | ( 
         = @minimum_password_length
-        |  characters minimum)
+        |  文字以上 )
     br
     = f.password_field :password, autocomplete: "new-password"
   .field
@@ -20,4 +20,4 @@ h2.center SIGNUP
     = f.password_field :password_confirmation, autocomplete: "new-password"
   .actions
     = f.submit "SIGN UP"
-= render "users/shared/links"
+  
