@@ -1,9 +1,12 @@
 @import "bootstrap";
 
 header {
+  .navbar{
+    border: 1px solid #bbb;
+  }
   a {
     text-decoration: none; 
-    color: white;
+    color: rgb(0, 0, 0);
     &:hover {
       color: gray;
       text-decoration: none;
@@ -12,6 +15,7 @@ header {
   ul {
     li { margin: 0 10px; }
   }
+
 }
 
 .center {
@@ -45,4 +49,10 @@ h2 {
   width:25px;
   height:25px;
   margin: 10px 0px;
+}
+
+body{
+  .contents{
+    margin-top: 50px;
+  }
 }
