@@ -1,2 +1,8 @@
-h1 Avatars#new
-p Find me in app/views/avatars/new.html.slim
+h2 アバターを作ろう
+= form_with url: avatars_path, local: true do |f|
+  .field
+    = f.file_field :picture
+  .actions
+    = f.submit 'CREATE'
+p =@image
+
