@@ -9,8 +9,9 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     = render 'layouts/header'
-    = render 'layouts/flash'
+    
     .container.contents
       .row
         .col-md-6.offset-md-3
+          = render 'layouts/flash'
           = yield

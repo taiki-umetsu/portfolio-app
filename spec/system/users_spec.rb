@@ -8,14 +8,26 @@ RSpec.describe 'Users', type: :system do
     driven_by :selenium_chrome_headless
   end
 
-  describe 'Log in form' do
+  describe 'Log in' do
     context 'when valid email and password is filled in' do
-      it ' is successful to log in ' do
+      before do
         visit new_user_session_path
         fill_in 'メールアドレス', with: user.email
         fill_in 'パスワード', with: user.password
-        click_button 'LOG IN'
+        click_on 'LOG IN'
+      end
+      it ' is successful to log in ' do
         expect(page).to have_content 'ログインしました'
+      end
+      it " doesn't have SIGNUP link after log in " do
+        expect(page).to_not have_link 'SIGNUP'
+      end
+      it " doesn't have LOGIN link after log in " do
+        expect(page).to_not have_link 'LOGIN'
+      end
+      it ' is successful to log out ' do
+        click_on 'LOGOUT'
+        expect(page).to have_content 'ログアウトしました'
       end
     end
 
@@ -24,7 +36,7 @@ RSpec.describe 'Users', type: :system do
         visit new_user_session_path
         fill_in 'メールアドレス', with: ''
         fill_in 'パスワード', with: ''
-        click_button 'LOG IN'
+        click_on 'LOG IN'
         expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
       end
     end
@@ -39,7 +51,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'メールアドレス', with: 'example@example.com'
         fill_in 'パスワード', with: 'password'
         fill_in '確認用パスワード', with: 'password'
-        click_button 'SIGN UP'
+        click_on 'SIGN UP'
         expect(page).to have_content 'アカウント登録が完了しました'
       end
     end
@@ -48,7 +60,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'メールアドレス', with: ''
         fill_in 'パスワード', with: ''
         fill_in '確認用パスワード', with: ''
-        click_button 'SIGN UP'
+        click_on 'SIGN UP'
         expect(page).to have_content 'メールアドレス を記入してください'
         expect(page).to have_content 'パスワード を記入してください'
       end
