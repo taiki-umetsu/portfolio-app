@@ -15,8 +15,19 @@ ja:
           attributes:
             email:
               blank: "を記入してください"
+              taken: "は既に使用されています。"
+              too_short: "は%{count}文字以上に設定して下さい。"
+              too_long: "は%{count}文字以下に設定して下さい。"
+              invalid: "は有効でありません。"
             password:
               blank: "を記入してください"
+              taken: "は既に使用されています。"
+              too_short: "は%{count}文字以上に設定して下さい。"
+              too_long: "は%{count}文字以下に設定して下さい。"
+              invalid: "は有効でありません。"
+              confirmation: "が内容とあっていません。"
+            password_confirmation:
+              confirmation: "がパスワードと一致しません"
 
   devise:
     confirmations:

@@ -1,5 +1,5 @@
 h2.center
-  | Log in
+  | LOG IN
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .field
     = f.label :email
@@ -14,5 +14,5 @@ h2.center
       .form-check-input= f.check_box :remember_me
       .form-check-label= f.label :remember_me
   .actions
-    = f.submit "Log in"
+    = f.submit "LOG IN"
 = render "users/shared/links"
