@@ -10,7 +10,7 @@ class AvatarsController < ApplicationController
 
   def create
     @image = params[:picture].read
-    face_coordinate(@image)
+    Avatar.new(@image)
     render 'avatars/new'
   end
 
