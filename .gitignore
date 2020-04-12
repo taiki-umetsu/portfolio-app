@@ -31,3 +31,5 @@ yarn-debug.log*
 .yarn-integrity
 
 .env
+avatar_assets/texture_face.png
+sandbox.rb

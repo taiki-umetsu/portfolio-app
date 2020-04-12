@@ -10,17 +10,20 @@ class Avatar < ApplicationRecord
 
   def initialize(image)
     face = DetectFace.new(image)
-    calculate = Calculate.new(face.angle, face.nose, face.scaling_rate, face.dimension_original_image)
+    calculate = Calculate.new(
+      face.angle, face.nose, face.scaling_rate, face.dimension_original_image
+    )
     distance = calculate.distance_between_model_and_user_nose
     triming(face.image, face.scaling_rate, face.angle, distance)
+    Ready3dFiles.new(9)
   end
 
   class DetectFace
     attr_reader :image
     def initialize(image_bytes)
       credentials = Aws::Credentials.new(
-        ENV['RTB_ACCESS_KEY'],
-        ENV['RTB_SECRET_KEY']
+        ENV['AWS_ACCESS_KEY'],
+        ENV['AWS_SECRET_KEY']
       )
       client = Aws::Rekognition::Client.new credentials: credentials
       attrs = {
@@ -138,7 +141,63 @@ class Avatar < ApplicationRecord
       convert.crop("#{DIMENSION_AFTER_TRIM[0]}x#{DIMENSION_AFTER_TRIM[1]}+0+0")
       convert.draw 'line 0,284 360,284'
       convert.draw 'line 151,0 151,640'
-      convert.write './texture_face.png'
+      convert.write './avatar_assets/texture_face.png'
+    end
+  end
+
+  class Ready3dFiles
+    AVATAR_FILE_NAME = {
+      exist_in_s3: ['astronaut.gltf', 'astronaut.bin', 'astronaut.png'],
+      need_to_create: 'texture_face.png'
+    }.freeze
+    def initialize(id)
+      @client_s3 = Aws::S3::Client.new(
+        region: ENV['AWS_REGION'],
+        access_key_id: ENV['AWS_ACCESS_KEY'],
+        secret_access_key: ENV['AWS_SECRET_KEY']
+      )
+      @bucket = 'avatar.portfolio'
+      @id = id
+      upload_texture
+      authorize_read_access(AVATAR_FILE_NAME[:need_to_create])
+      AVATAR_FILE_NAME[:exist_in_s3].each do |f|
+        copy(f)
+        authorize_read_access(f)
+      end
+    end
+
+    def upload_texture
+      texture = AVATAR_FILE_NAME[:need_to_create]
+      @client_s3.put_object(
+        bucket: @bucket,
+        key: "avatar/#{@id}/#{texture}",
+        body: File.open("./avatar_assets/#{texture}", 'rb')
+      )
+    end
+
+    def copy(file_name)
+      source_key = "avatar/0/#{file_name}"
+      target_key = "avatar/#{@id}/#{file_name}"
+      begin
+        @client_s3.copy_object(
+          bucket: @bucket,
+          copy_source: @bucket + '/' + source_key,
+          key: target_key
+        )
+      rescue StandardError => e
+        puts 'Caught exception copying object ' + source_key + ' from bucket ' \
+         + @bucket + ' to bucket ' + @bucket + ' as ' + target_key + ':'
+        puts e.message
+      end
+    end
+
+    def authorize_read_access(file_name)
+      target_key = "avatar/#{@id}/#{file_name}"
+      @client_s3.put_object_acl({
+                                  acl: 'public-read',
+                                  bucket: @bucket,
+                                  key: target_key
+                                })
     end
   end
 end
