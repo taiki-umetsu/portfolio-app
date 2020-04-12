@@ -1,2 +1,8 @@
-h1 Users#show
-p Find me in app/views/users/show.html.slim
+h2 アバターを作ろう
+= form_with url: avatars_path, local: true do |f|
+  .field
+    = f.file_field :picture
+  .actions
+    = f.submit 'CREATE'
+
+iframe height="500px" src="/avatars/1" width="500px" 

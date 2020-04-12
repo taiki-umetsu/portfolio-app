@@ -8,14 +8,14 @@ class Avatar < ApplicationRecord
   DIMENSION_AFTER_TRIM = Vector[360, 640]
   EYE_DISTANCE_MODEL = 90.16
 
-  def initialize(image)
+  def generate(image)
     face = DetectFace.new(image)
     calculate = Calculate.new(
       face.angle, face.nose, face.scaling_rate, face.dimension_original_image
     )
     distance = calculate.distance_between_model_and_user_nose
     triming(face.image, face.scaling_rate, face.angle, distance)
-    Ready3dFiles.new(9)
+    Ready3dFiles.new(id)
   end
 
   class DetectFace

@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
   root 'users#index'
-  resources :avatars, only: %i[new create show destroy]
+  resources :avatars, only: %i[create show destroy]
 end
