@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AvatarsController < ApplicationController
+  include AvatarsHelper
   def new
     @image = 'なし'
   end
@@ -8,7 +9,10 @@ class AvatarsController < ApplicationController
   def show; end
 
   def create
-    @image = params[:picture]
+    @image = params[:picture].read
+    Avatar.new(@image)
     render 'avatars/new'
   end
+
+  def destroy; end
 end
