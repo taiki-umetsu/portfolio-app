@@ -9,9 +9,9 @@ class AvatarsController < ApplicationController
 
   def create
     image = params[:picture].read
-    @avatar = current_user.avatars.build
-    if @avatar.save
-      @avatar.generate(image)
+    avatar = current_user.avatars.build
+    if avatar.save
+      avatar.generate(image)
       redirect_to root_url
     else
       render 'users/show'

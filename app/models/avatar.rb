@@ -15,8 +15,8 @@ class Avatar < ApplicationRecord
       face.angle, face.nose, face.scaling_rate, face.dimension_original_image
     )
     distance = calculate.distance_between_model_and_user_nose
-    triming(face.image, face.scaling_rate, face.angle, distance)
-    Ready3dFiles.new(id)
+    trimed_image = triming(face.image, face.scaling_rate, face.angle, distance)
+    Ready3dFiles.new(id, trimed_image)
   end
 
   class DetectFace
@@ -142,8 +142,11 @@ class Avatar < ApplicationRecord
       convert.crop("#{DIMENSION_AFTER_TRIM[0]}x#{DIMENSION_AFTER_TRIM[1]}+0+0")
       convert.draw 'line 0,284 360,284'
       convert.draw 'line 151,0 151,640'
-      convert.write './avatar_assets/texture_face.png'
+      # save to temporary file , not to local file
+      @temp = Tempfile.new
+      convert.write(@temp.path)
     end
+    @temp
   end
 
   class Ready3dFiles
@@ -151,12 +154,13 @@ class Avatar < ApplicationRecord
       exist_in_s3: ['astronaut.gltf', 'astronaut.bin', 'astronaut.png'],
       need_to_create: 'texture_face.png'
     }.freeze
-    def initialize(id)
+    def initialize(id, trimed_image)
       @client_s3 = Aws::S3::Client.new(
         region: ENV['AWS_REGION'],
         access_key_id: ENV['AWS_ACCESS_KEY'],
         secret_access_key: ENV['AWS_SECRET_KEY']
       )
+      @trimed_image = trimed_image
       @bucket = 'avatar.portfolio'
       @id = id
       upload_texture
@@ -172,7 +176,7 @@ class Avatar < ApplicationRecord
       @client_s3.put_object(
         bucket: @bucket,
         key: "avatar/#{@id}/#{texture}",
-        body: File.open("./avatar_assets/#{texture}", 'rb')
+        body: @trimed_image.read
       )
     end
 
