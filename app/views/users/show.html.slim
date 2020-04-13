@@ -7,7 +7,9 @@ h2 アバターを作ろう
   .actions
     = f.submit 'CREATE'
 
+
 - if @user.avatars.any? 
   h3 Avatars (#{@user.avatars.count})
+  = paginate @avatars
   ol.avatars
     = render @avatars
