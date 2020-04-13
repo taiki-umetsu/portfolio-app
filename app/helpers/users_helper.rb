@@ -9,6 +9,10 @@ module UsersHelper
       'success'
     when 'error'
       'danger'
+    when 'success'
+      'success'
+    when 'danger'
+      'danger'
     end
   end
 end

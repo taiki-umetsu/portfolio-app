@@ -18,5 +18,9 @@ class AvatarsController < ApplicationController
     end
   end
 
-  def destroy; end
+  def destroy
+    @avatar = Avatar.find(params[:id])
+    @avatar.destroy
+    redirect_to current_user, success: 'アバターを削除しました'
+  end
 end
