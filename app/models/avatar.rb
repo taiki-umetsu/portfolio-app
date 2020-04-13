@@ -3,6 +3,7 @@
 class Avatar < ApplicationRecord
   require 'matrix'
   belongs_to :user
+  default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
   NOSE_MODEL = Vector[151.16, 284.21]
   DIMENSION_AFTER_TRIM = Vector[360, 640]
