@@ -3,16 +3,18 @@
 class AvatarsController < ApplicationController
   include AvatarsHelper
 
-  def show; end
+  def show
+    @avatar = Avatar.find(params[:id])
+  end
 
   def create
     image = params[:picture].read
     @avatar = current_user.avatars.build
     if @avatar.save
       @avatar.generate(image)
-      render 'avatars/new'
+      redirect_to root_url
     else
-      render 'avatars/new'
+      render 'users/show'
     end
   end
 

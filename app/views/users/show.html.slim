@@ -7,4 +7,7 @@ h2 アバターを作ろう
   .actions
     = f.submit 'CREATE'
 
-iframe height="500px" src="/avatars/1" width="500px" 
+- if @user.avatars.any? 
+  h3 Avatars (#{@user.avatars.count})
+  ol.avatars
+    = render @avatars
