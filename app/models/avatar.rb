@@ -8,6 +8,10 @@ class Avatar < ApplicationRecord
   NOSE_MODEL = Vector[151.16, 284.21]
   DIMENSION_AFTER_TRIM = Vector[360, 640]
   EYE_DISTANCE_MODEL = 90.16
+  AVATAR_FILE_NAME = {
+    exist_in_s3: ['astronaut.gltf', 'astronaut.bin', 'astronaut.png'],
+    need_to_create: 'texture_face.png'
+  }.freeze
 
   def generate(image)
     face = DetectFace.new(image)
@@ -17,6 +21,27 @@ class Avatar < ApplicationRecord
     distance = calculate.distance_between_model_and_user_nose
     trimed_image = triming(face.image, face.scaling_rate, face.angle, distance)
     Ready3dFiles.new(id, trimed_image)
+  end
+
+  def destroy_s3_file
+    @bucket = 'avatar.portfolio'
+    client_s3 = Aws::S3::Client.new(
+      region: ENV['AWS_REGION'],
+      access_key_id: ENV['AWS_ACCESS_KEY'],
+      secret_access_key: ENV['AWS_SECRET_KEY']
+    )
+    client_s3.delete_objects({
+                               bucket: @bucket,
+                               delete: {
+                                 objects: [
+                                   { key: "avatar/#{id}/astronaut.gltf" },
+                                   { key: "avatar/#{id}/astronaut.bin" },
+                                   { key: "avatar/#{id}/astronaut.png" },
+                                   { key: "avatar/#{id}/texture_face.png" }
+                                 ],
+                                 quiet: false
+                               }
+                             })
   end
 
   class DetectFace
@@ -150,10 +175,6 @@ class Avatar < ApplicationRecord
   end
 
   class Ready3dFiles
-    AVATAR_FILE_NAME = {
-      exist_in_s3: ['astronaut.gltf', 'astronaut.bin', 'astronaut.png'],
-      need_to_create: 'texture_face.png'
-    }.freeze
     def initialize(id, trimed_image)
       @client_s3 = Aws::S3::Client.new(
         region: ENV['AWS_REGION'],
