@@ -1,2 +1,15 @@
-h1 Users#show
-p Find me in app/views/users/show.html.slim
+h1 =@user.name
+
+h2 アバターを作ろう
+= form_with url: avatars_path, local: true do |f|
+  .field
+    = f.file_field :picture
+  .actions
+    = f.submit 'CREATE'
+
+
+- if @user.avatars.any? 
+  h3 Avatars (#{@user.avatars.count})
+  = paginate @avatars
+  ol.avatars
+    = render @avatars
