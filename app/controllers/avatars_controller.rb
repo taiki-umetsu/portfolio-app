@@ -27,5 +27,6 @@ class AvatarsController < ApplicationController
 
   def markerless_ar
     @avatar = Avatar.find(params[:id])
+    @user = @avatar.user
   end
 end
