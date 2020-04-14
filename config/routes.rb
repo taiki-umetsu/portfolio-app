@@ -8,5 +8,15 @@ Rails.application.routes.draw do
   }
   resources :users
   root 'users#index'
-  resources :avatars, only: %i[create show destroy]
+
+  resources :avatars do
+    collection do
+      post :create
+      delete :destroy
+    end
+    member do
+      get :show
+      get :markerless_ar
+    end
+  end
 end

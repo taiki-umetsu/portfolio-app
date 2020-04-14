@@ -165,8 +165,6 @@ class Avatar < ApplicationRecord
       convert.rotate(angle)
       convert.distort(:SRT, srt)
       convert.crop("#{DIMENSION_AFTER_TRIM[0]}x#{DIMENSION_AFTER_TRIM[1]}+0+0")
-      convert.draw 'line 0,284 360,284'
-      convert.draw 'line 151,0 151,640'
       # save to temporary file , not to local file
       @temp = Tempfile.new
       convert.write(@temp.path)

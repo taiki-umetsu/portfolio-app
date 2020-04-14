@@ -24,4 +24,8 @@ class AvatarsController < ApplicationController
     @avatar.destroy_s3_file
     redirect_to current_user, success: 'アバターを削除しました'
   end
+
+  def markerless_ar
+    @avatar = Avatar.find(params[:id])
+  end
 end

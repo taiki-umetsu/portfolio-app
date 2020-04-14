@@ -1,0 +1,9 @@
+html
+  head
+    script[src="https://aframe.io/releases/1.0.4/aframe.min.js"]
+    script[src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"]
+  body
+    a-scene
+      a-assets
+        a-asset-item#avatar[src="https://s3-ap-northeast-1.amazonaws.com/avatar.portfolio/avatar/#{@avatar.id}/astronaut.gltf"]
+      a-entity[gltf-model="#avatar" position="0 0 -4" scale="0.35 0.5 0.5"]
