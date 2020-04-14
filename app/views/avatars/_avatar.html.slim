@@ -1,5 +1,7 @@
-li
+li class="avatar#{avatar.id}"
   p created_at : #{avatar.created_at}
+  .ar = link_to 'MARKER LESS AR', markerless_ar_avatar_path(avatar)
   iframe height="500px" src="/avatars/#{avatar.id}" width="500px"
 
-  = link_to 'delete', avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } 
+  = link_to 'DELETE', avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } 
+  
