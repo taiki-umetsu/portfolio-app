@@ -5,7 +5,7 @@ html
   body
     a-scene
       a-assets
-        a-asset-item#avatar[src="https://s3-ap-northeast-1.amazonaws.com/avatar.portfolio/avatar/#{@avatar.id}/astronaut.gltf"]
+        a-asset-item#avatar[src="https://s3-ap-northeast-1.amazonaws.com/avatar.portfolio/avatar/#{Rails.env}/#{@avatar.id}/astronaut.gltf"]
 
       a-entity[camera look-controls orbit-controls="target: 0 0 0; maxPolarAngle:180; minDistance: 0.5; maxDistance: 200; 
                   initialPosition: -1.5 1 3.5"]
