@@ -13,6 +13,10 @@ class Avatar < ApplicationRecord
     need_to_create: 'texture_face.png'
   }.freeze
 
+  def target_file_key(file_name)
+    "avatar/#{Rails.env}/#{id}/#{file_name}"
+  end
+
   def generate(image)
     face = DetectFace.new(image)
     calculate = Calculate.new(
@@ -24,20 +28,19 @@ class Avatar < ApplicationRecord
   end
 
   def destroy_s3_file
-    @bucket = 'avatar.portfolio'
     client_s3 = Aws::S3::Client.new(
       region: ENV['AWS_REGION'],
       access_key_id: ENV['AWS_ACCESS_KEY'],
       secret_access_key: ENV['AWS_SECRET_KEY']
     )
     client_s3.delete_objects({
-                               bucket: @bucket,
+                               bucket: ENV['AWS_S3_BUCKET'],
                                delete: {
                                  objects: [
-                                   { key: "avatar/#{id}/astronaut.gltf" },
-                                   { key: "avatar/#{id}/astronaut.bin" },
-                                   { key: "avatar/#{id}/astronaut.png" },
-                                   { key: "avatar/#{id}/texture_face.png" }
+                                   { key: target_file_key('astronaut.gltf') },
+                                   { key: target_file_key('astronaut.bin') },
+                                   { key: target_file_key('astronaut.png') },
+                                   { key: target_file_key('texture_face.png') }
                                  ],
                                  quiet: false
                                }
@@ -180,9 +183,8 @@ class Avatar < ApplicationRecord
         secret_access_key: ENV['AWS_SECRET_KEY']
       )
       @trimed_image = trimed_image
-      @bucket = 'avatar.portfolio'
       @id = id
-      upload_texture
+      upload(AVATAR_FILE_NAME[:need_to_create])
       authorize_read_access(AVATAR_FILE_NAME[:need_to_create])
       AVATAR_FILE_NAME[:exist_in_s3].each do |f|
         copy(f)
@@ -190,37 +192,38 @@ class Avatar < ApplicationRecord
       end
     end
 
-    def upload_texture
-      texture = AVATAR_FILE_NAME[:need_to_create]
+    def target_file_key(file_name)
+      "avatar/#{Rails.env}/#{@id}/#{file_name}"
+    end
+
+    def upload(file_name)
       @client_s3.put_object(
-        bucket: @bucket,
-        key: "avatar/#{@id}/#{texture}",
+        bucket: ENV['AWS_S3_BUCKET'],
+        key: target_file_key(file_name),
         body: @trimed_image.read
       )
     end
 
     def copy(file_name)
       source_key = "avatar/0/#{file_name}"
-      target_key = "avatar/#{@id}/#{file_name}"
       begin
         @client_s3.copy_object(
-          bucket: @bucket,
-          copy_source: @bucket + '/' + source_key,
-          key: target_key
+          bucket: ENV['AWS_S3_BUCKET'],
+          copy_source: ENV['AWS_S3_BUCKET'] + '/' + source_key,
+          key: target_file_key(file_name)
         )
       rescue StandardError => e
         puts 'Caught exception copying object ' + source_key + ' from bucket ' \
-         + @bucket + ' to bucket ' + @bucket + ' as ' + target_key + ':'
+         + ENV['AWS_S3_BUCKET'] + ' to bucket ' + ENV['AWS_S3_BUCKET'] + ' as ' + target_file_key(file_name) + ':'
         puts e.message
       end
     end
 
     def authorize_read_access(file_name)
-      target_key = "avatar/#{@id}/#{file_name}"
       @client_s3.put_object_acl({
                                   acl: 'public-read',
-                                  bucket: @bucket,
-                                  key: target_key
+                                  bucket: ENV['AWS_S3_BUCKET'],
+                                  key: target_file_key(file_name)
                                 })
     end
   end
