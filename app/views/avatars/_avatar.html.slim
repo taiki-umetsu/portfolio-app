@@ -3,8 +3,9 @@ li class="avatar#{avatar.id}"
   
   iframe width="400px" height="400px" src="/avatars/#{avatar.id}"
   br
-  = link_to 'DELETE', avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } 
-  br
+  - if current_user?(@user)
+    = link_to 'DELETE', avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } 
+    br
   .ar = link_to 'MARKER LESS AR', markerless_ar_avatar_path(avatar)
   br
   = image_tag(qrcode(markerless_ar_avatar_url(avatar)))

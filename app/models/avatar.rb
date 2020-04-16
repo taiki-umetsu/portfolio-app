@@ -14,7 +14,11 @@ class Avatar < ApplicationRecord
   }.freeze
 
   def target_file_key(file_name)
-    "avatar/#{Rails.env}/#{id}/#{file_name}"
+    if Rails.env.test?
+      "avatar/#{Rails.env}/#{file_name}"
+    else
+      "avatar/#{Rails.env}/#{id}/#{file_name}"
+    end
   end
 
   def generate(image)
@@ -193,7 +197,11 @@ class Avatar < ApplicationRecord
     end
 
     def target_file_key(file_name)
-      "avatar/#{Rails.env}/#{@id}/#{file_name}"
+      if Rails.env.test?
+        "avatar/#{Rails.env}/#{file_name}"
+      else
+        "avatar/#{Rails.env}/#{@id}/#{file_name}"
+      end
     end
 
     def upload(file_name)
