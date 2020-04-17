@@ -3,8 +3,16 @@ li class="avatar#{avatar.id}"
   
   iframe width="400px" height="400px" src="/avatars/#{avatar.id}"
   br
-  = link_to 'DELETE', avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } 
-  br
+  - if current_user?(@user)
+    = link_to 'DELETE', avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } 
+    br
+    = form_with(model: avatar, local:true) do |f|
+      .form-group.form-check-inline
+        .form-check-input= f.check_box :public, class:'form-control'
+        .form-check-label= f.label :public, '公開する', class: 'form-label'
+      .form-group
+        = f.submit
+
   .ar = link_to 'MARKER LESS AR', markerless_ar_avatar_path(avatar)
   br
   = image_tag(qrcode(markerless_ar_avatar_url(avatar)))

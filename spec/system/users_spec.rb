@@ -48,6 +48,7 @@ RSpec.describe 'Users', type: :system do
     end
     context 'when valid email and password is filled in' do
       it ' is successful to log in ' do
+        fill_in '名前', with: 'example'
         fill_in 'メールアドレス', with: 'example@example.com'
         fill_in 'パスワード', with: 'password'
         fill_in '確認用パスワード', with: 'password'
@@ -57,10 +58,12 @@ RSpec.describe 'Users', type: :system do
     end
     context 'when invalid email and password is filled in' do
       it ' fails to log in ' do
+        fill_in '名前', with: ''
         fill_in 'メールアドレス', with: ''
         fill_in 'パスワード', with: ''
         fill_in '確認用パスワード', with: ''
         click_on 'SIGN UP'
+        expect(page).to have_content '名前 を記入してください'
         expect(page).to have_content 'メールアドレス を記入してください'
         expect(page).to have_content 'パスワード を記入してください'
       end

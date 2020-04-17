@@ -13,6 +13,10 @@ module UsersHelper
       'success'
     when 'danger'
       'danger'
+    when 'warning'
+      'warning'
+    when 'info'
+      'info'
     end
   end
 end

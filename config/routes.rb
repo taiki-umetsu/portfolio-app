@@ -6,16 +6,11 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     registrations: 'users/registrations'
   }
-  resources :users
+  resources :users, only: %i[index show]
   root 'users#index'
 
-  resources :avatars do
-    collection do
-      post :create
-      delete :destroy
-    end
+  resources :avatars, only: %i[show create destroy update] do
     member do
-      get :show
       get :markerless_ar
     end
   end

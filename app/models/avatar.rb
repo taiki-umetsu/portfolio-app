@@ -14,7 +14,11 @@ class Avatar < ApplicationRecord
   }.freeze
 
   def target_file_key(file_name)
-    "avatar/#{Rails.env}/#{id}/#{file_name}"
+    if Rails.env.test?
+      "avatar/#{Rails.env}/#{file_name}"
+    else
+      "avatar/#{Rails.env}/#{id}/#{file_name}"
+    end
   end
 
   def generate(image)
@@ -48,7 +52,7 @@ class Avatar < ApplicationRecord
   end
 
   class DetectFace
-    attr_reader :image
+    attr_reader :image, :response
     def initialize(image_bytes)
       credentials = Aws::Credentials.new(
         ENV['AWS_ACCESS_KEY'],
@@ -61,8 +65,8 @@ class Avatar < ApplicationRecord
         },
         attributes: ['ALL']
       }
-      response = client.detect_faces attrs
-      response.face_details.each do |face_detail|
+      @response = client.detect_faces attrs
+      @response.face_details.each do |face_detail|
         @eye_left_ratio = Vector[face_detail.landmarks[0].x,
                                  face_detail.landmarks[0].y]
         @eye_right_ratio = Vector[face_detail.landmarks[1].x,
@@ -193,7 +197,11 @@ class Avatar < ApplicationRecord
     end
 
     def target_file_key(file_name)
-      "avatar/#{Rails.env}/#{@id}/#{file_name}"
+      if Rails.env.test?
+        "avatar/#{Rails.env}/#{file_name}"
+      else
+        "avatar/#{Rails.env}/#{@id}/#{file_name}"
+      end
     end
 
     def upload(file_name)
