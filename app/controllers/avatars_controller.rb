@@ -31,6 +31,13 @@ class AvatarsController < ApplicationController
     redirect_to request.referer || root_url
   end
 
+  def update
+    avatar = Avatar.find(params[:id])
+    avatar.public = boolean(public_params[:public])
+    avatar.save!
+    redirect_to current_user
+  end
+
   def markerless_ar
     @avatar = Avatar.find(params[:id])
     @user = @avatar.user
@@ -42,11 +49,23 @@ class AvatarsController < ApplicationController
     params.permit(:picture)
   end
 
+  def public_params
+    params.require(:avatar).permit(:public)
+  end
+
   def correct_user
     @avatar = current_user.avatars.find_by(id: params[:id])
     return unless @avatar.nil?
 
     flash[:danger] = 'アバターの削除権限がありません'
     redirect_to root_url
+  end
+
+  def boolean(value)
+    if value == '1'
+      true
+    elsif value == '0'
+      false
+    end
   end
 end

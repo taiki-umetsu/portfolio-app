@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[index show]
   root 'users#index'
 
-  resources :avatars, only: %i[show create destroy] do
+  resources :avatars, only: %i[show create destroy update] do
     member do
       get :markerless_ar
     end

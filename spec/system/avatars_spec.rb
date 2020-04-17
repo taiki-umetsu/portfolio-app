@@ -45,4 +45,11 @@ RSpec.describe 'Avatars', type: :system do
     visit user_path(user)
     expect(page).to_not have_link 'DELETE'
   end
+  it 'has check field to activate public function', vcr: true do
+    attach_file 'picture', Rails.root.join('spec/fixtures/texture_face.png')
+    VCR.use_cassette('create_avatar', preserve_exact_body_bytes: true) do
+      click_button 'CREATE'
+    end
+    expect(page).to have_unchecked_field('公開する')
+  end
 end
