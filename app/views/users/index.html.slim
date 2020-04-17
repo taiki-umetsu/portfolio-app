@@ -1,2 +1,10 @@
-h1 Users#index
-p Find me in app/views/users/index.html.slim
+h2 顔がリアルなアバターを作ってみよう
+
+
+
+
+- if @avatars.any? 
+  
+  ol.avatars
+    = render @avatars
+  = paginate @avatars

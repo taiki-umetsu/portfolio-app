@@ -2,7 +2,9 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: :show
-  def index; end
+  def index
+    @avatars = Avatar.all.page(params[:page]).per(2)
+  end
 
   def show
     @user = User.find(params[:id])
