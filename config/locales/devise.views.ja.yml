@@ -7,12 +7,16 @@ ja:
         password: "パスワード"
         password_confirmation: "確認用パスワード"
         remember_me: "ログインを記憶"
+        name: "名前"
     models:
       user: "ユーザ"
     errors:
       models:
         user:
           attributes:
+            name:
+              blank: "を記入してください"
+              too_long: "は%{count}文字以下に設定して下さい。"
             email:
               blank: "を記入してください"
               taken: "は既に使用されています。"

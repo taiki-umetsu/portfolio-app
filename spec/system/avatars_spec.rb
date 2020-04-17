@@ -34,4 +34,15 @@ RSpec.describe 'Avatars', type: :system do
       expect(page).to have_content 'アバターを削除しました'
     end
   end
+  it "doesn't show the delete link in another user's page", vcr: true do
+    attach_file 'picture', Rails.root.join('spec/fixtures/texture_face.png')
+    VCR.use_cassette('create_avatar', preserve_exact_body_bytes: true) do
+      click_button 'CREATE'
+    end
+    click_on 'LOGOUT'
+    user2 = create(:user)
+    sign_in user2
+    visit user_path(user)
+    expect(page).to_not have_link 'DELETE'
+  end
 end

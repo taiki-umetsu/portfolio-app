@@ -52,7 +52,7 @@ class Avatar < ApplicationRecord
   end
 
   class DetectFace
-    attr_reader :image
+    attr_reader :image, :response
     def initialize(image_bytes)
       credentials = Aws::Credentials.new(
         ENV['AWS_ACCESS_KEY'],
@@ -65,8 +65,8 @@ class Avatar < ApplicationRecord
         },
         attributes: ['ALL']
       }
-      response = client.detect_faces attrs
-      response.face_details.each do |face_detail|
+      @response = client.detect_faces attrs
+      @response.face_details.each do |face_detail|
         @eye_left_ratio = Vector[face_detail.landmarks[0].x,
                                  face_detail.landmarks[0].y]
         @eye_right_ratio = Vector[face_detail.landmarks[1].x,
