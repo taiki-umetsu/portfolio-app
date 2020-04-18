@@ -14,4 +14,6 @@ Rails.application.routes.draw do
       get :markerless_ar
     end
   end
+
+  post '/callback', to: 'linebot#callback'
 end
