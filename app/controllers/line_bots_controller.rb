@@ -162,12 +162,12 @@ class LineBotsController < ApplicationController
           {
             "type": 'uri',
             "label": 'Sign up',
-            "uri": "https://caaad09e.ngrok.io/users/sign_up?linkToken=#{token}"
+            "uri": "https://portfolio-app-123.herokuapp.com/sign_up?linkToken=#{token}"
           },
           {
             "type": 'uri',
             "label": 'Log in',
-            "uri": "https://caaad09e.ngrok.io/users/sign_in?linkToken=#{token}"
+            "uri": "https://portfolio-app-123.herokuapp.com/sign_in?linkToken=#{token}"
           }
         ]
       }
