@@ -22,6 +22,9 @@ h2.center SIGNUP
     = f.label :password_confirmation
     br
     = f.password_field :password_confirmation, autocomplete: "new-password"
+  - if line_user?
+    .field
+      = hidden_field_tag :linkToken, @link_token
   .actions
     = f.submit "SIGN UP"
   

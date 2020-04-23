@@ -9,4 +9,31 @@ module ApplicationHelper
   def current_user?(user)
     current_user == user
   end
+
+  def app_name
+    'FaceRealAvatar'
+  end
+
+  def bootstrap_alert(key)
+    case key
+    when 'alert'
+      'warning'
+    when 'notice'
+      'success'
+    when 'error'
+      'danger'
+    when 'success'
+      'success'
+    when 'danger'
+      'danger'
+    when 'warning'
+      'warning'
+    when 'info'
+      'info'
+    end
+  end
+
+  def line_user?
+    params['linkToken'].present?
+  end
 end

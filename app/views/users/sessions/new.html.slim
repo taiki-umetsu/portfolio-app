@@ -13,6 +13,10 @@ h2.center
     .field.form-check-inline
       .form-check-input= f.check_box :remember_me
       .form-check-label= f.label :remember_me
+  - if line_user?
+    .field
+      = hidden_field_tag :linkToken, @link_token
   .actions
     = f.submit "LOG IN"
-= render "users/shared/links"
+- unless line_user?
+  = render "users/shared/links"
