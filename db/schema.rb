@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_063742) do
+ActiveRecord::Schema.define(version: 2020_04_19_080933) do
 
   create_table "avatars", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2020_04_17_063742) do
     t.boolean "public", default: false, null: false
     t.index ["user_id", "created_at"], name: "index_avatars_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_avatars_on_user_id"
+  end
+
+  create_table "line_bots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "line_user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["line_user_id"], name: "index_line_bots_on_line_user_id", unique: true
+    t.index ["user_id"], name: "index_line_bots_on_user_id", unique: true
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -35,4 +44,5 @@ ActiveRecord::Schema.define(version: 2020_04_17_063742) do
   end
 
   add_foreign_key "avatars", "users"
+  add_foreign_key "line_bots", "users"
 end
