@@ -3,7 +3,7 @@ li class="avatar#{avatar.id}"
   
   iframe width="400px" height="400px" src="/avatars/#{avatar.id}"
   br
-  - if current_user?(@user)
+  - if current_user?(@user) && user_signed_in?
     #icon-delete=link_to avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } do
       =icon 'far', 'trash-alt fa-x'
     br
