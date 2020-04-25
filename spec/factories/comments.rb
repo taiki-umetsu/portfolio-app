@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :comment do
-    content { 'Looks good to me' }
+    sequence(:content) { |n| "comment#{n}" }
     association :avatar
     association :user
     sequence(:created_at) { |n| n.minutes.ago }

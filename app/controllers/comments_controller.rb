@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
+  before_action :authenticate_user!, only: %i[create destroy]
+  before_action :your_comment?, only: %i[destroy]
+
   def create
-    comment = Comment.new(create_comment_params)
+    comment = current_user.comments.build(create_comment_params)
     if comment.save
       flash[:success] = 'コメントしました！'
     else
@@ -12,7 +15,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    comment = Comment.find(destroy_comment_params[:id])
+    comment = current_user.comments.find(params[:id])
     if comment.destroy
       flash[:success] = '削除しました！'
     else
@@ -21,11 +24,16 @@ class CommentsController < ApplicationController
     redirect_to request.referer || root_url
   end
 
+  private
+
   def create_comment_params
-    params.permit(:user_id, :avatar_id, :content)
+    params.require(:comment).permit(:avatar_id, :content)
   end
 
-  def destroy_comment_params
-    params.permit(:id)
+  def your_comment?
+    return if Comment.find(params[:id]).user_id == current_user.id
+
+    flash[:danger] = 'コメントの削除権限がありません'
+    redirect_to root_url
   end
 end

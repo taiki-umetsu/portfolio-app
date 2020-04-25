@@ -1,0 +1,6 @@
+= form_with(model: avatar, local:true) do |f|
+  .form-group.form-check-inline
+    .form-check-input= f.check_box :public, class:'form-control'
+    .form-check-label= f.label :public, '公開する', class: 'form-label'
+  .form-group.text-right
+    = f.submit 'アップデート', class: "btn btn-primary"
