@@ -27,7 +27,7 @@ RSpec.describe 'Avatars', type: :system do
       VCR.use_cassette('create_avatar', preserve_exact_body_bytes: true) do
         click_button 'CREATE'
       end
-      click_on 'DELETE'
+      find('.avatars').find('.fa-trash-alt').click
       VCR.use_cassette('delete_avatar') do
         page.driver.browser.switch_to.alert.accept
       end

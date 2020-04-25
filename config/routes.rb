@@ -17,4 +17,5 @@ Rails.application.routes.draw do
 
   post '/callback', to: 'line_bots#callback'
   resources :line_bots, only: %i[new]
+  resources :comments, only: %i[create destroy]
 end

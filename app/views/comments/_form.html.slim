@@ -1,0 +1,8 @@
+= form_with(model: @comment, local: true) do |f|
+  = render 'users/shared/error_messages', resource: f.object
+  .form-group
+    = f.text_area :content
+  .field
+    = f.hidden_field :avatar_id, value: avatar.id   
+  .text-right.form-group#button-comment
+    = f.submit 'コメント', class: "btn btn-primary"

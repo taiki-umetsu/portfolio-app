@@ -6,4 +6,8 @@ class ApplicationController < ActionController::Base
   def line_user?
     params['linkToken'].present?
   end
+
+  def current_user?(user)
+    current_user == user
+  end
 end
