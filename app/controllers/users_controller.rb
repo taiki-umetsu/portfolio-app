@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: :show
   def index
     @avatars = Avatar.where(public: true).page(params[:page]).per(2)
+    @comment = current_user.comments.build if user_signed_in?
   end
 
   def show
