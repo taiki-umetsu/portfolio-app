@@ -16,6 +16,7 @@ li class="avatar#{avatar.id}"
   - if avatar.comments.any? 
     = render avatar.comments
   br
-  = render partial: 'comments/form', locals: { avatar: avatar }
+  - if user_signed_in?
+    = render partial: 'comments/form', locals: { avatar: avatar }
 
  
