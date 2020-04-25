@@ -7,8 +7,8 @@ RSpec.describe Comment, type: :model do
   let(:avatar) { create(:avatar) }
   let(:comment) { create(:comment) }
   describe 'validation' do
-    it { is_expected.to validate_presence_of :avatar }
-    it { is_expected.to validate_presence_of :user }
+    it { is_expected.to validate_presence_of :avatar_id }
+    it { is_expected.to validate_presence_of :user_id }
     it { is_expected.to validate_presence_of :content }
     it { is_expected.to validate_length_of(:content).is_at_most(140) }
   end
