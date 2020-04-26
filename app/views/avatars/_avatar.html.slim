@@ -1,7 +1,10 @@
 li class="avatar#{avatar.id}"
-  p created_at : #{avatar.created_at}
-  
   iframe width="400px" height="400px" src="/avatars/#{avatar.id}"
+  br
+  .container
+    .row.avatar-info
+      = render 'likes/form', avatar: avatar
+      .offset-6.text-muted= avatar.created_at.strftime('%Y/%m/%d')
   br
   - if current_user?(@user) && user_signed_in?
     #icon-delete=link_to avatar_path(avatar), method: :delete, data: { confirm: "You sure?" } do
