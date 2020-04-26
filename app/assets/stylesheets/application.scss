@@ -99,3 +99,19 @@ body{
   margin-top: -50px;
   margin-right: -30px;
 }
+
+#heart{
+  color: red;
+}
+
+#button {
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.heart-counter{
+  margin-left: 10px;
+  color: red;
+}

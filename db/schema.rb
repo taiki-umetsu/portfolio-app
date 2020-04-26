@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_132727) do
+ActiveRecord::Schema.define(version: 2020_04_25_140900) do
 
   create_table "avatars", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 2020_04_23_132727) do
     t.index ["avatar_id", "created_at"], name: "index_comments_on_avatar_id_and_created_at"
     t.index ["avatar_id"], name: "index_comments_on_avatar_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "avatar_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["avatar_id"], name: "index_likes_on_avatar_id"
+    t.index ["user_id", "avatar_id"], name: "index_likes_on_user_id_and_avatar_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "line_bots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -57,5 +67,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_132727) do
   add_foreign_key "avatars", "users"
   add_foreign_key "comments", "avatars"
   add_foreign_key "comments", "users"
+  add_foreign_key "likes", "avatars"
+  add_foreign_key "likes", "users"
   add_foreign_key "line_bots", "users"
 end

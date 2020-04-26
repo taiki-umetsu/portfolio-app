@@ -4,6 +4,8 @@ class Avatar < ApplicationRecord
   require 'matrix'
   belongs_to :user
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :likers, through: :likes, source: :user
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
   NOSE_MODEL = Vector[151.16, 284.21]

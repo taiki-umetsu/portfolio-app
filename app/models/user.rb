@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :avatars, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :liking, through: :likes, source: :avatar
   has_one :line_bot, dependent: :destroy
   validates :name, presence: true, length: { maximum: 50 }
 end
