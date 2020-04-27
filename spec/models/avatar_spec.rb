@@ -14,6 +14,7 @@ RSpec.describe Avatar, type: :model do
   describe 'validation' do
     it { expect(avatar).to be_valid }
     it { expect(build(:avatar, user_id: nil)).to_not be_valid }
+    it { is_expected.to validate_length_of(:message).is_at_most(40) }
   end
   describe 'dependent: :destroy' do
     let!(:avatar) { create(:avatar, user: user) }
