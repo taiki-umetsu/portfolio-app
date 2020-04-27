@@ -3,14 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Avatars', type: :system do
-  before do
-    sign_in user
-  end
   let(:user) { create(:user) }
   let(:avatar) { create(:avatar, user: user) }
 
   describe 'create new avatar' do
     before do
+      sign_in user
       visit user_path(user)
     end
     it { expect(page).to have_button 'CREATE' }
@@ -24,6 +22,7 @@ RSpec.describe 'Avatars', type: :system do
   end
   describe 'delete avatar' do
     before do
+      sign_in user
       create(:avatar, user: user)
       visit user_path(user)
     end
@@ -44,6 +43,9 @@ RSpec.describe 'Avatars', type: :system do
   end
 
   describe 'public function' do
+    before do
+      sign_in user
+    end
     describe 'check field to activate public function exist' do
       before do
         create(:avatar, user: user)
@@ -64,6 +66,38 @@ RSpec.describe 'Avatars', type: :system do
         visit root_path
       end
       it { expect(page).to have_css '.avatars' }
+    end
+  end
+
+  describe 'message function' do
+    let!(:me) { create(:user) }
+    let!(:others) { create(:user) }
+    let!(:others_avatar) { create(:avatar, user: others) }
+    let!(:my_avatar) { create(:avatar, user: me) }
+    before do
+      sign_in me
+    end
+    context 'at my page' do
+      before do
+        visit user_path(me)
+        fill_in 'avatar[message]', with: 'Hello'
+        click_on 'アップデート'
+      end
+      it { expect(page).to have_content 'アップデートしました' }
+    end
+    context 'at others page' do
+      before do
+        visit user_path(others)
+      end
+      it { expect(page).to_not have_css '#avatar_message' }
+    end
+    context 'fill over 40 characters' do
+      before do
+        visit user_path(me)
+        fill_in 'avatar[message]', with: 'a' * 41
+        click_on 'アップデート'
+      end
+      it { expect(page).to have_content 'アップデートできませんでした' }
     end
   end
 end

@@ -8,6 +8,7 @@ class Avatar < ApplicationRecord
   has_many :likers, through: :likes, source: :user
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true
+  validates :message, length: { maximum: 40 }
   NOSE_MODEL = Vector[151.16, 284.21]
   DIMENSION_AFTER_TRIM = Vector[360, 640]
   EYE_DISTANCE_MODEL = 90.16

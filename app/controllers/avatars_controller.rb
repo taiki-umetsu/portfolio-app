@@ -7,12 +7,16 @@ class AvatarsController < ApplicationController
 
   def show
     @avatar = Avatar.find(params[:id])
-    comments = @avatar.comments.first(15)
-    @comments = []
-    comments.each do |c|
-      text = c.content
-      @comments << "#{text[0..19]}\n#{text[20..39]}\n#{text[40..59]}"
+    if comments = @avatar.comments.first(15)
+      @comments = []
+      comments.each do |c|
+        text = c.content
+        @comments << "#{text[0..19]}\n#{text[20..39]}\n#{text[40..59]}"
+      end
     end
+    return unless m = @avatar.message
+
+    @message = "#{m[0..9]}\n#{m[10..19]}\n#{m[20..29]}\n#{m[30..39]}"
   end
 
   def create
@@ -39,8 +43,13 @@ class AvatarsController < ApplicationController
 
   def update
     avatar = Avatar.find(params[:id])
-    avatar.public = boolean(public_params[:public])
-    avatar.save!
+    avatar.public = boolean(update_params[:public])
+    avatar.message = update_params[:message]
+    flash[:success] = if avatar.save
+                        'アップデートしました'
+                      else
+                        'アップデートできませんでした'
+                      end
     redirect_to current_user
   end
 
@@ -55,8 +64,8 @@ class AvatarsController < ApplicationController
     params.permit(:picture)
   end
 
-  def public_params
-    params.require(:avatar).permit(:public)
+  def update_params
+    params.require(:avatar).permit(:public, :message)
   end
 
   def correct_user
