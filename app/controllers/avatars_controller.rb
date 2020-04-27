@@ -7,6 +7,12 @@ class AvatarsController < ApplicationController
 
   def show
     @avatar = Avatar.find(params[:id])
+    comments = @avatar.comments.first(15)
+    @comments = []
+    comments.each do |c|
+      text = c.content
+      @comments << "#{text[0..19]}\n#{text[20..39]}\n#{text[40..59]}"
+    end
   end
 
   def create
