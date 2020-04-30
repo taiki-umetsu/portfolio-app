@@ -7,6 +7,8 @@ html
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'user_icon_trim'
+    = stylesheet_pack_tag 'user_icon_tirm'
   body
     - unless line_user?
       = render 'layouts/header'
