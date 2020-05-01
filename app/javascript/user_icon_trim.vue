@@ -10,9 +10,16 @@
                 :height="400"
                 placeholder="ドラッグ&ドロップまたはクリック "
                 :placeholder-font-size="20"
+                :image-border-radius="400"
+                @init="onInit"
+                prevent-white-space
+                :accept="'image/*'"
+                :remove-button-color="'gray'"
+                :file-size-limit="2097152"
+                @file-size-exceed="onFileSizeExceed"
         ></croppa>
         <div class="update-btn">
-          <button class="btn btn-primary" @click="uploadCroppedImage">update</button>
+          <div class="btn btn-primary" @click="uploadCroppedImage">update</div>
         </div>
       </div>
     </transition>
@@ -20,31 +27,79 @@
     <div class="user-icon" @click="imageUploadField">
       <div class="fillter"></div>
       <i class="fas fa-camera-retro fa-2x"></i>
+      
+    </div>
+    <div>
+      {{ userId }}
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+axios.defaults.baseURL = "http://localhost:3000/"; 
+axios.defaults.headers.common["Authorization"] = "hogehoge"
+axios.defaults.headers.get["Accepts"] = "application/json"
 export default {
+  props: {userId : Number},
   data() {
     return {
-      croppa: {},
+      croppa: null,
       dataUrl: '',
-      uploadField: ''
+      uploadField: '',
+      file: ''
     }
-    
+  },
+  mounted () {
+    axios.get('/user/1')
+      .then(function (response) {
+        // handle success
+        console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
   },
   methods: {
+    onFileSizeExceed (file) {
+      alert('ファイルは2mb以下でアップロードして下さい。')
+    },
     uploadCroppedImage() {
-      this.croppa.generateBlob((blob) => {
-      // write code to upload the cropped image file (a file is a blob)
-      }, 'image/jpeg', 0.8) // 80% compressed jpeg file
+      this.croppa.generateBlob(
+        blob => {
+          this.file = blob
+          console.log(blob)
+        },
+        'image/jpeg',
+        0.8
+      ), // 80% compressed jpeg file
+      this.uploadField = false;
     },
     imageUploadField(){
       this.uploadField = true;
     },
     removeField(){
       this.uploadField = false;
+    },
+    /* for circle image */
+    onInit() {
+      this.croppa.addClipPlugin(function (ctx, x, y, w, h) {
+        /*
+         * ctx: canvas context
+         * x: start point (top-left corner) x coordination
+         * y: start point (top-left corner) y coordination
+         * w: croppa width
+         * h: croppa height
+        */
+        console.log(x, y, w, h)
+        ctx.beginPath()
+        ctx.arc(x + w / 2, y + h / 2, w / 2, 0, 2 * Math.PI, true)
+        ctx.closePath()
+      })
     }
   }
 }
@@ -98,14 +153,17 @@ export default {
     left: 50%;
     -webkit-transform : translateX(-50%);
     transform : translateX(-50%);
+    z-index: 2;
+    border-radius: 400px;
   }
   .update-btn {
     position: absolute;
     width: 400px;
-    top: 58%;
+    top: 60%;
     left: 50%;
     -webkit-transform : translateX(-50%);
     transform : translateX(-50%);
+    z-index: 3;
   }
   .btn {
     margin: 0;
