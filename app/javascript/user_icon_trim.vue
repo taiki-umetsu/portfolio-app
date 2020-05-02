@@ -34,10 +34,11 @@
 
 <script>
 import axios from 'axios';
-axios.defaults.baseURL = "http://localhost:3000/"; 
-axios.defaults.headers.get["Accepts"] = "application/json";
 export default {
-  props: {userId : Number},
+  props: {
+    userId: Number,
+    baseUrl: String 
+  },
   data() {
     return {
       croppa: null,
@@ -49,6 +50,8 @@ export default {
     icon(){ return this.path ? this.path : require("../assets/images/default_icon.png") }
   },
   mounted () { 
+    axios.defaults.baseURL = this.baseUrl;
+    axios.defaults.headers.get["Accepts"] = "application/json";
     axios.get(`/api/v1/users/${this.userId}/edit`)
       .then(response => (this.path = response.data))
   },
@@ -77,6 +80,7 @@ export default {
     },
     imageUploadField(){
       this.uploadField = true;
+      console.log(this.baseUrl);
     },
     removeField(){
       this.uploadField = false;

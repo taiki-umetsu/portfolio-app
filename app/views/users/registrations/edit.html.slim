@@ -1,7 +1,7 @@
 
 h2 登録内容を編集
 #trim
-  <Trim v-bind:user-id= "#{resource.id}"> 
+  <Trim v-bind:user-id= "#{resource.id}" v-bind:base-url="'#{@base_url}'"> 
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = render "devise/shared/error_messages", resource: resource
   .field
