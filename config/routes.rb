@@ -19,4 +19,10 @@ Rails.application.routes.draw do
   resources :line_bots, only: %i[new]
   resources :comments, only: %i[create destroy]
   resources :likes, only: %i[create destroy]
+
+  namespace :api, { format: 'json' } do
+    namespace :v1 do
+      resources :users, only: %i[update edit]
+    end
+  end
 end

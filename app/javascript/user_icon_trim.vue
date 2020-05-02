@@ -19,18 +19,15 @@
                 @file-size-exceed="onFileSizeExceed"
         ></croppa>
         <div class="update-btn">
-          <div class="btn btn-primary" @click="uploadCroppedImage">update</div>
+          <div class="btn btn-primary" @click="uploadCroppedImage">アップデート</div>
+          <img src="../assets/images/trim.gif" class="trim-gif" >
         </div>
       </div>
     </transition>
-
-    <div class="user-icon" @click="imageUploadField">
+    <div class="icon" @click="imageUploadField">
       <div class="fillter"></div>
       <i class="fas fa-camera-retro fa-2x"></i>
-      
-    </div>
-    <div>
-      {{ userId }}
+      <img v-bind:src='icon' class="icon-img" >
     </div>
   </div>
 </template>
@@ -38,45 +35,44 @@
 <script>
 import axios from 'axios';
 axios.defaults.baseURL = "http://localhost:3000/"; 
-axios.defaults.headers.common["Authorization"] = "hogehoge"
-axios.defaults.headers.get["Accepts"] = "application/json"
+axios.defaults.headers.get["Accepts"] = "application/json";
 export default {
   props: {userId : Number},
   data() {
     return {
       croppa: null,
-      dataUrl: '',
       uploadField: '',
-      file: ''
+      path: ''
     }
   },
-  mounted () {
-    axios.get('/user/1')
-      .then(function (response) {
-        // handle success
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
+  computed: {
+    icon(){ return this.path ? this.path : require("../assets/images/default_icon.png") }
+  },
+  mounted () { 
+    axios.get(`/api/v1/users/${this.userId}/edit`)
+      .then(response => (this.path = response.data))
   },
   methods: {
     onFileSizeExceed (file) {
-      alert('ファイルは2mb以下でアップロードして下さい。')
+      alert('ファイルは2MB以下でアップロードして下さい。')
     },
     uploadCroppedImage() {
       this.croppa.generateBlob(
         blob => {
-          this.file = blob
-          console.log(blob)
+          console.log(blob);
+          const data = new FormData();
+          data.append('image', blob,'image.png');
+          axios.patch(`/api/v1/users/${this.userId}`, data, {
+              headers: {'content-type': 'multipart/form-data'}
+            })
+            .then(response => (this.path = response.data))
+            .catch(function (error) {
+              console.log(error);
+            });
         },
-        'image/jpeg',
+        'image/png',
         0.8
-      ), // 80% compressed jpeg file
+      ), // 80% compressed png file
       this.uploadField = false;
     },
     imageUploadField(){
@@ -100,19 +96,33 @@ export default {
         ctx.arc(x + w / 2, y + h / 2, w / 2, 0, 2 * Math.PI, true)
         ctx.closePath()
       })
+    },
+    getUserImage(){
+      axios.get(`/api/v1/users/${this.userId}/edit`)
+        .then(response => (console.log(response.data)))
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        });
     }
   }
 }
 </script>
 
 <style scoped>
-  .user-icon {
-    color: rgba(187, 185, 185, 0.287);
+  .icon {
+    width: 80px;
+    height: 80px;
+    position: relative;
+  } 
+  .icon-img {
     width: 80px;
     height: 80px;
     border-radius: 80px;
-    background-image: url("../../default_icon.png");
-    position: relative;
+    position: absolute;
   } 
   .fillter{
     margin-top:-0.8px;
@@ -121,19 +131,22 @@ export default {
     height: 80.8px;
     border-radius: 80.8px;
     border: solid 2px rgb(100, 100, 100);
-    background-color: rgba(30, 30, 30, 0.3);
-  }
-  .fa-times-circle {
+    background-color: rgba(150, 150, 150, 0.3);
+    z-index: 2;
     position: absolute;
-    right: 2%;
-    top: 1%;
-    color: white;
   }
   .fa-camera-retro{
     color:  rgb(200, 200, 200);
     position: absolute;
     left: 22.5px;
     top: 22.5px;
+    z-index: 3;
+  }
+  .fa-times-circle {
+    position: absolute;
+    right: 2%;
+    top: 1%;
+    color: white;
   }
   .upload-field {
     background-color: rgba(73, 73, 73, 0.5);
@@ -144,7 +157,7 @@ export default {
     right: 50%;
     top: 0;
     margin: 0% -50vw;
-    z-index: 2;
+    z-index: 5;
   }
   .crop-field{
     background-color: rgb(255, 255, 255);
@@ -153,7 +166,7 @@ export default {
     left: 50%;
     -webkit-transform : translateX(-50%);
     transform : translateX(-50%);
-    z-index: 2;
+    z-index: 5;
     border-radius: 400px;
   }
   .update-btn {
@@ -163,12 +176,21 @@ export default {
     left: 50%;
     -webkit-transform : translateX(-50%);
     transform : translateX(-50%);
-    z-index: 3;
+    z-index: 5;
   }
   .btn {
     margin: 0;
     position: absolute;
     right: 0;
+  }
+  .trim-gif{
+    margin: 0;
+    position: absolute;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
+
   }
   /* animation */
   .slide-fade-enter-active {
@@ -180,5 +202,10 @@ export default {
   .slide-fade-enter, .slide-fade-leave-to{
     transform: translateY(-300px);
     opacity: 0;
+  }
+  .sandbox{
+    background-color: rgba(73, 73, 73, 0.5);
+    width: 80px;
+    height: 80px;
   }
 </style>
