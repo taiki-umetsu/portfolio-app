@@ -6,4 +6,3 @@ AllCops:
 # ignore top-level class documentation comment
 Documentation:
   Enabled: false
-

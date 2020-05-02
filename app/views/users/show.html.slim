@@ -1,5 +1,5 @@
+=image_tag @user.image, class:'user-icon'  if @user.image.attached?
 h1 =@user.name
-
 h2 アバターを作ろう
 = form_with url: avatars_path, local: true do |f|
   .field

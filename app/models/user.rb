@@ -11,4 +11,5 @@ class User < ApplicationRecord
   has_many :liking, through: :likes, source: :avatar
   has_one :line_bot, dependent: :destroy
   validates :name, presence: true, length: { maximum: 50 }
+  has_one_attached :image
 end
