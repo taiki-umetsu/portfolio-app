@@ -2,7 +2,7 @@ li.border-bottom.border-dark class="comment#{comment.id}"
   .container
     .row
       .col-3
-        =comment.user.name
+        = image_tag user_icon(comment.user), class:'user-icon'
       .col-9
         container
           .row#comment-info-top
