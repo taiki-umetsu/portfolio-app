@@ -36,4 +36,8 @@ module ApplicationHelper
   def line_user?
     params['linkToken'].present?
   end
+
+  def user_icon(user)
+    user.image.attached? ? user.image : 'default_icon.png'
+  end
 end
