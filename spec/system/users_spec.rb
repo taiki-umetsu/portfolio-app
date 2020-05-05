@@ -63,9 +63,9 @@ RSpec.describe 'Users', type: :system do
         fill_in 'パスワード', with: ''
         fill_in '確認用パスワード', with: ''
         click_on 'SIGN UP'
-        expect(page).to have_content '名前 を記入してください'
-        expect(page).to have_content 'メールアドレス を記入してください'
-        expect(page).to have_content 'パスワード を記入してください'
+        expect(page).to have_content 'メールアドレスを記入してください'
+        expect(page).to have_content 'パスワードを記入してください'
+        expect(page).to have_content '名前を記入してください'
       end
     end
   end
