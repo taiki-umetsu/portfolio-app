@@ -1,17 +1,17 @@
 li class="avatar#{avatar.id}"
-  iframe.avatar-frame[width="100%" height="400px" src="/avatars/#{avatar.id}"]
+  iframe.avatar-frame[width="100%" height="100px" src="/avatars/#{avatar.id}"]
 ul.nav.nav-tabs
   li.nav-item
     .nav-link= render 'likes/form', avatar: avatar
   li.nav-item
-    a[href="#tab-comment" class="nav-link" data-toggle="tab"]
+    a[href="#tab-comment" class="nav-link " data-toggle="tab"]
       #avatar-comment=icon 'far', 'comment'
   li.nav-item
     a[href="#tab-ar" class="nav-link " data-toggle="tab"]
       p AR
   - if current_user?(@user) && user_signed_in?
-    li.nav-item
-      a[href="#tab-edit" class="nav-link " data-toggle="tab"]
+    li.nav-item#edit
+      a[href="#tab-edit" class="nav-link edit " data-toggle="tab"]
         #avatar-edit=icon 'fas', 'wrench'
   li.nav-item
     time.text-muted.nav-link [datetime="#{avatar.created_at}"] #{time_ago_in_words(avatar.created_at)}前

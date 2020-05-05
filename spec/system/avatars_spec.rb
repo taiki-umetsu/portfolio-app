@@ -11,23 +11,32 @@ RSpec.describe 'Avatars', type: :system do
       sign_in user
       visit user_path(user)
     end
-    it { expect(page).to have_button 'CREATE' }
+    it { expect(page).to have_button 'アバター作成' }
     it 'create avatar by using Amazon Rekognition and S3', vcr: true do
+      within(:css, '.user-top') do
+        click_button 'アバター作成'
+      end
       attach_file 'picture', Rails.root.join('spec/fixtures/texture_face.png')
       VCR.use_cassette('create_avatar', preserve_exact_body_bytes: true) do
-        click_button 'CREATE'
+        within(:css, '.card') do
+          click_button 'アバター作成'
+        end
       end
       expect(page).to have_content 'アバターを作成しました！'
     end
   end
-  describe 'delete avatar' do
+  describe 'delete avatar', js: true do
+    let!(:me) { create(:user) }
+    let!(:others) { create(:user) }
+    let!(:avatar) { create(:avatar, user: me) }
     before do
-      sign_in user
-      create(:avatar, user: user)
-      visit user_path(user)
+      sign_in me
+      visit user_path(me)
+      sleep 0.5
     end
     it 'deletes avatar and files in S3 as well', vcr: true do
-      find('.avatars').find('.fa-trash-alt').click
+      find('div[id=avatar-edit]').click
+      find('.tab-content').find('.fa-trash-alt').click
       VCR.use_cassette('delete_avatar') do
         page.driver.browser.switch_to.alert.accept
       end
@@ -50,8 +59,10 @@ RSpec.describe 'Avatars', type: :system do
       before do
         create(:avatar, user: user)
         visit user_path(user)
+        find('div[id=avatar-edit]').click
       end
-      it { expect(page).to have_unchecked_field('公開する') }
+      it { expect(page).to have_selector 'div[class=form-check-input]' }
+      it { expect(page).to have_unchecked_field('avatar[public]') }
     end
     context 'private mode' do
       before do
@@ -89,6 +100,7 @@ RSpec.describe 'Avatars', type: :system do
       before do
         visit user_path(others)
       end
+      it { expect(page).to_not have_selector 'div[id=avatar-edit]' }
       it { expect(page).to_not have_css '#avatar_message' }
     end
     context 'fill over 40 characters' do

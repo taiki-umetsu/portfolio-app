@@ -30,7 +30,7 @@ html
                   negate="false"
                   scale="2 2 1"
                   ]
-      -if @message
+      -if @message.present?
         a-text[position="0 -1 0.8"
                     value="#{@message}" 
                     color= "black"
