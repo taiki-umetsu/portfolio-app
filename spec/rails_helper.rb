@@ -26,7 +26,7 @@ require Rails.root.join('spec/support/vcr.rb')
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -72,6 +72,15 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   # You can use devise in RSpec
   config.include Devise::Test::IntegrationHelpers
+  config.before(:each) do |example|
+    if example.metadata[:type] == :system
+      if example.metadata[:js]
+        driven_by :selenium_chrome_headless, screen_size: [1400, 1400]
+      else
+        driven_by :rack_test
+      end
+    end
+  end
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

@@ -6,15 +6,33 @@ RSpec.describe 'Avatars', type: :request do
   let(:avatar) { create(:avatar, user: user) }
 
   describe 'GET /show' do
+    let!(:me)   { create(:user) }
+    let!(:others) { create(:user) }
+    let!(:avatar) { create(:avatar, user: me) }
     it 'returns http success' do
+      sign_in me
       get avatar_path(avatar)
       expect(response).to have_http_status(:success)
     end
+    it 'returns http redirect' do
+      sign_in others
+      get avatar_path(avatar)
+      expect(response).to have_http_status(302)
+    end
   end
   describe 'GET /markerless_ar' do
+    let!(:me)   { create(:user) }
+    let!(:others) { create(:user) }
+    let!(:avatar) { create(:avatar, user: me) }
     it 'returns http success' do
+      sign_in me
       get markerless_ar_avatar_path(avatar)
       expect(response).to have_http_status(:success)
+    end
+    it 'returns http redirect' do
+      sign_in others
+      get markerless_ar_avatar_path(avatar)
+      expect(response).to have_http_status(302)
     end
   end
   describe 'AWS S3' do

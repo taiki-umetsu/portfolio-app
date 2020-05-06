@@ -4,9 +4,9 @@ class AvatarsController < ApplicationController
   include AvatarsHelper
   before_action :authenticate_user!, only: %i[create destroy]
   before_action :correct_user, only: [:destroy]
+  before_action :privete?, only: %i[show markerless_ar]
 
   def show
-    @avatar = Avatar.find(params[:id])
     if comments = @avatar.comments.first(15)
       @comments = []
       comments.each do |c|
@@ -54,7 +54,6 @@ class AvatarsController < ApplicationController
   end
 
   def markerless_ar
-    @avatar = Avatar.find(params[:id])
     @user = @avatar.user
   end
 
@@ -82,5 +81,17 @@ class AvatarsController < ApplicationController
     elsif value == '0'
       false
     end
+  end
+
+  def privete?
+    @avatar = Avatar.find(params[:id])
+    are_you_owner?(@avatar) unless @avatar.public?
+  end
+
+  def are_you_owner?(avatar)
+    return if user_signed_in? && current_user == avatar.user
+
+    flash[:danger] = 'アバターの閲覧権限がありません'
+    redirect_to root_url
   end
 end

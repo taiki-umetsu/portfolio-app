@@ -6,10 +6,11 @@ RSpec.describe 'Comments', type: :system do
   describe 'create comment' do
     let!(:me) { create(:user) }
     let!(:others) { create(:user) }
-    let!(:avatar) { create(:avatar, user: others) }
+    let!(:avatar) { create(:avatar, user: others, public: true) }
     before do
       sign_in me
       visit user_path(others)
+      find('div[id=avatar-comment]').click
     end
     it { expect(page).to have_button 'コメント' }
     context 'fill something in comment form' do
@@ -28,24 +29,26 @@ RSpec.describe 'Comments', type: :system do
       it { expect(page).to have_content '書き込めませんでした' }
     end
   end
-  describe 'destroy comment' do
+  describe 'destroy comment', js: true do
     let!(:me) { create(:user) }
     let!(:others) { create(:user) }
-    let!(:avatar) { create(:avatar, user: others) }
+    let!(:avatar) { create(:avatar, user: others, public: true) }
     let!(:my_comment) { create(:comment, avatar: avatar, user: me, content: 'my comment') }
     let!(:others_comment) { create(:comment, avatar: avatar, user: others, content: 'others comment') }
     before do
       sign_in me
       visit user_path(others)
+      find('div[id=avatar-comment]').click
     end
     it { expect(page).to have_content 'my comment' }
     it { expect(page).to have_content 'others comment' }
     context 'try to destroy my comment' do
       before do
-        # find the icon which has link to delete comment
-        find(".comment#{my_comment.id}").find('.fa-trash-alt').click
         # click ok because confirmation form is appeared
-        page.driver.browser.switch_to.alert.accept
+        accept_confirm do
+          # find the icon which has link to delete comment
+          find(".comment#{my_comment.id}").find('.fa-trash-alt').click
+        end
       end
       it { expect(page).to_not have_content 'my comment' }
     end

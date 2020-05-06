@@ -9,7 +9,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @avatars = @user.avatars.page(params[:page]).per(1)
+    @avatars = if current_user?(@user)
+                 @user.avatars.page(params[:page]).per(1)
+               else
+                 @user.avatars.where(public: true).page(params[:page]).per(1)
+               end
     @comment = current_user.comments.build
   end
 end

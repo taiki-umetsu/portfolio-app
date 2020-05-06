@@ -1,7 +1,7 @@
 = form_with(model: @comment, local: true) do |f|
   = render 'users/shared/error_messages', resource: f.object
   .form-group
-    = f.text_area :content
+    = f.text_area :content, required:true
   .field
     = f.hidden_field :avatar_id, value: avatar.id   
   .text-right.form-group#button-comment
