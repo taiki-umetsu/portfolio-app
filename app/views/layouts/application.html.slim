@@ -15,9 +15,7 @@ html
     - unless line_user?
       = render 'layouts/header'
     
-    .container.contents
-      .row
-        .col-10.offset-1
+    .container-fluid.contents
           = render 'layouts/flash'
           = yield
 

@@ -1,6 +1,7 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "./static_pages";
 
 header {
   .navbar{
@@ -46,6 +47,7 @@ h2 {
 }
 
 body{
+  background-color: #F8F9FF;
   .contents{
     margin-top: 50px;
   }
@@ -163,3 +165,4 @@ body{
 .avatar-input-image-field{
   height:50px;
 }
+

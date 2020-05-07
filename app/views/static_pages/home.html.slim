@@ -1,0 +1,54 @@
+
+.row.top-wrapper
+  .left-wrapper.col-5.offset-1.shadow-sm.d-flex.align-items-center.wrapper
+    .wrap
+      h1 リアルな顔のアバターを作ろう！
+      h5 たった1枚の顔画像からアバターを生成できます。
+      -if user_signed_in?
+        =link_to user_path(current_user) do 
+          bottun.btn.btn-primary.shadow-sm スタート
+      -else
+        =link_to new_user_registration_path do
+          bottun.btn.btn-primary.shadow-sm サインアップ
+        =link_to new_user_session_path do 
+          bottun.btn.btn-primary.shadow-sm ログイン
+        =link_to '' do 
+          bottun.btn.btn-primary.shadow-sm テストログイン
+
+  .right-wrapper.col-5.offset-1
+    =image_tag 'model_avatar_demo.png', id:'model-avatar-demo',class:'shadow'
+
+.row.avatars-wrapper
+  .background.grad.shadow-sm
+  .col-5
+    h2 1枚の顔写真から
+    =image_tag 'model_face.png', id:'model-face'
+  .col-4.model_avatar_field
+    h2 アバターを生成
+    =image_tag 'model_avatar.png', id:'model-avatar'
+
+
+.row.line-bot-wrapper.col-5.offset-1.shadow-sm.wrapper
+  .container
+    .row.mx-auto
+      #line-logo=icon 'fab', 'line fa-6x'
+      .wrap
+        h5 LINEからアバターを作ることも可能です。
+        button[type="button" data-toggle="collapse"
+              data-target="#line-bot-qr-field" aria-expanded="false"
+              aria-controls="line-bot-qr-field"
+              class="btn btn-primary shadow-sm mx-auto"]QRコード
+    .row
+      .collapse#line-bot-qr-field.mx-auto
+        =image_tag 'line_bot_qr.png', id:'line-bot-qr'
+    .row
+      .mx-auto=image_tag 'line_bot_usage.gif', id:'line_bot_usage'
+
+.something-wrapper.col-5.offset-1.shadow-sm.wrapper
+
+.row.footer.grad
+  
+
+
+
+
