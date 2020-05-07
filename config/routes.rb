@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root 'static_pages#home'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     passwords: 'users/passwords',
     registrations: 'users/registrations'
   }
   resources :users, only: %i[index show]
-  root 'users#index'
 
   resources :avatars, only: %i[show create destroy update] do
     member do

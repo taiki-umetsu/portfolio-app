@@ -44,39 +44,40 @@ RSpec.describe 'Avatars', type: :system do
     end
     it "doesn't show the delete link in another user's page" do
       click_on 'LOGOUT'
-      user2 = create(:user)
-      sign_in user2
-      visit user_path(user)
+      sign_in others
+      visit user_path(me)
       expect(page).to_not have_link 'DELETE'
     end
   end
 
   describe 'public function' do
+    let!(:me) { create(:user) }
+    let!(:others) { create(:user) }
     before do
-      sign_in user
+      sign_in me
     end
     describe 'check field to activate public function exist' do
+      let!(:avatar) { create(:avatar, user: me) }
       before do
-        create(:avatar, user: user)
-        visit user_path(user)
+        visit user_path(me)
         find('div[id=avatar-edit]').click
       end
       it { expect(page).to have_selector 'div[class=form-check-input]' }
       it { expect(page).to have_unchecked_field('avatar[public]') }
     end
     context 'private mode' do
+      let!(:avatar) { create(:avatar, user: others, public: false) }
       before do
-        create(:avatar, user: user, public: false)
-        visit root_path
+        visit user_path(others)
       end
-      it { expect(page).to_not have_css '.avatars' }
+      it { expect(page).to_not have_selector 'iframe' }
     end
     context 'public mode' do
+      let!(:avatar) { create(:avatar, user: others, public: true) }
       before do
-        create(:avatar, user: user, public: true)
-        visit root_path
+        visit user_path(others)
       end
-      it { expect(page).to have_css '.avatars' }
+      it { expect(page).to have_selector 'iframe' }
     end
   end
 
