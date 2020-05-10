@@ -15,5 +15,6 @@ class UsersController < ApplicationController
                  @user.avatars.where(public: true).page(params[:page]).per(1)
                end
     @comment = current_user.comments.build
+    @base_url = ENV['BASE_URL']
   end
 end

@@ -1,30 +1,32 @@
-.container-fluid
+#user-page
   .row
-    .col-10.offset-1
-      .navbar.user-top
-        ul.nav.list-group-horizontal
-          li= image_tag user_icon(@user), class:'user-icon'
-          li
-            h1.user-name=@user.name
-          li
-            button[type="button" data-toggle="collapse"
+    .user-top-wrapper.col-4.offset-1.shadow-sm.wrapper
+      .container
+        .row.d-flex.align-items-center
+          = image_tag user_icon(@user), class:'user-icon'
+          h1.user-name=@user.name
+          button[type="button" data-toggle="collapse"
                   data-target="#avatar-create-field" aria-expanded="false"
                   aria-controls="avatar-create-field"
-                  class="avatar-cerate-launcher"]
-              p #{icon 'fas', 'magic fa-x'}アバター作成
-            
-
-      .collapse#avatar-create-field
-        .card.card-body
-          = form_with url: avatars_path, local: true do |f|
-            .container
+                  class="btn btn-primary"] #{icon 'fas', 'magic fa-x'}アバター作成          
+    .avatar-create-wrapper.col-5.offset-1.collapse#avatar-create-field.shadow-sm.wrapper
+      = form_with url: avatars_path, local: true do |f|        
+            .avatar-input-image-file_field.container
               = f.label '顔画像をアップロードしてください'
-              .row.avatar-input-image-field
-                .col-8#avater-input-box= f.file_field :picture, required:true
-                = f.submit 'アバター作成', class: "btn btn-primary avatar-create-btn col-4"
+              .row
+                #avater-input-box= f.file_field :picture, required:true
+                = f.submit 'アバター作成', class: "btn btn-primary avatar-create-btn"
 
-      - if @user.avatars.any? 
-        h3 アバター (#{@user.avatars.count})
-        = paginate @avatars
-        ol.avatars
-          = render @avatars
+  - if @user.avatars.any?
+    ol.avatars
+      = render @avatars
+    .row
+      .col-5.offset-1.shadow-sm.wrapper
+        .container
+          .row
+            h5
+              |アバター #{@user.avatars.count}
+              |（公開 #{public_avatars_count(@user)}）
+          .row
+            = paginate @avatars
+

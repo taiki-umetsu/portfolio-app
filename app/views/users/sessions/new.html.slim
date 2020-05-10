@@ -1,22 +1,24 @@
-h2.center
-  | LOG IN
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    br
-    = f.password_field :password, autocomplete: "current-password"
-  - if devise_mapping.rememberable?
-    .field.form-check-inline
-      .form-check-input= f.check_box :remember_me
-      .form-check-label= f.label :remember_me
-  - if line_user?
-    .field
-      = hidden_field_tag :linkToken, @link_token
-  .actions
-    = f.submit "LOG IN"
-- unless line_user?
-  = render "users/shared/links"
+.row
+  .sign-up-wrapper.col-4.offset-4.shadow-sm.wrapper
+    h2.center
+      | LOG IN
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .field
+        = f.label :email
+        br
+        = f.email_field :email, autofocus: true, autocomplete: "email", required:true
+      .field
+        = f.label :password
+        br
+        = f.password_field :password, autocomplete: "current-password", required:true
+      - if devise_mapping.rememberable?
+        .field.form-check-inline
+          .form-check-input= f.check_box :remember_me
+          .form-check-label= f.label :remember_me
+      - if line_user?
+        .field
+          = hidden_field_tag :linkToken, @link_token
+      .actions
+        = f.submit "LOG IN", class: "btn btn-primary shadow-sm float-right"
+    - unless line_user?
+      = render "users/shared/links"

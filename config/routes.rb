@@ -20,9 +20,12 @@ Rails.application.routes.draw do
   resources :comments, only: %i[create destroy]
   resources :likes, only: %i[create destroy]
 
+  # for Vue
   namespace :api, { format: 'json' } do
     namespace :v1 do
       resources :users, only: %i[update edit]
+      resources :avatars, only: %i[show]
+      resources :comments, only: %i[destroy]
     end
   end
 end

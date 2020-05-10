@@ -1,15 +1,15 @@
-li.border-bottom.border-dark class="comment#{comment.id}"
-  .container
-    .row
-      .col-3
+#comment-wrap
+  .wrapper-sm.shadow-sm class="comment#{comment.id}"
+    .container
+      .row.d-flex.align-items-center
         = image_tag user_icon(comment.user), class:'user-icon'
-      .col-9
-        container
-          .row#comment-info-top
-            h5.col-6 =comment.user.name
-            time.col-3.text-muted[datetime="#{comment.created_at}"] #{time_ago_in_words(comment.created_at)}前
-            - if comment_user?(comment)
-              #icon-delete.col-1.offset-2=link_to comment_path(comment), method: :delete, data: { confirm: "You sure?" } do
-                =icon 'far', 'trash-alt fa-x'
-          .row
-            .text-break=comment.content
+        #user-name
+          =comment.user.name
+        #comment-time
+          time.text-muted[datetime="#{comment.created_at}"] #{time_ago_in_words(comment.created_at)}前
+        - if comment_user?(comment)
+          #icon-delete
+            =link_to comment_path(comment), method: :delete, data: { confirm: "You sure?" } do
+              =icon 'far', 'trash-alt fa-x'
+      .row#comment-content
+          .text-break=comment.content

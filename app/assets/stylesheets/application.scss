@@ -3,6 +3,7 @@
 @import "font-awesome";
 @import "./static_pages";
 
+
 header {
   .navbar{
     border: 1px solid #bbb;
@@ -49,7 +50,7 @@ h2 {
 body{
   background-color: #F8F9FF;
   .contents{
-    margin-top: 50px;
+    margin-top: 100px;
   }
 }
 
@@ -70,22 +71,13 @@ body{
     }
   }
 }
-#comment-info{
-  margin-bottom: -15px;
-  margin-left: -30px;
-}
-
-#comment-info-top{
-  margin-left: -30px;
-}
-
 #icon-delete{
   i {
-    font-size: 1em;
-    color: gray;
-    &:hover {
-      color: rgb(158, 157, 157);
-    }
+      font-size: 1em;
+      color: gray;
+      &:hover {
+        color: rgb(158, 157, 157);
+      }
     }
 }
 
@@ -114,11 +106,25 @@ body{
   border: none;
 }
 
-.user-icon{
-  width: 80px;
-  height: 80px;
-  border-radius: 80px;
+
+.user-top-wrapper{
+  .user-name{
+    margin-left:10px;
+    line-height:80px;
+  }
+  button{
+    position: absolute;
+    right: 0;
+    top: 12%;
+  }
+  .user-icon{
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
+  }
 }
+
+
 
 #avatar-edit{
   color: gray;
@@ -128,41 +134,76 @@ body{
   color: gray;
 }
 
-.user-top{
-  padding:0;
-}
+.avatar-create-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .avatar-create-btn{
+    padding:0;
+    margin:0;
+    height:30px;
+  }
 
-.user-name{
-  margin-left:10px;
-  line-height:80px;
-}
-.avatar-cerate-launcher{
-  position: absolute;
-  right: 0;
-  top: 30px;
-  border: 1px solid #bbb;
-  height:40px;
-  padding:5px;
-  border-radius:20px;
-  margin-top:-8px;
 }
 
 
-.avatar-create-btn{
-  margin:0;
-  padding:0;
-  height:30px;
-  
-}
+
+
 
 #avater-input-box{
-  height:50px;
+  width:60%;
+  margin:0 15px;
+  padding:0;
+  input{
+    padding:0;
+    margin:0;
+  }
   
-  margin:0;
+
   
 }
 
 .avatar-input-image-field{
-  height:50px;
+  padding:0;
+  margin:0;
 }
 
+#user-page{
+  .wrapper{
+    margin-bottom:30px;
+  }
+  ol{
+    padding-left:0;
+  }
+}
+
+.wrapper-sm{
+  margin-bottom:10px;
+  background-color: white;
+  border-radius: 10px;
+  padding:10px;
+}
+
+#comment-form-wrap{
+  .btn{
+    padding:0;
+    height:30px;
+    margin-bottom:0;
+  }
+  textarea{
+    border-radius: 10px;
+    border: 0.5px solid rgb(221, 221, 221);
+    width:100%;
+    height:30px;
+  }
+}
+#comment-create-btn{
+  position: absolute;
+  right: 0;
+  top: 0;
+  .btn{
+    padding:0;
+    height:30px;
+    width:30px;
+  }
+}
