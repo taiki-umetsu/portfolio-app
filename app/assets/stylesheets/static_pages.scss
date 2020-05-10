@@ -1,28 +1,31 @@
 .wrapper{
   background-color: white;
   border-radius: 20px;
+  padding:30px;
+
 }
 .top-wrapper{
-  margin-top:100px;
   text-align: center;
-}
-.left-wrapper{
-  h1{
-    font-weight: bold;
-    margin:20px;
+  .left-wrapper{
+    h1{
+      font-weight: bold;
+      margin:20px;
+    }
+    h5{color: gray;}
+    padding:20px;
+    bottun{
+      margin:20px;
+    }
   }
-  h5{color: gray;}
-  padding:20px;
-  bottun{
-    margin:20px;
+  #model-avatar-demo{
+    width:100%;
+    border-radius: 20px;
+    margin:0;
   }
 }
+
  
-#model-avatar-demo{
-  width:100%;
-  border-radius: 20px;
-  margin:0;
-}
+
 
 .btn-primary{
   border: none;
@@ -34,6 +37,23 @@
     background: -webkit-linear-gradient(left, rgb(42, 175, 233),rgb(11, 93, 187));
     background: linear-gradient( to right, rgb(42, 175, 233),rgb(11, 93, 187));
    }
+   &:focus {
+    box-shadow:none !important;
+  }
+}
+.btn-secondary{
+  border: none;
+  background: -moz-linear-gradient(left, rgb(210, 210, 210),rgb(172, 172, 172));
+  background: -webkit-linear-gradient(left, rgb(210, 210, 210),rgb(172, 172, 172));
+  background: linear-gradient( to right, rgb(210, 210, 210),rgb(172, 172, 172));
+  &:hover{ 
+    background: -moz-linear-gradient(left, rgb(230, 230, 230),rgb(200, 200, 200));
+    background: -webkit-linear-gradient(left, rgb(230, 230, 230),rgb(200, 200, 200));
+    background: linear-gradient( to right, rgb(230, 230, 230),rgb(200, 200, 200));
+   }
+   &:focus {
+    box-shadow:none !important;
+  }
 }
 .grad{
   background: -moz-linear-gradient(bottom, #2AC0FF,#0A7CFB);
@@ -72,17 +92,16 @@
   text-align: center;
 
   h5{
+    margin-top: 10px;
+    margin-left: 5px;
+
     font-weight: bold;
-    margin-left:20px;
-    margin-top:40px;
-    
   }
   button{
     margin-top:0;
   }
   #line-logo{
     width:100px;
-    margin-top:30px;
     color:gray;
   }
   #line-bot-qr{

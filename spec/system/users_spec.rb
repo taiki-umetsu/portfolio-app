@@ -37,7 +37,8 @@ RSpec.describe 'Users', type: :system do
         fill_in 'メールアドレス', with: ''
         fill_in 'パスワード', with: ''
         click_on 'LOG IN'
-        expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
+        expect(page).to_not have_content 'ログインしました'
+        expect(page).to have_xpath("//input[@required='required']")
       end
     end
   end
@@ -63,9 +64,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'パスワード', with: ''
         fill_in '確認用パスワード', with: ''
         click_on 'SIGN UP'
-        expect(page).to have_content 'メールアドレスを記入してください'
-        expect(page).to have_content 'パスワードを記入してください'
-        expect(page).to have_content '名前を記入してください'
+        expect(page).to have_xpath("//input[@required='required']")
       end
     end
   end

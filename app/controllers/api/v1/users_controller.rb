@@ -21,6 +21,8 @@ module Api
         render json: image
       end
 
+      def show; end
+
       private
 
       def updata_params

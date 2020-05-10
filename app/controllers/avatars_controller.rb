@@ -50,7 +50,7 @@ class AvatarsController < ApplicationController
                       else
                         'アップデートできませんでした'
                       end
-    redirect_to current_user
+    redirect_to request.referer || current_user
   end
 
   def markerless_ar

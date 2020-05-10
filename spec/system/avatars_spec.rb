@@ -13,12 +13,12 @@ RSpec.describe 'Avatars', type: :system do
     end
     it { expect(page).to have_button 'アバター作成' }
     it 'create avatar by using Amazon Rekognition and S3', vcr: true do
-      within(:css, '.user-top') do
+      within(:css, '.user-top-wrapper') do
         click_button 'アバター作成'
       end
       attach_file 'picture', Rails.root.join('spec/fixtures/texture_face.png')
       VCR.use_cassette('create_avatar', preserve_exact_body_bytes: true) do
-        within(:css, '.card') do
+        within(:css, '.avatar-create-wrapper') do
           click_button 'アバター作成'
         end
       end
