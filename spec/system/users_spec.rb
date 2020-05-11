@@ -26,6 +26,7 @@ RSpec.describe 'Users', type: :system do
         expect(page).to_not have_link 'LOGIN'
       end
       it ' is successful to log out ' do
+        sleep 2
         click_on 'LOGOUT'
         expect(page).to have_content 'ログアウトしました'
       end

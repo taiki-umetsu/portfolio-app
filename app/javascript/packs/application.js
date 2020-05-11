@@ -8,8 +8,9 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 import 'bootstrap/dist/js/bootstrap'
-
-
+require('jquery')
+window.jQuery = $;
+window.$ = $;
 
 
 

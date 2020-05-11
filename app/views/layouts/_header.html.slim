@@ -1,6 +1,6 @@
   header.navbar.navbar-light.border-bottom.fixed-top.shadow-sm style="background-color:rgba(255, 255, 255, .7)" 
     .container
-      = link_to "FaceOnlyAvatarMaker", root_path
+      = link_to "FaceRealAvatar", root_path
       nav
         ul.nav.list-group-horizontal
           - if user_signed_in?
@@ -10,4 +10,6 @@
           - else
             li= link_to 'SIGNUP', new_user_registration_path
             li= link_to 'LOGIN', new_user_session_path
+            .container-fluid#flash  
+
 

@@ -3,6 +3,10 @@
 @import "font-awesome";
 @import "./static_pages";
 
+.flash-message {
+  margin-top: 40px;
+  text-align: center;
+}
 
 header {
   .navbar{
@@ -50,7 +54,7 @@ h2 {
 body{
   background-color: #F8F9FF;
   .contents{
-    margin-top: 100px;
+    margin-top: 60px;
   }
 }
 

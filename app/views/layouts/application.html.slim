@@ -11,12 +11,13 @@ html
     = stylesheet_pack_tag 'user_icon_trim'
     = javascript_pack_tag 'infinite_scroll'
     = stylesheet_pack_tag 'infinite_scroll'
+    = javascript_pack_tag 'flash_message'
+
 
   body
     - unless line_user?
       = render 'layouts/header'
-    
+    .flash-message.fixed-top= render 'layouts/flash'
     .container-fluid.contents
-          = render 'layouts/flash'
-          = yield
+      = yield
 
