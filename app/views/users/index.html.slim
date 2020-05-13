@@ -1,5 +1,5 @@
 h2 顔がリアルなアバターを作ってみよう
-- if @avatars.any? 
-  ol.avatars
-    = render @avatars
-  = paginate @avatars
+- if @avatars.any?
+  #infinite-scroll-avatars
+    Infinite[v-bind:base-url="'#{@base_url}'"
+             v-bind:current-user-id="#{current_user_id}"]

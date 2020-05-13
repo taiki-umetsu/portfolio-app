@@ -40,4 +40,8 @@ module ApplicationHelper
   def user_icon(user)
     user.image.attached? ? user.image : 'default_icon.png'
   end
+
+  def current_user_id
+    user_signed_in? ? current_user.id : false
+  end
 end

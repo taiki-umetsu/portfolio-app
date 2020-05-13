@@ -90,8 +90,14 @@ body{
   margin-right: -30px;
 }
 
+
 #heart{
   color: red;
+  padding:6px;
+  &:hover {
+    background-color: rgb(253, 209, 217);
+    border-radius:15px;
+  }
 }
 
 #button {
@@ -102,12 +108,14 @@ body{
 }
 
 .heart-counter{
-  margin-left: 10px;
+  margin-left: 4px;
+  padding:1.5px;
   color: red;
 }
 
 .avatar-frame{
   border: none;
+  border-radius: 10px;
 }
 
 
@@ -135,7 +143,13 @@ body{
 }
 
 #avatar-comment{
-  color: gray;
+  color: skyblue;
+  padding:6px;
+  margin-left:10px;
+  &:hover {
+    background-color: rgb(212, 240, 251);
+    border-radius:15px;
+  }
 }
 
 .avatar-create-wrapper{
