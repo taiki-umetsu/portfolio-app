@@ -80,7 +80,6 @@ export default {
     },
     imageUploadField(){
       this.uploadField = true;
-      console.log(this.baseUrl);
     },
     removeField(){
       this.uploadField = false;

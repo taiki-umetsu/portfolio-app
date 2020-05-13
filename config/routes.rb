@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'static_pages#home'
+  root 'users#index'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     passwords: 'users/passwords',
@@ -24,8 +24,9 @@ Rails.application.routes.draw do
   namespace :api, { format: 'json' } do
     namespace :v1 do
       resources :users, only: %i[update edit]
-      resources :avatars, only: %i[show]
-      resources :comments, only: %i[destroy]
+      resources :avatars, only: %i[show index]
+      resources :comments, only: %i[create destroy]
+      resources :likes, only: %i[create destroy]
     end
   end
 end

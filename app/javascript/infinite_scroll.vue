@@ -64,10 +64,8 @@ export default {
           comment_page: this.comment_page
         },
       }).then(response => {
-        console.log(response)
         if (response.data.length) {
           this.comment_page += 1;
-          console.log(this.comment_page)
           this.lists.push(response.data);
           $state.loaded();
         } else {
@@ -98,7 +96,7 @@ export default {
       this.flash = 'コメントを削除しました';
       setTimeout(() => {
         this.flash = false}
-        ,3000
+        ,2000
       )
     },
   },
