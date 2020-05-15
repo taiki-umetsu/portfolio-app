@@ -10,6 +10,7 @@
     "aframe-japanese-font": "^0.1.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "es6-promise": "^4.2.8",
     "infinite-scroll": "^3.0.6",
     "jquery": "3.4.1",
     "moment": "^2.25.3",
@@ -20,7 +21,8 @@
     "vue-infinite-loading": "^2.4.5",
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
-    "vue-turbolinks": "^2.1.0"
+    "vue-turbolinks": "^2.1.0",
+    "vuex": "^3.4.0"
   },
   "version": "0.1.0",
   "devDependencies": {

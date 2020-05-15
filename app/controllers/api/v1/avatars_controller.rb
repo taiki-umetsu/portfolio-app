@@ -28,6 +28,15 @@ module Api
         render json: data
       end
 
+      def update
+        avatar = Avatar.find(params[:id])
+        avatar.public = update_params[:avatar_public]
+        data = avatar.save ? 'OK' : 'NG'
+        render json: data
+      end
+
+      def destroy; end
+
       private
 
       def liked?(avatar)
@@ -39,6 +48,7 @@ module Api
         avatars.each do |a|
           data << {
             avatar_id: a.id,
+            avatar_public: a.public,
             created_at: a.created_at,
             user_name: a.user.name,
             user_image: a.user.image.attached? ? url_for(a.user.image) : false,
@@ -51,6 +61,10 @@ module Api
           }
         end
         data
+      end
+
+      def update_params
+        params.permit(:avatar_public, :message, :id)
       end
     end
   end

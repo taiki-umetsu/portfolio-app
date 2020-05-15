@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   def index
     @avatars = Avatar.where(public: true).page(params[:page]).per(2)
     @comment = current_user.comments.build if user_signed_in?
+    @base_url = ENV['BASE_URL']
   end
 
   def show

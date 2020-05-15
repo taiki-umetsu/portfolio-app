@@ -1,18 +1,47 @@
 import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
-import Infinite from '../infinite_scroll_avatars.vue'
+import Infinite from './components/infinite_scroll_avatars/infinite_scroll_avatars.vue'
+import Vuex from 'vuex'
+import 'es6-promise/auto'
 
-   
-
+Vue.use(Vuex)
 Vue.use(TurbolinksAdapter)
+const store = new Vuex.Store({
+  state: {
+    lists: [],
+    flash: '',
+  },
+  mutations: {
+    pushToList(state, payload) {
+      state.lists.push(payload)
+    },
+    updateList(state,payload){
+      for(let key in payload.data){
+        Vue.set(state.lists[payload.index1][payload.index2], key, payload.data[key])
+      }
+    },
+    pushFlash(state,payload) {
+      state.flash = payload;
+      setTimeout(() => { state.flash = false } ,2000 );
+    }
+  },
+  actions: {
+    pushToList(context, payload){
+      context.commit('pushToList', payload)
+    },
+    updateList(context, payload){
+      context.commit('updateList', payload)
+    },
+    pushFlash(context,payload){
+      context.commit('pushFlash', payload)
+    },
+  }
+})
 
 document.addEventListener('turbolinks:load', () => {
   const app = new Vue({
     el: '#infinite-scroll-avatars',
-    data: () => {
-      return {
-      }
-    },
+    store,
     components: { Infinite }
   })
 })
