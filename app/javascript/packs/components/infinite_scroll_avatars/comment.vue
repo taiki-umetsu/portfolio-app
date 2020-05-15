@@ -33,11 +33,17 @@
             <div class="col-6 offset-3">
               <div>
                 <transition name="slide-fade">
-                  <i class="fas fa-times-circle fa-2x" @click="removeUploadField(index1,index2)"></i>
+                  <i class="fas fa-times-circle fa-2x"
+                    @click="removeUploadField(index1,index2)"
+                  ></i>
                 </transition>
-                <textarea id="comment" v-model="commentContent" required="required" ></textarea>
+                <textarea id="comment"
+                  v-model="commentContent"
+                ></textarea>
                 <div class="comment-btn">
-                  <button class="btn btn-primary" @click="createComment(item['avatar_id'],index1,index2)">コメントする</button>
+                  <button class="btn btn-primary"
+                    @click="createComment(item['avatar_id'],index1,index2)"
+                  >コメントする</button>
                 </div>
               </div>
             </div>
@@ -60,7 +66,7 @@ export default {
     axios.defaults.headers.get["Accepts"] = "application/json";
   },
   computed: {
-    ...mapState(['lists'])
+    ...mapState(['lists', 'flash', 'alertColor'])
   },
   props: {
     currentUserId: Number,
@@ -76,22 +82,29 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['updateList']),
+    ...mapActions(['updateList','pushFlash']),
     createComment(avatar_id,index1,index2){
-      this.removeUploadField(index1,index2);
-      axios.post('/api/v1/comments/', { avatar_id: avatar_id, content: this.commentContent},)
-        .then(response => {
-          this.updateList({
-              'index1' : index1,
-              'index2' : index2,
-              'data':{ 
-                'comment_count' : this.lists[index1][index2]['comment_count'] + 1,
-                'comment_id' : response.data['comment_id']
-              }
-          })
-          document.getElementById(`iframe${index1}-${index1}`).contentWindow.location.reload();
-          this.commentContent = ''
+      if(!this.commentContent|| !this.commentContent.match(/\S/g)){
+        this.pushFlash({
+          'flash' : 'フォームに入力してください',
+          'alertColor' : 'alert-danger'
         })
+      }else{
+        this.removeUploadField(index1,index2);
+        axios.post('/api/v1/comments/', { avatar_id: avatar_id, content: this.commentContent},)
+          .then(response => {
+            this.updateList({
+                'index1' : index1,
+                'index2' : index2,
+                'data':{ 
+                  'comment_count' : this.lists[index1][index2]['comment_count'] + 1,
+                  'comment_id' : response.data['comment_id']
+                }
+            })
+            document.getElementById(`iframe${index1}-${index1}`).contentWindow.location.reload();
+            this.commentContent = ''
+          })
+      }
     },
     showUploadField(index1,index2){
       this.updateList({

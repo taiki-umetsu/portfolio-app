@@ -39,27 +39,33 @@ export default {
     ...mapActions(['updateList', 'pushFlash']),
     destroyPublic(avatar_id,index1,index2){
       axios.patch(`/api/v1/avatars/${avatar_id}`, { 'avatar_public' : false })
-        .then(response => {console.log(response.data)
+        .then(response => {
           if(response.data=='OK'){
             this.updateList({
               'index1' : index1,
               'index2' : index2,
               'data' : { 'avatar_public' : false }
             })
-            this.pushFlash('アバターを非公開にしました')
+            this.pushFlash({
+              'flash' : '非公開モードです',
+              'alertColor' : 'alert-success'
+            })
           };
         })
     },
     createPublic(avatar_id,index1,index2){
       axios.patch(`/api/v1/avatars/${avatar_id}`, { 'avatar_public' : true })
-        .then(response => {console.log(response.data)
+        .then(response => {
           if(response.data=='OK'){
             this.updateList({
               'index1' : index1,
               'index2' : index2,
               'data' : { 'avatar_public' : true }
             })
-            this.pushFlash('アバターを公開しました')
+            this.pushFlash({
+              'flash' : '公開モードです',
+              'alertColor' : 'alert-success'
+            })
           };
         })
     },

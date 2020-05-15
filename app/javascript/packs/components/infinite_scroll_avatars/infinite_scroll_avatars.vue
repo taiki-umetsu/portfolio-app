@@ -1,11 +1,10 @@
 <template>
   <div id="avatar-field">
-    <div class="alert alert-success flash-message fixed-top" v-show="flash">{{flash}}</div>
+    <div class="alert flash-message fixed-top" :class="alertColor" v-show="flash">{{flash}}</div>
     <div v-for="(list, $index1) in lists" :key="$index1" >
       <div class="row" v-for="(item, $index2) in list" :key="$index2">
-        <div class="wrapper shadow-sm col-6 offset-3" :class="setAvatarId(item['avatar_id'])" id="comment-wrap" >
+        <div class="wrapper shadow-sm col-6 offset-3" :class="setAvatarId(item['avatar_id'])" id="comment-wrap" v-show="item['avatar_field']">
           <div class="container">
-
             <div class="row d-flex align-items-center avatar-info">
               <a :href="userPath(item['user_id'])">
                 <img :src="setImage(item['user_image'])" class="user-icon user-link" >
@@ -19,7 +18,12 @@
             </div> 
 
             <div class="row" id="avatar-content">
-              <iframe class="avatar-frame" :id="iframe($index1,$index2)" width="100%" height="400px" :src="avatarPath(item['avatar_id'])"></iframe>
+              <iframe class="avatar-frame" 
+                :id="iframe($index1,$index2)"
+                width="100%"
+                height="400px"
+                :src="avatarPath(item['avatar_id'])"
+              ></iframe>
             </div>
 
             <div class="row d-flex align-items-center">
@@ -29,27 +33,30 @@
                     :index1='$index1'
                     :index2='$index2'
               ></Like>
-
               <Comment :current-user-id="currentUserId"
                        :base-url="baseUrl"
                        :item='item'
                        :index1='$index1'
                        :index2='$index2'
               ></Comment>
-
               <Public :current-user-id="currentUserId"
                       :base-url="baseUrl"
                       :item='item'
                       :index1='$index1'
                       :index2='$index2'>
               </Public>
+              <destroy-avatar :current-user-id="currentUserId"
+                             :base-url="baseUrl"
+                             :item='item'
+                             :index1='$index1'
+                             :index2='$index2'>
+              </destroy-avatar>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-    <infinite-loading :distance='0' @infinite="infiniteHandler" ></infinite-loading>
+    <infinite-loading :distance='100' @infinite="infiniteHandler" ></infinite-loading>
   </div>
 </template>
 
@@ -60,18 +67,21 @@ import moment from "moment";
 import Like from './like.vue';
 import Comment from './comment.vue';
 import Public from './public.vue';
+import DestroyAvatar from './destroy_avatar.vue';
+
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(['lists', 'flash'])
+    ...mapState(['lists', 'flash', 'alertColor'])
   },
   components: {
     InfiniteLoading,
     Like,
     Comment,
     Public,
+    DestroyAvatar,
   },
   props: {
     currentUserId: Number,

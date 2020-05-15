@@ -3,9 +3,12 @@
 module Api
   module V1
     class AvatarsController < ApiController
+      before_action :authenticate_user!, only: %i[destroy]
+      before_action :correct_user, only: [:destroy]
       rescue_from ActiveRecord::RecordNotFound do |_exception|
         render json: { error: '404 not found' }, status: :not_found
       end
+
       def index
         avatars = Avatar.where(public: true).page(params[:avatar_page]).per(1)
         render json: index_data(avatars)
@@ -35,7 +38,14 @@ module Api
         render json: data
       end
 
-      def destroy; end
+      def destroy
+        data = if @avatar.destroy
+                 'OK'
+               else
+                 'NG'
+               end
+        render json: data
+      end
 
       private
 
@@ -49,6 +59,7 @@ module Api
           data << {
             avatar_id: a.id,
             avatar_public: a.public,
+            avatar_field: true,
             created_at: a.created_at,
             user_name: a.user.name,
             user_image: a.user.image.attached? ? url_for(a.user.image) : false,
@@ -65,6 +76,13 @@ module Api
 
       def update_params
         params.permit(:avatar_public, :message, :id)
+      end
+
+      def correct_user
+        @avatar = current_user.avatars.find_by(id: params[:id])
+        return unless @avatar.nil?
+
+        render json: 'アバターの削除権限がありません'
       end
     end
   end

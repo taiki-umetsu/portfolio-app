@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   namespace :api, { format: 'json' } do
     namespace :v1 do
       resources :users, only: %i[update edit]
-      resources :avatars, only: %i[show index update]
+      resources :avatars, only: %i[show index update destroy]
       resources :comments, only: %i[create destroy]
       resources :likes, only: %i[create destroy]
     end

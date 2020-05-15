@@ -10,6 +10,7 @@ const store = new Vuex.Store({
   state: {
     lists: [],
     flash: '',
+    alertColor: ''
   },
   mutations: {
     pushToList(state, payload) {
@@ -21,9 +22,13 @@ const store = new Vuex.Store({
       }
     },
     pushFlash(state,payload) {
-      state.flash = payload;
-      setTimeout(() => { state.flash = false } ,2000 );
-    }
+      state.alertColor = payload.alertColor;
+      state.flash = payload.flash;
+      setTimeout(() => {
+        state.flash = false;
+        state.alertColor = false;
+      } ,2000 );
+    },
   },
   actions: {
     pushToList(context, payload){
