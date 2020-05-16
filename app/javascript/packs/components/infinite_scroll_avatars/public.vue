@@ -1,14 +1,14 @@
 <template>
     <div>
-      <div v-if="currentUserId == item['user_id']">
-        <div v-if="item['avatar_public'] == false">
+      <div v-if="currentUserId == item.user_id">
+        <div v-if="item.avatar_public == false">
           <i class="fas fa-lock locked-icon lock-icon"
-            @click="createPublic(item['avatar_id'], index1, index2)"
+            @click="createPublic"
           ></i>
         </div>
         <div v-else>
           <i class="fas fa-lock-open unlocked-icon lock-icon"
-            @click="destroyPublic(item['avatar_id'], index1, index2)"
+            @click="destroyPublic"
           ></i>
         </div>
       </div>
@@ -37,13 +37,13 @@ export default {
   },
   methods: {
     ...mapActions(['updateList', 'pushFlash']),
-    destroyPublic(avatar_id,index1,index2){
-      axios.patch(`/api/v1/avatars/${avatar_id}`, { 'avatar_public' : false })
+    destroyPublic(){
+      axios.patch(`/api/v1/avatars/${this.item.avatar_id}`, { 'avatar_public' : false })
         .then(response => {
           if(response.data=='OK'){
             this.updateList({
-              'index1' : index1,
-              'index2' : index2,
+              'index1' : this.index1,
+              'index2' : this.index2,
               'data' : { 'avatar_public' : false }
             })
             this.pushFlash({
@@ -53,13 +53,13 @@ export default {
           };
         })
     },
-    createPublic(avatar_id,index1,index2){
-      axios.patch(`/api/v1/avatars/${avatar_id}`, { 'avatar_public' : true })
+    createPublic(){
+      axios.patch(`/api/v1/avatars/${this.item.avatar_id}`, { 'avatar_public' : true })
         .then(response => {
           if(response.data=='OK'){
             this.updateList({
-              'index1' : index1,
-              'index2' : index2,
+              'index1' : this.index1,
+              'index2' : this.index2,
               'data' : { 'avatar_public' : true }
             })
             this.pushFlash({

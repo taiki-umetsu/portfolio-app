@@ -1,19 +1,24 @@
 <template>
   <div id="avatar-field">
-    <div class="alert flash-message fixed-top" :class="alertColor" v-show="flash">{{flash}}</div>
+    <div class="alert flash-message fixed-top" 
+         :class="alertColor" 
+         v-show="flash">{{flash}}
+    </div>
     <div v-for="(list, $index1) in lists" :key="$index1" >
       <div class="row" v-for="(item, $index2) in list" :key="$index2">
-        <div class="wrapper shadow-sm col-6 offset-3" :class="setAvatarId(item['avatar_id'])" id="comment-wrap" v-show="item['avatar_field']">
+        <div class="wrapper shadow-sm col-6 offset-3"
+             :class="setAvatarId(item.avatar_id)"
+             id="comment-wrap">
           <div class="container">
             <div class="row d-flex align-items-center avatar-info">
-              <a :href="userPath(item['user_id'])">
-                <img :src="setImage(item['user_image'])" class="user-icon user-link" >
+              <a :href="userPath(item.user_id)">
+                <img :src="setImage(item.user_image)" class="user-icon user-link" >
               </a>
-              <a :href="userPath(item['user_id'])">
-                <div id="user-name">{{item['user_name']}}</div>
+              <a :href="userPath(item.user_id)">
+                <div id="user-name">{{item.user_name}}</div>
               </a>
               <div id="avatar-time">
-                <time class="text-muted">{{item['created_at'] | moment}}</time>
+                <time class="text-muted">{{item.created_at | moment}}</time>
               </div>
             </div> 
 
@@ -22,7 +27,7 @@
                 :id="iframe($index1,$index2)"
                 width="100%"
                 height="400px"
-                :src="avatarPath(item['avatar_id'])"
+                :src="avatarPath(item.avatar_id)"
               ></iframe>
             </div>
 
@@ -62,7 +67,7 @@
         </div>
       </div>
     </div>
-    <infinite-loading :distance='100' @infinite="infiniteHandler" ></infinite-loading>
+    <infinite-loading :distance='500' @infinite="infiniteHandler" ></infinite-loading>
   </div>
 </template>
 
@@ -105,9 +110,7 @@ export default {
     axios.defaults.headers.get["Accepts"] = "application/json";
   },
   methods: {
-    ...mapActions([
-      'pushToList', 'updateList'
-    ]),
+    ...mapActions(['pushToList', 'updateList']),
     infiniteHandler($state) {
       axios.get('/api/v1/avatars', {
         params: {

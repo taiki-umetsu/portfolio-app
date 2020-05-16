@@ -8,20 +8,20 @@
           </a>
         </div>
         <div v-else>
-          <div v-if="item['like_id'] == false">
+          <div v-if="item.like_id == false">
             <i class="far fa-heart" id="heart" 
-              @click="createLike(item['avatar_id'], index1, index2)"
+              @click="createLike"
             ></i>
           </div>
           <div v-else>
             <i class="fas fa-heart" id="heart" 
-              @click="destroyLike(item['like_id'], index1, index2)"
+              @click="destroyLike"
               ></i>
           </div>
         </div>
       </div>
       <div class="heart-counter inline">
-        {{item['like_count']}}
+        {{item.like_count}}
       </div>
     </div>
 </template>
@@ -48,29 +48,29 @@ export default {
   },
   methods: {
     ...mapActions(['updateList']),
-    destroyLike(like_id,index1,index2){
-      axios.delete(`/api/v1/likes/${like_id}`)
+    destroyLike(){
+      axios.delete(`/api/v1/likes/${this.item.like_id}`)
         .then(response => {
           if(response.data=='OK'){
             this.updateList({
-              'index1' : index1,
-              'index2' : index2,
+              'index1' : this.index1,
+              'index2' : this.index2,
               'data':{ 
-                'like_count' : this.lists[index1][index2]['like_count'] - 1,
+                'like_count' : this.lists[this.index1][this.index2]['like_count'] - 1,
                 'like_id' : false
               }
             })
           };
         })
     },
-    createLike(avatar_id,index1,index2){
-      axios.post('/api/v1/likes/', { avatar_id: avatar_id},)
+    createLike(){
+      axios.post('/api/v1/likes/', { avatar_id: this.item.avatar_id},)
         .then(response => {
           this.updateList({
-            'index1' : index1,
-            'index2' : index2,
+            'index1' : this.index1,
+            'index2' : this.index2,
             'data':{ 
-              'like_count' : this.lists[index1][index2]['like_count'] + 1,
+              'like_count' : this.lists[this.index1][this.index2]['like_count'] + 1,
               'like_id' : response.data['like_id']
             }
           })

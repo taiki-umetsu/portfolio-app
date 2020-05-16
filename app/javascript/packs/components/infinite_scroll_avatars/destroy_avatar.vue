@@ -1,7 +1,7 @@
 <template>
   <div v-if="currentUserId == item['user_id']">
       <i class="far fa-trash-alt destroy-avatar"
-        @click="destroyAvatar(item['avatar_id'], index1, index2)"
+        @click="destroyAvatar"
       ></i>
   </div>
 </template>
@@ -27,20 +27,25 @@ export default {
     baseUrl: String
   },
   methods: {
-    ...mapActions(['updateList', 'pushFlash']),
-    destroyAvatar(avatar_id,index1,index2){
+    ...mapActions(['updateList', 'pushFlash','destroyItem']),
+    destroyAvatar(){
       if(confirm('アバターを削除してもよろしいですか？')){
-        axios.delete(`/api/v1/avatars/${avatar_id}`)
+        axios.delete(`/api/v1/avatars/${this.item['avatar_id']}`)
           .then(response => {
             if(response.data=='OK'){
-              this.updateList({
-                'index1' : index1,
-                'index2' : index2,
-                'data' : { 'avatar_field' : false }
-              })
-              this.pushFlash('アバターを削除しました')
+              this.destroyItem({
+                'index1' : this.index1,
+                'index2' : this.index2
+              });
+              this.pushFlash({
+                'flash' : 'アバターを削除しました',
+                'alertColor' : 'alert-success'
+              });
             }else{
-              this.pushFlash('アバターを削除できませんでした')
+              this.pushFlash({
+                'flash' : 'アバターを削除できませんでした',
+                'alertColor' : 'alert-danger'
+              });
             };
           })
       };

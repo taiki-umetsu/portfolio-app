@@ -33,9 +33,10 @@ module Api
 
       def update
         avatar = Avatar.find(params[:id])
-        avatar.public = update_params[:avatar_public] || avatar.public
-        avatar.message = update_params[:message] || avatar.message
+        avatar.public = update_params[:avatar_public] unless update_params[:avatar_public].nil?
+        avatar.message = update_params[:message] unless update_params[:message].nil?
         data = avatar.save ? 'OK' : 'NG'
+
         render json: data
       end
 
@@ -86,6 +87,11 @@ module Api
 
         render json: 'アバターの削除権限がありません'
       end
+
+      def params_nil?(param,data)
+        param.nil? ? data : param 
+      end
+
     end
   end
 end

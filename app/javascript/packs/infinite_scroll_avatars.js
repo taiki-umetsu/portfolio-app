@@ -33,6 +33,9 @@ const store = new Vuex.Store({
     updateContent (state, content) {
       state.formInputContent = content
     },
+    destroyItem (state, payload) {
+      state.lists[payload.index1].splice(payload.index2,1);
+    }
   },
   actions: {
     pushToList(context, payload){
@@ -46,6 +49,9 @@ const store = new Vuex.Store({
     },
     updateContent (context, payload) {
       context.commit('updateContent', payload)
+    },
+    destroyItem (context, payload) {
+      context.commit('destroyItem', payload)
     },
   }
 })
