@@ -87,11 +87,6 @@ module Api
 
         render json: 'アバターの削除権限がありません'
       end
-
-      def params_nil?(param,data)
-        param.nil? ? data : param 
-      end
-
     end
   end
 end
