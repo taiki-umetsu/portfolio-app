@@ -20,7 +20,7 @@
         ></croppa>
         <div class="update-btn">
           <div class="btn btn-primary" @click="uploadCroppedImage">アップデート</div>
-          <img src="../assets/images/trim.gif" class="trim-gif" >
+          <img src="../../../assets/images/trim.gif" class="trim-gif" >
         </div>
       </div>
     </transition>
@@ -47,7 +47,7 @@ export default {
     }
   },
   computed: {
-    icon(){ return this.path ? this.path : require("../assets/images/default_icon.png") }
+    icon(){ return this.path ? this.path : require("../../../assets/images/default_icon.png") }
   },
   mounted () { 
     axios.defaults.baseURL = this.baseUrl;
