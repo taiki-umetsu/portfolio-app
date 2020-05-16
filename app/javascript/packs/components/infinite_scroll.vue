@@ -74,7 +74,7 @@ export default {
       });
     },
     setImage(image){
-      return image? image : require("../assets/images/default_icon.png")
+      return image? image : require("../../../assets/images/default_icon.png")
     },
     setCommmentId(id){
       return `comment${id}`
