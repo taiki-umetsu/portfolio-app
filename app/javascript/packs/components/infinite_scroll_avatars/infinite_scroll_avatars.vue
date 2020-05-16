@@ -98,8 +98,6 @@ export default {
   data() {
     return {
       avatar_page: 1,
-      avatarId: "",
-      commentContent: '',
     };
   },
   mounted () { 
@@ -126,7 +124,7 @@ export default {
       });
     },
     setImage(image){
-      return image? image : require("../assets/images/default_icon.png")
+      return image? image : require("../../../../assets/images/default_icon.png")
     },
     setAvatarId(avatar_id){
       return `avatar${avatar_id}`
