@@ -33,7 +33,8 @@ module Api
 
       def update
         avatar = Avatar.find(params[:id])
-        avatar.public = update_params[:avatar_public]
+        avatar.public = update_params[:avatar_public] || avatar.public
+        avatar.message = update_params[:message] || avatar.message
         data = avatar.save ? 'OK' : 'NG'
         render json: data
       end
@@ -68,7 +69,8 @@ module Api
             like_id: signed_in? ? current_user.likes.find_by(avatar_id: a.id)&.id || false : false,
             comment_id: signed_in? ? current_user.comments.find_by(avatar_id: a.id)&.id || false : false,
             comment_count: a.comments.count,
-            comment_field: false
+            comment_field: false,
+            message_board_field: false
           }
         end
         data

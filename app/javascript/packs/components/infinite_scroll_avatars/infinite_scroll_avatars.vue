@@ -43,14 +43,20 @@
                       :base-url="baseUrl"
                       :item='item'
                       :index1='$index1'
-                      :index2='$index2'>
-              </Public>
+                      :index2='$index2'
+              ></Public>
               <destroy-avatar :current-user-id="currentUserId"
                              :base-url="baseUrl"
                              :item='item'
                              :index1='$index1'
-                             :index2='$index2'>
-              </destroy-avatar>
+                             :index2='$index2'
+              ></destroy-avatar>
+              <message-board :current-user-id="currentUserId"
+                             :base-url="baseUrl"
+                             :item='item'
+                             :index1='$index1'
+                             :index2='$index2'
+              ></message-board>
             </div>
           </div>
         </div>
@@ -68,6 +74,7 @@ import Like from './like.vue';
 import Comment from './comment.vue';
 import Public from './public.vue';
 import DestroyAvatar from './destroy_avatar.vue';
+import MessageBoard from './message_board.vue';
 
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
@@ -82,6 +89,7 @@ export default {
     Comment,
     Public,
     DestroyAvatar,
+    MessageBoard,
   },
   props: {
     currentUserId: Number,
@@ -130,7 +138,7 @@ export default {
       return `/users/${user_id}`
     },
     iframe(index1,index2){
-      return `iframe${index1}-${index1}`
+      return `iframe${index1}-${index2}`
     },
   },
 

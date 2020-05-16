@@ -10,7 +10,8 @@ const store = new Vuex.Store({
   state: {
     lists: [],
     flash: '',
-    alertColor: ''
+    alertColor: '',
+    formInputContent: '',
   },
   mutations: {
     pushToList(state, payload) {
@@ -29,6 +30,9 @@ const store = new Vuex.Store({
         state.alertColor = false;
       } ,2000 );
     },
+    updateContent (state, content) {
+      state.formInputContent = content
+    },
   },
   actions: {
     pushToList(context, payload){
@@ -39,6 +43,9 @@ const store = new Vuex.Store({
     },
     pushFlash(context,payload){
       context.commit('pushFlash', payload)
+    },
+    updateContent (context, payload) {
+      context.commit('updateContent', payload)
     },
   }
 })
