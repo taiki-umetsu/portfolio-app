@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def app_name
-    'FaceRealAvatar'
+    'カオリアル'
   end
 
   def bootstrap_alert(key)

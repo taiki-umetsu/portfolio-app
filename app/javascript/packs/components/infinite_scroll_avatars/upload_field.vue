@@ -1,9 +1,9 @@
 <template>
     <transition name="slide-fade">
-      <div class="upload-field" v-show="fieldKey">
+      <div class="upload-field" v-show="fieldKey" >
         <div class="comment-form container">            
           <div class="row">
-            <div class="col-6 offset-3">
+            <div class="col-10 offset-1 col-md-6 offset-md-3">
               <div>
                 <transition name="slide-fade">
                   <i class="fas fa-times-circle fa-2x"
@@ -42,22 +42,22 @@ export default {
       }
     },    
     fieldKey(){
-      return this.lists[this.index1][this.index2][this.fieldKeyName]
+      return this.lists[this.keyName][this.index1][this.fieldKeyName]
     }
   },
   props: {
     index1: Number,
-    index2: Number,
     fieldKeyName: String,
     btnText: String,
     textAreaPlaceHolder: String,
+    keyName: String
   },
   methods: {
     ...mapActions(['updateList', 'updateContent']),
     closeField(){
       this.updateList({
           'index1' : this.index1,
-          'index2' : this.index2,
+          'keyName' : this.keyName,
           'data': { [this.fieldKeyName] : false} 
       })
     },
@@ -80,8 +80,10 @@ export default {
   margin: 0 -50vw;
   z-index: 5;
 }
+.comment-form{
+  margin-top:80px;
+}
 .fa-times-circle {
-  margin-top:50px;
   color: white;
 }
 .comment-form textarea{
@@ -98,13 +100,13 @@ export default {
 }
 /* animation */
 .slide-fade-enter-active {
-  transition: all .5s ease;
+  transition: all .2s ease;
 }
 .slide-fade-leave-active {
-  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .slide-fade-enter, .slide-fade-leave-to{
-  transform: translateY(-50px);
+  transform: translateY(-10px);
   opacity: 0;
 }
 </style>

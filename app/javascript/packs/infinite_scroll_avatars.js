@@ -8,18 +8,24 @@ Vue.use(Vuex)
 Vue.use(TurbolinksAdapter)
 const store = new Vuex.Store({
   state: {
-    lists: [],
+    lists: {
+      'avatarIndex' : [],
+      'userShow' : [],
+      'userLiking' : [],
+    },
     flash: '',
     alertColor: '',
     formInputContent: '',
   },
   mutations: {
     pushToList(state, payload) {
-      state.lists.push(payload)
+      for(let key in payload){
+        state.lists[key].push(payload[key][0])
+      }
     },
     updateList(state,payload){
       for(let key in payload.data){
-        Vue.set(state.lists[payload.index1][payload.index2], key, payload.data[key])
+        Vue.set(state.lists[payload.keyName][payload.index1], key, payload.data[key])
       }
     },
     pushFlash(state,payload) {
@@ -34,7 +40,12 @@ const store = new Vuex.Store({
       state.formInputContent = content
     },
     destroyItem (state, payload) {
-      state.lists[payload.index1].splice(payload.index2,1);
+      state.lists[payload.keyName].splice(payload.index1,1);
+    },
+    resetList(state) {
+      for(let key in state.lists){
+        state.lists[key].splice(0,state.lists[key].length)
+      }
     }
   },
   actions: {
@@ -53,6 +64,9 @@ const store = new Vuex.Store({
     destroyItem (context, payload) {
       context.commit('destroyItem', payload)
     },
+    resetList (context) {
+      context.commit('resetList')
+    }
   }
 })
 

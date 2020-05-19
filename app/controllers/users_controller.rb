@@ -2,10 +2,10 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: :show
+  before_action :set_base_url
   def index
     @avatars = Avatar.where(public: true).page(params[:page]).per(2)
     @comment = current_user.comments.build if user_signed_in?
-    @base_url = ENV['BASE_URL']
   end
 
   def show
@@ -16,6 +16,5 @@ class UsersController < ApplicationController
                  @user.avatars.where(public: true).page(params[:page]).per(1)
                end
     @comment = current_user.comments.build
-    @base_url = ENV['BASE_URL']
   end
 end

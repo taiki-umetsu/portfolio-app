@@ -23,8 +23,8 @@ export default {
     currentUserId: Number,
     item: Object,
     index1: Number,
-    index2: Number,
-    baseUrl: String
+    baseUrl: String,
+    keyName: String
   },
   methods: {
     ...mapActions(['updateList', 'pushFlash','destroyItem']),
@@ -35,7 +35,7 @@ export default {
             if(response.data=='OK'){
               this.destroyItem({
                 'index1' : this.index1,
-                'index2' : this.index2
+                'keyName' : this.keyName
               });
               this.pushFlash({
                 'flash' : 'アバターを削除しました',

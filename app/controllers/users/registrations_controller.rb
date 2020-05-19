@@ -4,6 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   require 'dotenv/load'
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  before_action :set_base_url, only: :edit
 
   # GET /resource/sign_up
   def new
@@ -18,7 +19,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/edit
   def edit
-    @base_url = ENV['BASE_URL']
     super
   end
 

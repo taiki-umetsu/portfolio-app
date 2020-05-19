@@ -23,7 +23,12 @@ Rails.application.routes.draw do
   # for Vue
   namespace :api, { format: 'json' } do
     namespace :v1 do
-      resources :users, only: %i[update edit]
+      resources :users, only: %i[update edit show] do
+        member do
+          get :image
+          get :liking
+        end
+      end
       resources :avatars, only: %i[show index update destroy]
       resources :comments, only: %i[create destroy]
       resources :likes, only: %i[create destroy]

@@ -43,8 +43,8 @@ export default {
     currentUserId: Number,
     item: Object,
     index1: Number,
-    index2: Number,
-    baseUrl: String
+    baseUrl: String,
+    keyName: String
   },
   methods: {
     ...mapActions(['updateList']),
@@ -54,9 +54,9 @@ export default {
           if(response.data=='OK'){
             this.updateList({
               'index1' : this.index1,
-              'index2' : this.index2,
+              'keyName' : this.keyName,
               'data':{ 
-                'like_count' : this.lists[this.index1][this.index2]['like_count'] - 1,
+                'like_count' : this.lists[this.keyName][this.index1]['like_count'] - 1,
                 'like_id' : false
               }
             })
@@ -68,9 +68,9 @@ export default {
         .then(response => {
           this.updateList({
             'index1' : this.index1,
-            'index2' : this.index2,
+            'keyName' : this.keyName,
             'data':{ 
-              'like_count' : this.lists[this.index1][this.index2]['like_count'] + 1,
+              'like_count' : this.lists[this.keyName][this.index1]['like_count'] + 1,
               'like_id' : response.data['like_id']
             }
           })
