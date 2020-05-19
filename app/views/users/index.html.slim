@@ -1,5 +1,7 @@
-h2 顔がリアルなアバターを作ってみよう
+
 - if @avatars.any?
   #infinite-scroll-avatars
-    Infinite[v-bind:base-url="'#{@base_url}'"
-             v-bind:current-user-id="#{current_user_id}"]
+    Infinite[:base-url="'#{@base_url}'"
+             :current-user-id="#{current_user_id}"
+             :api="'#{api_v1_avatars_path}'"
+             :key-name="'avatarIndex'"]

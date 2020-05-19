@@ -3,14 +3,19 @@
 @import "font-awesome";
 @import "./static_pages";
 
+*{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
 .flash-message {
-  margin-top: 40px;
+  margin-top: 60px;
   text-align: center;
 }
 
 header {
-  .navbar{
-    border: 1px solid #bbb;
+  height:60px;
+  background-color:white;
+  #app-name{
+    font-size: 20px;
   }
   a {
     text-decoration: none; 
@@ -54,7 +59,7 @@ h2 {
 body{
   background-color: #F8F9FF;
   .contents{
-    margin-top: 60px;
+    margin-top: 70px;
   }
 }
 
@@ -120,9 +125,10 @@ body{
 
 
 .user-top-wrapper{
+  margin: 0 auto;
   .user-name{
     margin-left:10px;
-    line-height:80px;
+    margin-top:10px;
   }
   button{
     position: absolute;
@@ -133,6 +139,11 @@ body{
     width: 80px;
     height: 80px;
     border-radius: 80px;
+  }
+  .user-info{
+    text-align:center;
+    margin:0;
+    padding:0;
   }
 }
 

@@ -52,7 +52,7 @@ export default {
   mounted () { 
     axios.defaults.baseURL = this.baseUrl;
     axios.defaults.headers.get["Accepts"] = "application/json";
-    axios.get(`/api/v1/users/${this.userId}/edit`)
+    axios.get(`/api/v1/users/${this.userId}/image`)
       .then(response => (this.path = response.data))
   },
   methods: {

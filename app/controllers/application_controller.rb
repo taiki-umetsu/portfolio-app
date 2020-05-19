@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
   def current_user?(user)
     current_user == user
   end
+
+  def set_base_url
+    @base_url = ENV['BASE_URL']
+  end
 end

@@ -1,15 +1,13 @@
-  header.navbar.navbar-light.border-bottom.fixed-top.shadow-sm style="background-color:rgba(255, 255, 255, .7)" 
-    .container
-      = link_to "FaceRealAvatar", root_path
-      nav
-        ul.nav.list-group-horizontal
-          - if user_signed_in?
-            li= link_to('AVATAR', current_user)
-            li= link_to('SETTING', edit_user_registration_path)
-            li= link_to('LOGOUT', destroy_user_session_path, method: :delete)
-          - else
-            li= link_to 'SIGNUP', new_user_registration_path
-            li= link_to 'LOGIN', new_user_session_path
-            .container-fluid#flash  
+header.navbar.navbar-light.border-bottom.fixed-top.shadow-sm
+  .container
+    #app-name= link_to app_name, root_path
+    nav
+      ul.nav.list-group-horizontal
+
+        #header-icon
+          Icon[:user-id="#{current_user_id}" :base-url="'#{@base_url}'"]
+
+          
+
 
 

@@ -7,7 +7,7 @@
     </div>
     <upload-field
       :index1="index1"
-      :index2="index2"
+      :key-name='keyName'
       :fieldKeyName="'message_board_field'"
       :btnText="'書き込む'"
       :textAreaPlaceHolder="'メッセージボードに書き込む'"
@@ -36,8 +36,8 @@ export default {
     currentUserId: Number,
     item: Object,
     index1: Number,
-    index2: Number,
-    baseUrl: String
+    baseUrl: String,
+    keyName: String
   },
   methods: {
     ...mapActions(['updateList','pushFlash', 'updateContent']),
@@ -58,7 +58,7 @@ export default {
                 'alertColor' : 'alert-success'
               })
             };
-            document.getElementById(`iframe${this.index1}-${this.index2}`).contentWindow.location.reload();
+            document.getElementById(`iframe${this.index1}`).contentWindow.location.reload();
             this.updateContent('')
           })
       }
@@ -66,14 +66,14 @@ export default {
     showField(){
       this.updateList({
           'index1' : this.index1,
-          'index2' : this.index2,
+          'keyName' : this.keyName,
           'data':{ 'message_board_field' : true }
       })
     },
     closeField(){
       this.updateList({
           'index1' : this.index1,
-          'index2' : this.index2,
+          'keyName' : this.keyName,
           'data':{ 'message_board_field' : false }
       })
     },

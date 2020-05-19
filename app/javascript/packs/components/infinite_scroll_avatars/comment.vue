@@ -26,9 +26,9 @@
     </div>
     <upload-field
       :index1="index1"
-      :index2="index2"
+      :key-name='keyName'
       :fieldKeyName="'comment_field'"
-      :btnText="'コメントする'"
+      :btnText="'コメント'"
       :textAreaPlaceHolder="`${item.user_name}さんのアバターへコメント`"
       @submit="createComment"
     ></upload-field>
@@ -55,8 +55,8 @@ export default {
     currentUserId: Number,
     item: Object,
     index1: Number,
-    index2: Number,
-    baseUrl: String
+    baseUrl: String,
+    keyName: String
   },
   methods: {
     ...mapActions(['updateList','pushFlash', 'updateContent']),
@@ -74,13 +74,13 @@ export default {
         }).then(response => {
             this.updateList({
                 'index1' : this.index1,
-                'index2' : this.index2,
+                'keyName' : this.keyName,
                 'data':{ 
-                  'comment_count' : this.lists[this.index1][this.index2].comment_count + 1,
+                  'comment_count' : this.lists[this.keyName][this.index1].comment_count + 1,
                   'comment_id' : response.data.comment_id
                 }
             })
-            document.getElementById(`iframe${this.index1}-${this.index2}`).contentWindow.location.reload();
+            document.getElementById(`iframe${this.index1}`).contentWindow.location.reload();
             this.updateContent('')
           })
       }
@@ -88,14 +88,14 @@ export default {
     closeField(){
       this.updateList({
           'index1' : this.index1,
-          'index2' : this.index2,
+          'keyName' : this.keyName,
           'data': { 'comment_field' : false} 
       })
     },
     showField(){
       this.updateList({
           'index1' : this.index1,
-          'index2' : this.index2,
+          'keyName' : this.keyName,
           'data':{ 'comment_field' : true }
       })
     },

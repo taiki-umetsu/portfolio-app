@@ -7,12 +7,6 @@ module Api
         render json: { error: '404 not found' }, status: :not_found
       end
 
-      def edit
-        user = User.find(params[:id])
-        image = user.image.attached? ? url_for(user.image) : false
-        render json: image
-      end
-
       def update
         user = User.find(updata_params[:id])
         user.image = updata_params[:image]
@@ -21,7 +15,27 @@ module Api
         render json: image
       end
 
-      def show; end
+      def image
+        user = User.find(params[:id])
+        image = user.image.attached? ? url_for(user.image) : false
+        render json: image
+      end
+
+      def show
+        user = User.find(params[:id])
+        avatars = if current_user?(user)
+                    user.avatars.page(params[:avatar_page]).per(1)
+                  else
+                    user.avatars.where(public: true).page(params[:avatar_page]).per(1)
+                  end
+        render json: data(avatars, 'userShow')
+      end
+
+      def liking
+        user = User.find(params[:id])
+        avatars = user.liking.where(public: true).page(params[:avatar_page]).per(1)
+        render json: data(avatars, 'userLiking')
+      end
 
       private
 
