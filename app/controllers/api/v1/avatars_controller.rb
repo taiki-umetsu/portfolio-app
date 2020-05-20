@@ -79,6 +79,7 @@ module Api
 
         render json: 'アバターの削除権限がありません'
       end
+
       def avatar_params
         params.permit(:image)
       end
