@@ -47,22 +47,28 @@ export default {
   },
   computed: {
     apiUserShow(){ return `/api/v1/users/${this.userId}` },
-    apiUserLiking(){ return `/api/v1/users/${this.userId}/liking` }
-
+    apiUserLiking(){ return `/api/v1/users/${this.userId}/liking` },
   },
   methods: {
     showCollectionTab(){
+      this.triggerInfiniteScroll()
       this.collectionTab = true;
       this.likingTab = false;
     },
     showLikingTab(){
+      this.triggerInfiniteScroll()
       this.collectionTab = false;
       this.likingTab = true;
 
     },
     loaded(){
       
-    }
+    },
+    triggerInfiniteScroll(){
+      if(window.scrollY==0){
+        scrollTo(0, 1);
+      };
+    },
   },
 
 }

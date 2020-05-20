@@ -66,7 +66,7 @@
         </div>
       </div>
     </div>
-    <infinite-loading :distance='500' @infinite="infiniteHandler" ></infinite-loading>
+    <infinite-loading :distance='100' @infinite="infiniteHandler" ></infinite-loading>
   </div>
 </template>
 
