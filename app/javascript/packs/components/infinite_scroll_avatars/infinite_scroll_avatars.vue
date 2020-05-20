@@ -22,7 +22,8 @@
           </div> 
 
           <div class="row" id="avatar-content">
-            <iframe class="avatar-frame" 
+            <iframe class="avatar-frame"
+              v-on:load="loaded"
               :id="iframe($index1)"
               width="100%"
               height="400px"
@@ -65,7 +66,7 @@
         </div>
       </div>
     </div>
-    <infinite-loading :distance='500' @infinite="infiniteHandler" ></infinite-loading>
+    <infinite-loading :distance='100' @infinite="infiniteHandler" ></infinite-loading>
   </div>
 </template>
 
@@ -147,6 +148,9 @@ export default {
     iframe(index1){
       return `iframe${index1}`
     },
+    loaded(){
+      this.$emit('loaded')
+    }
   },
   filters: {
     moment: function (date) {
