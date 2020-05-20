@@ -23,7 +23,7 @@
 
           <div class="row" id="avatar-content">
             <iframe class="avatar-frame"
-              v-on:load="loaded"
+              v-on:load="loaded($index1)"
               :id="iframe($index1)"
               width="100%"
               height="400px"
@@ -127,6 +127,7 @@ export default {
         if (response.data[`${this.keyName}`].length) {
           this.avatar_page += 1;
           this.pushToList(response.data);
+          this.loading(this.avatar_page - 2)
           $state.loaded();
         } else {
           $state.complete();
@@ -148,8 +149,11 @@ export default {
     iframe(index1){
       return `iframe${index1}`
     },
-    loaded(){
-      this.$emit('loaded')
+    loaded(index1){
+      this.$emit('loaded', index1)
+    },
+    loading(index1){
+      this.$emit('loading',index1)
     }
   },
   filters: {
