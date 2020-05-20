@@ -18,55 +18,9 @@
             h4.user-name=@user.name
           .col-6
             h6.user-name 公開アバター #{public_avatars_count(@user)}
-
+  
   .col-12.col-md-6.offset-md-3
-    ul.nav.nav-tabs
-      li.nav-item.active
-        a[href="#tab-collection-avatars" class="nav-link " data-toggle="tab"]
-          コレクション
-      li.nav-item
-        a[href="#tab-like-avatars" class="nav-link " data-toggle="tab"]
-          いいね
-  .tab-content#infinite-scroll-avatars
-      #tab-collection-avatars.tab-pane.active
-        - if @user.avatars.any?
-          Infinite[:base-url="'#{@base_url}'"
-                  :current-user-id="#{current_user_id}"
-                  :api="'#{api_v1_user_path(@user)}'"
-                  :key-name="'userShow'"]
-        - else
-          h4 アバターがありません
-      
-      #tab-like-avatars.tab-pane
-        - if @user.likes.any?
-          Infinite[:base-url="'#{@base_url}'"
-                  :current-user-id="#{current_user_id}"
-                  :api="'#{liking_api_v1_user_path(@user)}'"
-                  :key-name="'userLiking'"]
-        - else
-          h4 いいねがありません
-  button[type="button" data-toggle="collapse"
-        data-target="#avatar-create-field" aria-expanded="false"
-        aria-controls="avatar-create-field"
-        class="btn btn-primary"] #{icon 'fas', 'magic fa-x'}アバター作成
-
-  .avatar-create-wrapper.col-12.col-md-4.offset-md-1.collapse#avatar-create-field.shadow-sm.wrapper
-      = form_with url: avatars_path, local: true do |f|        
-            .avatar-input-image-file_field.container
-              = f.label '顔画像をアップロードしてください'
-              .row
-                #avater-input-box= f.file_field :picture, required:true
-                = f.submit 'アバター作成', class: "btn btn-primary avatar-create-btn"
-
-  - if @user.avatars.any?
-    ol.avatars
-      = render @avatars
-    .row
-      .col-5.offset-1.shadow-sm.wrapper
-        .container
-          .row
-            h5
-              |アバター #{@user.avatars.count}
-              |（公開 #{public_avatars_count(@user)}）
-          .row
-            = paginate @avatars
+    #tabs
+      Tabs[:base-url="'#{@base_url}'"
+           :current-user-id="#{current_user_id}"
+           :user-id="#{@user.id}"]
