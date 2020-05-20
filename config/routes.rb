@@ -29,7 +29,7 @@ Rails.application.routes.draw do
           get :liking
         end
       end
-      resources :avatars, only: %i[show index update destroy]
+      resources :avatars, only: %i[show index update create destroy]
       resources :comments, only: %i[create destroy]
       resources :likes, only: %i[create destroy]
     end
