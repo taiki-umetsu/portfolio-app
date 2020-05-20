@@ -1,29 +1,37 @@
 <template>
   <div>
-    <div class="container">
-      <div id="tabs" class="row d-flex align-items-center">
-        <p class="col-6" @click="showCollectionTab">コレクション</p>
-        <p class="col-6" @click="showLikingTab">いいね</p>
+    <div class="col-md-6 offset-md-3 tabs-container" :class="{'fixed': isFixed}">
+      <div class="container" >
+        <div id="tabs" class="row d-flex align-items-center shadow-under">
+          
+          <p class="col-6" :class="{'active': collectionTab}"
+            @click="showCollectionTab">
+              <i class="fas fa-user-astronaut fa-lg tab-icon"></i>
+          </p>
+          <p class="col-6" :class="{'active': likingTab }"
+            @click="showLikingTab">
+              <i class="fas fa-heart fa-lg tab-icon"></i>
+          </p>
+        </div>
       </div>
     </div>
+    <div class="col-12">
+      <Infinite :base-url="baseUrl"
+                :current-user-id="currentUserId"
+                :api="`${apiUserShow}`"
+                :key-name="'userShow'"
+                v-show="collectionTab"
+                @loaded="loaded"
+      ></Infinite>
 
-
-    <Infinite :base-url="baseUrl"
-              :current-user-id="currentUserId"
-              :api="`${apiUserShow}`"
-              :key-name="'userShow'"
-              v-show="collectionTab"
-              @loaded="loaded"
-    ></Infinite>
-
-    <Infinite :base-url="baseUrl"
-              :current-user-id="currentUserId"
-              :api="`${apiUserLiking}`"
-              :key-name="'userLiking'"
-              v-show="likingTab"
-              @loaded="loaded"
-    ></Infinite>
-
+      <Infinite :base-url="baseUrl"
+                :current-user-id="currentUserId"
+                :api="`${apiUserLiking}`"
+                :key-name="'userLiking'"
+                v-show="likingTab"
+                @loaded="loaded"
+      ></Infinite>
+    </div>
   </div>  
 </template>
 
@@ -42,8 +50,12 @@ export default {
     return {
       collectionTab: true,
       likingTab: false,
+      isFixed: false,
 
     }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.fixedPosition)
   },
   computed: {
     apiUserShow(){ return `/api/v1/users/${this.userId}` },
@@ -69,14 +81,49 @@ export default {
         scrollTo(0, 1);
       };
     },
+    fixedPosition(){
+      if(window.scrollY > 200 ){
+        this.isFixed = true
+      }else{
+        this.isFixed = false
+      };
+    },
   },
 
 }
 </script>
 
 <style scoped>
+  .tabs-container{
+    padding:0;
+  }
   #tabs {
     text-align: center;
+  }
+  #tabs p{
+    margin-bottom: 0px;
+  }
+  .fixed{
+    position: fixed;
+    top:57px;
+    left:0;
+    background-color:#F8F9FF;
+    padding:10px 0 0 0;
+    z-index:2;
+    width:100%;
+  }
+
+  .active{
+    border-bottom: 1px solid black;
+  }
+  .active .tab-icon{
+    color:black;
+  }
+  .tab-icon{
+    color:gray;
+  }
+  .shadow-under{
+     box-shadow: 0 4px 3px -3px lightgray;
   }
 
 </style>

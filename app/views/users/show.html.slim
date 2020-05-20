@@ -19,8 +19,7 @@
           .col-6
             h6.user-name 公開アバター #{public_avatars_count(@user)}
   
-  .col-12.col-md-6.offset-md-3
-    #tabs
-      Tabs[:base-url="'#{@base_url}'"
-           :current-user-id="#{current_user_id}"
-           :user-id="#{@user.id}"]
+  #tabs
+    Tabs[:base-url="'#{@base_url}'"
+          :current-user-id="#{current_user_id}"
+          :user-id="#{@user.id}"]
