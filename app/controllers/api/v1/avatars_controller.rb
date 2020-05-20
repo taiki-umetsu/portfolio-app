@@ -3,7 +3,7 @@
 module Api
   module V1
     class AvatarsController < ApiController
-      before_action :authenticate_user!, only: %i[destroy]
+      before_action :authenticate_user!, only: %i[create destroy]
       before_action :correct_user, only: [:destroy]
       rescue_from ActiveRecord::RecordNotFound do |_exception|
         render json: { error: '404 not found' }, status: :not_found
@@ -30,6 +30,19 @@ module Api
           }
         end
         render json: data
+      end
+
+      def create
+        if avatar_params.empty?
+          render json: '画像がありません'
+        else
+          image = avatar_params[:image].read
+          avatar = current_user.avatars.build
+          if avatar.save
+            avatar.generate(image)
+            render json: 'アバターを作成しました！'
+          end
+        end
       end
 
       def update
@@ -65,6 +78,9 @@ module Api
         return unless @avatar.nil?
 
         render json: 'アバターの削除権限がありません'
+      end
+      def avatar_params
+        params.permit(:image)
       end
     end
   end

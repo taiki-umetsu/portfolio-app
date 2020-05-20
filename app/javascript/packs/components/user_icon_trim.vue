@@ -62,7 +62,6 @@ export default {
     uploadCroppedImage() {
       this.croppa.generateBlob(
         blob => {
-          console.log(blob);
           const data = new FormData();
           data.append('image', blob,'image.png');
           axios.patch(`/api/v1/users/${this.userId}`, data, {
