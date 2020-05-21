@@ -1,11 +1,11 @@
 header.navbar.navbar-light.border-bottom.fixed-top.shadow-sm
   .container
     #app-name= link_to app_name, root_path
-    #create-avatar
-      create-avatar[:current-user-id="#{current_user_id}" :base-url="'#{@base_url}'"]
     nav
       ul.nav.list-group-horizontal
-        #header-icon
+        li#create-avatar
+          create-avatar[:current-user-id="#{current_user_id}" :base-url="'#{@base_url}'" class="create-avatar"]
+        li#header-icon
           Icon[:user-id="#{current_user_id}" :base-url="'#{@base_url}'"]
 
           

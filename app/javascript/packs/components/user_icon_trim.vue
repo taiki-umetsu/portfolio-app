@@ -154,11 +154,11 @@ export default {
     background-color: rgba(73, 73, 73, 0.5);
     width:100vw; 
     height: 100%;
-    position: absolute;
+    position: fixed;
     left: 50%;
     right: 50%;
-    top: 0;
-    margin: 0% -50vw;
+    top: 60px;
+    margin: 0 -50vw;
     z-index: 5;
   }
   .crop-field{
