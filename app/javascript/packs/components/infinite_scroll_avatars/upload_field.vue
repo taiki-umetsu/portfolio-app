@@ -76,19 +76,19 @@ export default {
   position: fixed;
   left: 50%;
   right: 50%;
-  top: 40px;
+  top: 60px;
   margin: 0 -50vw;
   z-index: 5;
 }
 .comment-form{
-  margin-top:80px;
+  margin-top:20px;
 }
 .fa-times-circle {
   color: white;
 }
 .comment-form textarea{
   height:100px;
-  margin-top:30px;
+  margin-top:20px;
   border-radius: 10px;
 }
 .comment-form .comment-btn{
