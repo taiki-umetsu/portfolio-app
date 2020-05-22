@@ -14,8 +14,16 @@ const store = new Vuex.Store({
     flash: '',
     alertColor: '',
     formInputContent: '',
+    loadingNow: '',
+    collectionTab: true,
+    likingTab: false,
   },
   mutations: {
+    unshiftToList(state, payload) {
+      for(let key in payload){
+        state.lists[key].unshift(payload[key][0])
+      }
+    },
     pushToList(state, payload) {
       for(let key in payload){
         state.lists[key].push(payload[key][0])
@@ -44,9 +52,35 @@ const store = new Vuex.Store({
       for(let key in state.lists){
         state.lists[key].splice(0,state.lists[key].length)
       }
-    }
+    },
+    loading(state){
+      state.loadingNow++;
+    },
+    loadingWhenCreateAvatar(state){
+      state.loadingNow += state.lists['userShow'].length
+    },
+    loaded(state){
+      state.loadingNow--;
+    },
+    showCollectionTab(state){
+      if(window.scrollY==0){
+        scrollTo(0, 1);
+      };
+      state.likingTab = false;
+      state.collectionTab = true;
+    },
+    showLikingTab(state){
+      if(window.scrollY==0){
+        scrollTo(0, 1);
+      };
+      state.collectionTab = false;
+      state.likingTab = true;
+    },
   },
   actions: {
+    unshiftToList(context, payload){
+      context.commit('unshiftToList', payload)
+    },
     pushToList(context, payload){
       context.commit('pushToList', payload)
     },
@@ -64,7 +98,22 @@ const store = new Vuex.Store({
     },
     resetList (context) {
       context.commit('resetList')
-    }
+    },
+    loading (context) {
+      context.commit('loading')
+    },
+    loaded (context) {
+      context.commit('loaded')
+    },
+    loadingWhenCreateAvatar (context) {
+      context.commit('loadingWhenCreateAvatar')
+    },
+    showCollectionTab(context) {
+      context.commit('showCollectionTab')
+    },
+    showLikingTab (context) {
+      context.commit('showLikingTab')
+    },
   }
 })
 

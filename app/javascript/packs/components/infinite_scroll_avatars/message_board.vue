@@ -40,7 +40,7 @@ export default {
     keyName: String
   },
   methods: {
-    ...mapActions(['updateList','pushFlash', 'updateContent']),
+    ...mapActions(['updateList','pushFlash', 'updateContent', 'loading']),
     updateMessageBoard(){
       if(!this.formInputContent || !this.formInputContent.match(/\S/g)){
         this.pushFlash({
@@ -59,7 +59,8 @@ export default {
               })
             };
             document.getElementById(`iframe${this.index1}`).contentWindow.location.reload();
-            this.updateContent('')
+            this.loading;
+            this.updateContent('');
           })
       }
     },

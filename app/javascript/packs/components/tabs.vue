@@ -7,17 +7,16 @@
           <button class="col-6" :class="{'active': collectionTab}"
             :disabled="loadingNowBoolean" @click="showCollectionTab">
               <i class="fas fa-user-astronaut fa-lg tab-icon"></i>
-              <p v-show="loadingNow&&collectionTab">Loading</p>
+              <div v-show="loadingNow&&collectionTab" class="spinner-loading"></div>
           </button>
           <button class="col-6" :class="{'active': likingTab }"
             :disabled="loadingNowBoolean" @click="showLikingTab">
               <i class="fas fa-heart fa-lg tab-icon"></i>
-              <p v-show="loadingNow&&likingTab">Loading</p>
+              <div v-show="loadingNow&&likingTab" class="spinner-loading"></div>
           </button>
         </div>
       </div>
     </div>
-
 
     <div class="col-12">
       <Infinite :base-url="baseUrl"
@@ -25,8 +24,6 @@
                 :api="`${apiUserShow}`"
                 :key-name="'userShow'"
                 v-show="collectionTab"
-                @loaded="loaded"
-                @loading="loading"
       ></Infinite>
 
       <Infinite :base-url="baseUrl"
@@ -34,8 +31,6 @@
                 :api="`${apiUserLiking}`"
                 :key-name="'userLiking'"
                 v-show="likingTab"
-                @loaded="loaded"
-                @loading="loading"
       ></Infinite>
     </div>
   </div>  
@@ -43,8 +38,9 @@
 
 <script>
 import Infinite from './infinite_scroll_avatars/infinite_scroll_avatars.vue'
-
 import axios from 'axios';
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
   props: {
     currentUserId: Number,
@@ -54,37 +50,22 @@ export default {
   components: { Infinite },
   data() {
     return {
-      collectionTab: true,
-      likingTab: false,
       isFixed: false,
-      loadingNow: ''
     }
   },
   mounted() {
-    window.addEventListener('scroll', this.fixedPosition)
+    window.addEventListener('scroll', this.fixedPosition),
+    this.triggerInfiniteScroll()
   },
   computed: {
     apiUserShow(){ return `/api/v1/users/${this.userId}` },
     apiUserLiking(){ return `/api/v1/users/${this.userId}/liking` },
-    loadingNowBoolean(){ return this.loadingNow == 0 ? false : true }
+    loadingNowBoolean(){ return this.loadingNow == 0 ? false : true },
+    ...mapState(['loadingNow', 'collectionTab', 'likingTab'])
+
   },
   methods: {
-    showCollectionTab(){
-      this.triggerInfiniteScroll()
-      this.collectionTab = true;
-      this.likingTab = false;
-    },
-    showLikingTab(){
-      this.triggerInfiniteScroll()
-      this.collectionTab = false;
-      this.likingTab = true;
-    },
-    loaded(){
-      this.loadingNow--;
-    },
-    loading(){
-      this.loadingNow++;
-    },
+    ...mapActions(['loading', 'loaded', 'showCollectionTab', 'showLikingTab']),
     triggerInfiniteScroll(){
       if(window.scrollY==0){
         scrollTo(0, 1);
@@ -141,5 +122,25 @@ export default {
     padding: 0;
     appearance: none;
   }
+
+.spinner-loading {
+  position: absolute;
+  top:6%;
+  left:32%;
+  width: 15px;
+  height: 15px;
+  border: 1px solid gray;
+  border-right: 1px solid transparent;
+  border-radius: 15px;
+  animation: loading 1s linear infinite;
+}
+@keyframes loading {
+  to {
+  }
+  from {
+    transform: rotate(360deg);
+    transform-origin: 50% 50%;
+  }
+}
 
 </style>
