@@ -59,7 +59,7 @@ export default {
     keyName: String
   },
   methods: {
-    ...mapActions(['updateList','pushFlash', 'updateContent']),
+    ...mapActions(['updateList','pushFlash', 'updateContent', 'loading']),
     createComment(){
       if(!this.formInputContent || !this.formInputContent.match(/\S/g)){
         this.pushFlash({
@@ -81,6 +81,7 @@ export default {
                 }
             })
             document.getElementById(`iframe${this.index1}`).contentWindow.location.reload();
+            this.loading;
             this.updateContent('')
           })
       }

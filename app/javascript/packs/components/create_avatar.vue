@@ -5,7 +5,7 @@
          v-show="flash">{{flash}}
     </div>
     <transition name="slide-fade">
-      <div class="upload-field" v-show="show" >
+      <div class="upload-field" v-show="showField" >
         <div class="comment-form container">            
           <div class="row content-field">
             <div class="col-10 offset-1 col-md-6 offset-md-3 responsive-wrapper">
@@ -13,7 +13,7 @@
                 <div class="close-field-btn">
                   <transition name="slide-fade">
                     <i class="fas fa-times-circle fa-2x"
-                      @click="show=!show"
+                      @click="showField=!showField"
                     ></i>
                   </transition>
                 </div>
@@ -40,9 +40,12 @@
         </div>
       </div>
     </transition>
-    <button class="show-create-avatar-field-btn" @click="show=!show">
+    <button class="show-create-avatar-field-btn"
+            @click="showField=!showField" 
+            v-show="!showCreating">
       <h2 class="plus">+</h2>
     </button>
+    <div class="spinner-creating" v-show="showCreating"></div>
   </div>
 </template>
 
@@ -58,18 +61,28 @@ export default {
   data() {
     return {
       croppa: null,
-      show: false,
+      showField: false,
+      showCreating: false,
     }
   },
   computed: {
-    ...mapState(['lists', 'flash', 'alertColor'])
+    ...mapState(['lists', 'flash', 'alertColor', 'loadingNow'])
   },
   mounted () { 
     axios.defaults.baseURL = this.baseUrl;
     axios.defaults.headers.get["Accepts"] = "application/json";
   },
   methods:{
-    ...mapActions(['updateList','pushFlash']),
+    ...mapActions(['updateList',
+                  　'pushFlash',
+                    'unshiftToList',
+                    'pushToList',
+                    'loading',
+                    'loaded',
+                    'loadingWhenCreateAvatar',
+                    'showCollectionTab',
+                    'showLikingTab'
+                  ]),
     onFileSizeExceed (file) {
       this.pushFlash({
         'flash' : 'ファイルサイズ2MB以下でアップロードして下さい',
@@ -77,7 +90,8 @@ export default {
       });
     },
     submit() {
-      if(this.croppa){
+      this.showCreating = true;
+      if(this.croppa.chosenFile==null){
         this.pushFlash({
           'flash' : '画像を選択してください',
           'alertColor' : 'alert-danger'
@@ -90,19 +104,32 @@ export default {
             axios.post('/api/v1/avatars', data, {
                 headers: {'content-type': 'multipart/form-data'}
               })
-              .then(response => (
-                console.log(response)
-              ))
+              .then(response => {
+                if (response.data['userShow'].length) {
+                  this.unshiftToList(response.data);
+                  this.showCreating = false;
+                  this.pushFlash({
+                    'flash' : 'アバターを作成しました！',
+                    'alertColor' : 'alert-success'
+                  });
+                  this.showCollectionTab();
+                  this.loadingWhenCreateAvatar();
+                };
+              })
               .catch(function (error) {
                 console.log(error);
               });
           },
           'image/png',0.8
         ), // 80% compressed png file
-        this.show = false;
+        this.showField = false;
       };
     },
+    sandbox(){
+      console.log(this.lists)
+    }
   },
+
 }
 </script>
 
@@ -172,7 +199,7 @@ export default {
   margin: 0 auto;
 }
 
-/* animation */
+/* field display animation */
 .slide-fade-enter-active {
   transition: all .2s ease;
 }
@@ -183,6 +210,23 @@ export default {
   transform: translateY(-10px);
   opacity: 0;
 }
-
+/* loading animation */
+.spinner-creating {
+  margin:5px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid gray;
+  border-right: 3px solid transparent;
+  border-radius: 30px;
+  animation: loading 1s linear infinite;
+}
+@keyframes loading {
+  to {
+  }
+  from {
+    transform: rotate(360deg);
+    transform-origin: 50% 50%;
+  }
+}
 
 </style>

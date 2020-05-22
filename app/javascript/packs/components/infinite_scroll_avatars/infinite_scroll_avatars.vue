@@ -4,10 +4,11 @@
          :class="alertColor" 
          v-show="flash">{{flash}}
     </div>
+
     <div class="row" v-for="(item, $index1) in lists[keyName]" :key="$index1" >
       <div class="wrapper shadow-sm col-12 col-md-6 offset-md-3"
             :class="setAvatarId(item.avatar_id)"
-            id="comment-wrap">
+            v-show="item.avatar_field">
         <div class="container">
           <div class="row d-flex align-items-center avatar-info">
             <a :href="userPath(item.user_id)">
@@ -23,7 +24,7 @@
 
           <div class="row" id="avatar-content">
             <iframe class="avatar-frame"
-              v-on:load="loaded($index1)"
+              @load="loaded"
               :id="iframe($index1)"
               width="100%"
               height="400px"
@@ -66,7 +67,7 @@
         </div>
       </div>
     </div>
-    <infinite-loading :distance='100' @infinite="infiniteHandler" ></infinite-loading>
+    <infinite-loading :distance='100' @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
@@ -114,10 +115,9 @@ export default {
   mounted () { 
     axios.defaults.baseURL = this.baseUrl;
     axios.defaults.headers.get["Accepts"] = "application/json";
-    
   },
   methods: {
-    ...mapActions(['pushToList', 'updateList', 'resetList']),
+    ...mapActions(['pushToList', 'updateList', 'resetList', 'loading', 'loaded']),
     infiniteHandler($state) {
       axios.get(this.api, {
         params: {
@@ -127,7 +127,7 @@ export default {
         if (response.data[`${this.keyName}`].length) {
           this.avatar_page += 1;
           this.pushToList(response.data);
-          this.loading(this.avatar_page - 2)
+          this.loading()
           $state.loaded();
         } else {
           $state.complete();
@@ -149,12 +149,6 @@ export default {
     iframe(index1){
       return `iframe${index1}`
     },
-    loaded(index1){
-      this.$emit('loaded', index1)
-    },
-    loading(index1){
-      this.$emit('loading',index1)
-    }
   },
   filters: {
     moment: function (date) {
@@ -167,9 +161,6 @@ export default {
 
 <style scoped>
 
-  #comment-wrap{
-  position: relative;
-  }
   .user-icon{
     width: 40px;
     height: 40px;

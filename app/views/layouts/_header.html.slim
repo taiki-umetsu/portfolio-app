@@ -3,8 +3,9 @@ header.navbar.navbar-light.border-bottom.fixed-top.shadow-sm
     #app-name= link_to app_name, root_path
     nav
       ul.nav.list-group-horizontal
-        li#create-avatar
-          create-avatar[:current-user-id="#{current_user_id}" :base-url="'#{@base_url}'" class="create-avatar"]
+        -if user_signed_in?
+          li#create-avatar
+            create-avatar[:current-user-id="#{current_user_id}" :base-url="'#{@base_url}'" class="create-avatar"]
         li#header-icon
           Icon[:user-id="#{current_user_id}" :base-url="'#{@base_url}'"]
 

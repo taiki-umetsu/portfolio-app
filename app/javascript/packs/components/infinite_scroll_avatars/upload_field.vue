@@ -59,7 +59,8 @@ export default {
           'index1' : this.index1,
           'keyName' : this.keyName,
           'data': { [this.fieldKeyName] : false} 
-      })
+      }),
+      this.updateContent('')
     },
     submit(){
       this.$emit('submit')

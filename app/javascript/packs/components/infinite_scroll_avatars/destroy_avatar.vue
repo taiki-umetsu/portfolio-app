@@ -33,9 +33,12 @@ export default {
         axios.delete(`/api/v1/avatars/${this.item['avatar_id']}`)
           .then(response => {
             if(response.data=='OK'){
-              this.destroyItem({
+              this.updateList({
                 'index1' : this.index1,
-                'keyName' : this.keyName
+                'keyName' : this.keyName,
+                'data':{ 
+                  'avatar_field' : false
+                }
               });
               this.pushFlash({
                 'flash' : 'アバターを削除しました',

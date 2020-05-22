@@ -40,7 +40,7 @@ module Api
           avatar = current_user.avatars.build
           if avatar.save
             avatar.generate(image)
-            render json: 'アバターを作成しました！'
+            render json: data([avatar], 'userShow')
           end
         end
       end
