@@ -127,7 +127,7 @@ export default {
         if (response.data[`${this.keyName}`].length) {
           this.avatar_page += 1;
           this.pushToList(response.data);
-          this.loading()
+          this.loading();
           $state.loaded();
         } else {
           $state.complete();

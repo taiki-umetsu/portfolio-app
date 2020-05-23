@@ -81,7 +81,7 @@ export default {
                 }
             })
             document.getElementById(`iframe${this.index1}`).contentWindow.location.reload();
-            this.loading;
+            this.loading();
             this.updateContent('')
           })
       }
