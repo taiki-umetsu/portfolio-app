@@ -17,6 +17,7 @@
         </div>
       </div>
     </div>
+    <p>{{formInputContent}}</p>
 
     <div class="col-12">
       <Infinite :base-url="baseUrl"
@@ -61,7 +62,7 @@ export default {
     apiUserShow(){ return `/api/v1/users/${this.userId}` },
     apiUserLiking(){ return `/api/v1/users/${this.userId}/liking` },
     loadingNowBoolean(){ return this.loadingNow == 0 ? false : true },
-    ...mapState(['loadingNow', 'collectionTab', 'likingTab'])
+    ...mapState(['loadingNow', 'collectionTab', 'likingTab', 'formInputContent'])
 
   },
   methods: {
