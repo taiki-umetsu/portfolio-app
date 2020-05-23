@@ -4,6 +4,6 @@ import GetUserIcon from 'get_user_icon'
 describe('GetUserIcon', () => {
   it('renders the correct markup', () => {
     const wrapper = mount(GetUserIcon)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.html()).toContain("<img :src='icon' class='user-icon'>")
   })
 })
