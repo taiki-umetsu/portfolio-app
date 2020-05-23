@@ -32,5 +32,4 @@ export default {
     height: 40px;
     border-radius: 40px;
   }
-
 </style>
