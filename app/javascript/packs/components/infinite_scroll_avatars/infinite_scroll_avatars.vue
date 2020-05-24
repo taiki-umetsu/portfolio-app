@@ -112,7 +112,7 @@ export default {
       this.resetList();
     })
   },
-  mounted () { 
+  mounted () {
     axios.defaults.baseURL = this.baseUrl;
     axios.defaults.headers.get["Accepts"] = "application/json";
   },
