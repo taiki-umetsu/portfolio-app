@@ -3,6 +3,8 @@ import Tabs from 'tabs'
 import Vuex from 'vuex'
 import Vue from 'vue'
 const localVue = createLocalVue()
+const triggerInfiniteScroll = jest.fn()
+global.scrollTo = jest.fn()
 localVue.use(Vuex)
 
 describe('Tabs', () => {
@@ -29,16 +31,10 @@ describe('Tabs', () => {
       },
       mutations: {
         showCollectionTab(state){
-          if(window.scrollY==0){
-            scrollTo(0, 1);
-          };
           state.likingTab = false;
           state.collectionTab = true;
         },
         showLikingTab(state){
-          if(window.scrollY==0){
-            scrollTo(0, 1);
-          };
           state.collectionTab = false;
           state.likingTab = true;
         },
@@ -49,6 +45,7 @@ describe('Tabs', () => {
       propsData: {
         currentUserId: 1, userId: 1
       },
+      method:{triggerInfiniteScroll},
       store, localVue,
     })
     vm = wrapper.vm
