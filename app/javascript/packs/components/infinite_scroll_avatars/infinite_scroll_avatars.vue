@@ -152,7 +152,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      moment.lang('ja');
+      moment.locale('ja');
       return moment(date).fromNow();
     },
   },

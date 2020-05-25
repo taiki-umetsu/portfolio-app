@@ -17,7 +17,6 @@ describe('GetUserIcon', () => {
       }, 
       sync: false
     })
-    const vm = wrapper.vm
     expect(axios.get).toHaveBeenCalledWith('/api/v1/users/1/image')
     expect(wrapper.html()).toContain("<img src=\"[object Object]\" class=\"user-icon\">")
   })

@@ -47,7 +47,7 @@ export default {
               'data' : { 'avatar_public' : false }
             })
             this.pushFlash({
-              'flash' : '非公開モードです',
+              'flash' : '非公開にしました',
               'alertColor' : 'alert-success'
             })
           };
@@ -63,7 +63,7 @@ export default {
               'data' : { 'avatar_public' : true }
             })
             this.pushFlash({
-              'flash' : '公開モードです',
+              'flash' : '公開しました',
               'alertColor' : 'alert-success'
             })
           };

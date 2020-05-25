@@ -1,15 +1,12 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import InfiniteScrollAvatars from 'infinite_scroll_avatars/infinite_scroll_avatars'
-import '@testing-library/jest-dom'
 import axios from 'axios'
 import Vuex from 'vuex'
-
-
+import Vue from 'vue'
 const localVue = createLocalVue()
 localVue.use(Vuex)
 jest.mock('axios')
-
-const response1 = {
+const response = {
   'data' : {'userShow' : [
     {
       'avatar_id': 1,
@@ -28,41 +25,20 @@ const response1 = {
     }
   ]}
 }
-const response2 = {
-  'data' : {'userShow' : [
-    {
-      'avatar_id': 2,
-      'avatar_public': true,
-      'avatar_field': true,
-      'created_at': '2020-05-24 17:15:45.333479 +0900',
-      'user_name': 'user',
-      'user_image': false,
-      'user_id': 1,
-      'like_count': 2,
-      'like_id': 1,
-      'comment_id': 1,
-      'comment_count': 2,
-      'comment_field': false,
-      'message_board_field': false
-    }
-  ]}
-}
 axios.get.mockImplementationOnce((url) => {
-  return Promise.resolve(response1)
-}).mockImplementationOnce((url) => {
-  return Promise.resolve(response2)
+  return Promise.resolve(response)
 })
-const infiniteHandler = jest.fn()
-
 
 describe('InfiniteScrollAvatars', () => {
   let actions
   let store
   let wrapper
-
+  let vm
   beforeEach(() => {
     actions = {
-      pushToList: jest.fn(),
+      pushToList(context, payload){
+        context.commit('pushToList', payload)
+      },
       updateList: jest.fn(),
       resetList: jest.fn(),
       loading: jest.fn(),
@@ -75,12 +51,13 @@ describe('InfiniteScrollAvatars', () => {
           'userShow' : [],
           'userLiking' : [],
         },
-        flash: '',
-        alertColor: '',
-        formInputContent: '',
-        loadingNow: '',
-        collectionTab: true,
-        likingTab: false,
+      },
+      mutations: {
+        pushToList(state, payload) {
+          for(let key in payload){
+            state.lists[key].push(payload[key][0])
+          }
+        }
       },
       actions
     })
@@ -88,12 +65,19 @@ describe('InfiniteScrollAvatars', () => {
       store, localVue
     })
     wrapper.setProps({ currentUserId: 1, keyName: 'userShow', api: '/api/v1/users/1'})
-    const vm = wrapper.vm
-    
+    vm = wrapper.vm
   })
 
   it('renders the correct markup', () => {
     expect(wrapper.html()).toContain("<div id=\"avatar-field\">")
   })
 
+  it('shows avatar after infinite loading is handled ', async () => {
+    expect(wrapper.html()).not.toContain("<div class=\"wrapper shadow-sm col-12 col-md-6 offset-md-3 avatar1\">")
+    vm.infiniteHandler()
+    expect(axios.get).toHaveBeenCalled()
+    expect(vm.lists['userShow'][0]).toBe(response['userShow'])
+    await Vue.nextTick()
+    expect(wrapper.html()).toContain("<div class=\"wrapper shadow-sm col-12 col-md-6 offset-md-3 avatar1\">")
+  })
 })
