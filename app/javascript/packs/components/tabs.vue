@@ -3,7 +3,6 @@
     <div class="col-md-6 offset-md-3 tabs-container" :class="{'fixed': isFixed}">
       <div class="container" >
         <div id="tabs" class="row d-flex align-items-center shadow-under">
-          
           <button class="col-6" :class="{'active': collectionTab}"
             :disabled="loadingNowBoolean" @click="showCollectionTab">
               <i class="fas fa-user-astronaut fa-lg tab-icon"></i>
@@ -17,7 +16,6 @@
         </div>
       </div>
     </div>
-    <p>{{formInputContent}}</p>
 
     <div class="col-12">
       <Infinite :base-url="baseUrl"
@@ -26,7 +24,6 @@
                 :key-name="'userShow'"
                 v-show="collectionTab"
       ></Infinite>
-
       <Infinite :base-url="baseUrl"
                 :current-user-id="currentUserId"
                 :api="`${apiUserLiking}`"
@@ -62,7 +59,7 @@ export default {
     apiUserShow(){ return `/api/v1/users/${this.userId}` },
     apiUserLiking(){ return `/api/v1/users/${this.userId}/liking` },
     loadingNowBoolean(){ return this.loadingNow == 0 ? false : true },
-    ...mapState(['loadingNow', 'collectionTab', 'likingTab', 'formInputContent'])
+    ...mapState(['loadingNow', 'collectionTab', 'likingTab'])
 
   },
   methods: {
