@@ -99,17 +99,6 @@ export default {
         ctx.closePath()
       })
     },
-    getUserImage(){
-      axios.get(`/api/v1/users/${this.userId}/edit`)
-        .then(response => (console.log(response.data)))
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
-    }
   }
 }
 </script>
