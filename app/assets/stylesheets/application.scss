@@ -250,3 +250,14 @@ body{
   position: absolute;
   left:calc(50% - 40px);
 }
+
+.edit-wrapper{
+  .btn{
+    width:150px;
+    margin:10px 0;
+    padding:5px;
+  }
+  .password-change:focus {
+    box-shadow:none !important;
+  }
+}
