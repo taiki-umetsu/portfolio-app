@@ -16,7 +16,8 @@
                 <div class="comment-btn">
                   <button class="btn btn-primary"
                     @click="submit"
-                  >{{btnText}}</button>
+                    >{{btnText}}
+                  </button>
                 </div>
               </div>
             </div>

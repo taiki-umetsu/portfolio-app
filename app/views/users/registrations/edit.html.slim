@@ -1,8 +1,9 @@
 .row
   .edit-wrapper.shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3
-    h2 登録内容を編集
-    #trim
-      <Trim v-bind:user-id= "#{resource.id}" v-bind:base-url="'#{@base_url}'"> 
+    h3 アカウント設定
+    .trim-wapper
+      #trim.wapper-center
+        Trim[:user-id= "#{resource.id}" :base-url="'#{@base_url}'"] 
     = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
       = render "devise/shared/error_messages", resource: resource
       .field
