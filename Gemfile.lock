@@ -1067,7 +1067,7 @@ GEM
     pre-commit (0.39.0)
       pluginator (~> 1.5)
     public_suffix (4.0.4)
-    puma (4.3.3)
+    puma (4.3.5)
       nio4r (~> 2.0)
     rack (2.2.2)
     rack-proxy (0.6.5)
@@ -1247,7 +1247,7 @@ DEPENDENCIES
   mini_magick
   mysql2 (>= 0.4.4)
   pre-commit
-  puma (~> 4.1)
+  puma (~> 4.3)
   rails (~> 6.0.2, >= 6.0.2.2)
   rails_12factor
   rqrcode
