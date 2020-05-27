@@ -28,6 +28,9 @@ Rails.application.routes.draw do
           get :image
           get :liking
         end
+        collection do
+          post :check_password
+        end
       end
       resources :avatars, only: %i[show index update create destroy]
       resources :comments, only: %i[create destroy]

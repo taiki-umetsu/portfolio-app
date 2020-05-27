@@ -250,3 +250,33 @@ body{
   position: absolute;
   left:calc(50% - 40px);
 }
+
+.edit-wrapper{
+  .btn{
+    width:150px;
+    margin:10px 0;
+    padding:5px;
+  }
+  .password-change:focus {
+    box-shadow:none !important;
+  }
+
+}
+
+.error{
+  color:#2AC0FF;
+  margin: 0;
+}
+
+input{
+  margin:0;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #c2c2c2;
+  &:focus{
+    border-bottom: 1px solid #2AC0FF;
+  }
+}
+label{
+  margin: 20px 0 0 0;
+}

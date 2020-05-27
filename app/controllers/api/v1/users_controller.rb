@@ -37,6 +37,10 @@ module Api
         render json: data(avatars, 'userLiking')
       end
 
+      def check_password
+        render json: current_user.valid_password?(params[:user][:current_password])
+      end
+
       private
 
       def updata_params

@@ -2,7 +2,7 @@ ja:
   activerecord:
     attributes:
       user:
-        current_password: "現在のパスワード"
+        current_password: "パスワード"
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "確認用パスワード"
@@ -31,7 +31,7 @@ ja:
               invalid: "は有効でありません。"
               confirmation: "が内容とあっていません。"
             password_confirmation:
-              confirmation: "がパスワードと一致しません"
+              confirmation: "がパスワードと一致しません。"
   devise:
     confirmations:
       new:
@@ -56,8 +56,9 @@ ja:
       edit:
         change_my_password: "パスワードを変更する"
         change_your_password: "パスワードを変更"
-        confirm_new_password: "確認用新しいパスワード"
-        new_password: "新しいパスワード"
+        confirm_new_password: "新パスワード(確認)"
+        new_password: "新パスワード"
+        password: "新パスワード"
       new:
         forgot_your_password: "パスワードを忘れましたか?"
         send_me_reset_password_instructions: "パスワードの再設定方法を送信する"
@@ -70,6 +71,7 @@ ja:
         title: "%{resource}編集"
         unhappy: "気に入りません"
         update: "更新"
+        password: "新パスワード"
         we_need_your_current_password_to_confirm_your_changes: "変更を反映するには現在のパスワードを入力してください"
       new:
         sign_up: "アカウント登録"

@@ -1,11 +1,16 @@
 .row
   .edit-wrapper.shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3
-    h3 アカウント設定
+    h4.text-center アイコンの設定
     .trim-wapper
       #trim.wapper-center
         Trim[:user-id= "#{resource.id}" :base-url="'#{@base_url}'"] 
-    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-      = render "devise/shared/error_messages", resource: resource
+
+  .edit-wrapper.shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3
+    h4.text-center.hello 登録内容の設定
+    = render "users/shared/error_messages", resource: resource
+    = form_for(resource, as: resource_name,
+      url: registration_path(resource_name),
+      html: { method:"put", id:"edit-form"}) do |f|
       .field
         = f.label :name
         br
@@ -19,34 +24,34 @@
           | Currently waiting confirmation for: 
           = resource.unconfirmed_email
       .field
-        = f.label :password
-        i
-          | (leave blank if you don't want to change it)
+        = f.label :current_password, 'パスワード'
         br
-        = f.password_field :password, autocomplete: "new-password"
-        - if @minimum_password_length
+        = f.password_field :current_password,
+          autocomplete: "current-password"
+      .text-right
+        button[type="button" data-toggle="collapse"
+              data-target="#password-change-field" aria-expanded="false"
+              aria-controls="password-change-field"
+              class="btn password-change"] パスワード変更 #{icon 'fas', 'angle-down fa-lg'}
+      .collapse#password-change-field
+        .field
+          = f.label :password, "新パスワード (#{@minimum_password_length}文字以上)"
           br
-          em
-            = @minimum_password_length
-            |  characters minimum
-      .field
-        = f.label :password_confirmation
-        br
-        = f.password_field :password_confirmation, autocomplete: "new-password"
-      .field
-        = f.label :current_password
-        i
-          | (we need your current password to confirm your changes)
-        br
-        = f.password_field :current_password, autocomplete: "current-password"
-      .actions
-        = f.submit "Update"
-    h3
-      | Cancel my account
-    p
-      | Unhappy? 
-      = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
-    = link_to "Back", :back
+          = f.password_field :password, autocomplete: "new-password"
+        .field
+          = f.label :password_confirmation, "新パスワード (確認)"
+          br
+          = f.password_field :password_confirmation, autocomplete: "new-password"
+      .actions.text-right
+        = f.submit "更新", class: "btn btn-primary"
+        
+  .edit-wrapper.shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3
+    h4.text-center アカウントの削除
+    .text-center= button_to "アカウント削除",
+      registration_path(resource_name),
+      data: { confirm: "アカウントを削除しますか？" }, 
+      method: :delete, 
+      class: "btn btn-secondary"
 
 
 
