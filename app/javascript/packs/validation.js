@@ -81,5 +81,43 @@ document.addEventListener('turbolinks:load', () => {
         remote: "パスワードが違います。"
       }
     }
+  }),
+  $("#signup-form").validate({
+    rules : {
+      "user[name]": {
+        required: true
+      },
+      "user[email]": {
+        required: true,
+        email: true
+      },
+      "user[password]": {
+        required: true,
+        minlength : 6
+      },
+      "user[password_confirmation]": {
+        required: true,
+        equalTo: "#user_password"
+      },
+
+    },
+    messages: {
+      "user[name]": {
+        required: "名前を入力して下さい。",
+        email: true
+      },
+      "user[email]": {
+        required: "メールアドレスを入力して下さい。",
+        email: "Eメールの形式で入力して下さい。"
+      },
+      "user[password]": {
+        required: "パスワードを入力して下さい。",
+        minlength : "6文字以上必要です。"
+      },
+      "user[password_confirmation]": {
+        required: "確認用パスワードを入力して下さい。",
+        equalTo: "パスワードと一致しません。"
+      },
+    }
   })
 })

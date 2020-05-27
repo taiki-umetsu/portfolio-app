@@ -1,32 +1,28 @@
 .row
   .sign-up-wrapper.shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3
-    h2.center SIGNUP
-    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+    h4.center アカウント作成
+    = form_for( resource, as: resource_name,
+                url: registration_path(resource_name),
+                html: {id:"signup-form"}) do |f|
       = render "users/shared/error_messages", resource: resource
       .field
         = f.label :name
         br
-        = f.text_field :name, autofocus: true, autocomplete: "name", required:true
+        = f.text_field :name, autofocus: true, autocomplete: "name"
       .field
         = f.label :email
         br
-        = f.email_field :email, autofocus: true, autocomplete: "email", required:true
+        = f.email_field :email, autofocus: true, autocomplete: "email"
       .field
-        = f.label :password
-        - if @minimum_password_length
-          em
-            | ( 
-            = @minimum_password_length
-            |  文字以上 )
-        br
-        = f.password_field :password, autocomplete: "new-password", required:true
+        = f.label :password, "パスワード（#{@minimum_password_length}文字以上）"
+        = f.password_field :password, autocomplete: "new-password"
       .field
-        = f.label :password_confirmation
+        = f.label :password_confirmation, "パスワード（確認）"
         br
-        = f.password_field :password_confirmation, autocomplete: "new-password", required:true
+        = f.password_field :password_confirmation, autocomplete: "new-password"
       - if line_user?
         .field
           = hidden_field_tag :linkToken, @link_token
-      .actions
+      .actions.text-right
         = f.submit "SIGN UP", class: "btn btn-primary shadow-sm float-right"
       

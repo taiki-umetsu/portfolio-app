@@ -14,7 +14,7 @@
         br
         = f.password_field :password, autocomplete: "current-password"
       - if devise_mapping.rememberable?
-        .field.form-check-inline.list-group-horizontal
+        .field.form-check-inline
           .form-check-input= f.check_box :remember_me
           .form-check-label= f.label :remember_me
       - if line_user?
