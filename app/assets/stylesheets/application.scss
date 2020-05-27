@@ -260,4 +260,23 @@ body{
   .password-change:focus {
     box-shadow:none !important;
   }
+
+}
+
+.error{
+  color:#2AC0FF;
+  margin: 0;
+}
+
+input{
+  margin:0;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #c2c2c2;
+  &:focus{
+    border-bottom: 1px solid #2AC0FF;
+  }
+}
+label{
+  margin: 20px 0 0 0;
 }

@@ -1,9 +1,8 @@
 - if resource.errors.any?
   #error_explanation
     .alert.alert-danger
-      = "#{resource.errors.count}つのエラーがあります!"
-    ul.list-unstyled
-      - resource.errors.full_messages.each do |message|
-        li
-          = message
+      ul.list-unstyled
+        - resource.errors.full_messages.each do |message|
+          li
+            = message
           

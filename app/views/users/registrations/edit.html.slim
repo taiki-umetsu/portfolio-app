@@ -4,12 +4,13 @@
     .trim-wapper
       #trim.wapper-center
         Trim[:user-id= "#{resource.id}" :base-url="'#{@base_url}'"] 
+
   .edit-wrapper.shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3
-    h4.text-center 登録内容の設定
+    h4.text-center.hello 登録内容の設定
+    = render "users/shared/error_messages", resource: resource
     = form_for(resource, as: resource_name,
       url: registration_path(resource_name),
-      html: { method: :put }) do |f|
-      = render "devise/shared/error_messages", resource: resource
+      html: { method:"put", id:"edit-form"}) do |f|
       .field
         = f.label :name
         br
@@ -26,8 +27,7 @@
         = f.label :current_password, 'パスワード'
         br
         = f.password_field :current_password,
-          autocomplete: "current-password",
-          required:true
+          autocomplete: "current-password"
       .text-right
         button[type="button" data-toggle="collapse"
               data-target="#password-change-field" aria-expanded="false"
@@ -44,6 +44,7 @@
           = f.password_field :password_confirmation, autocomplete: "new-password"
       .actions.text-right
         = f.submit "更新", class: "btn btn-primary"
+        
   .edit-wrapper.shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3
     h4.text-center アカウントの削除
     .text-center= button_to "アカウント削除",
