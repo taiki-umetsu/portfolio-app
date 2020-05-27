@@ -38,7 +38,13 @@ module Api
       end
 
       def check_password
-        render json: current_user.valid_password?(params[:user][:current_password])
+        if user_signed_in?
+          render json: current_user.valid_password?(params[:user][:current_password])
+        else
+          user = User.find_by(email: params[:email])
+          data = user.present? ? user.valid_password?(params[:password]) : false
+          render json: data
+        end
       end
 
       private
