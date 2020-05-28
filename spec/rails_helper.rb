@@ -87,3 +87,5 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+# dir for chrome driver
+Webdrivers.install_dir = '/usr/local/bin'

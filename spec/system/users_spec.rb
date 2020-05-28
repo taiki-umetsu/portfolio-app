@@ -4,10 +4,6 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
   let!(:me) { create(:user) }
-  before do
-    driven_by :selenium_chrome_headless
-  end
-
   describe 'Log in', js: true do
     context 'when valid email and password is filled in' do
       before do
@@ -48,7 +44,7 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
-  describe 'Sign up' do
+  describe 'Sign up', js: true do
     before do
       visit new_user_registration_path
     end
@@ -85,10 +81,29 @@ RSpec.describe 'Users', type: :system do
       visit edit_user_registration_path
     end
     it { expect(page).to have_css 'h4', text: '登録内容の設定' }
-    it 'edits icon image' do
-      expect(page).to_not have_css '.crop-field'
-      expect(page).to_not have_css '.upload-field'
-      find('#trim').click
+    it { expect(page).to have_css '#trim' }
+    it { expect(page).to_not have_css '.upload-field' }
+    it { expect(page).to_not have_css '.crop-field' }
+    describe 'edit icon image field' do
+      before do
+        find('#trim').find('.icon').click
+      end
+      it { expect(page).to have_css '.upload-field' }
+      it 'removes field' do
+        find('.fa-times-circle').click
+        expect(page).to_not have_css '.upload-field'
+      end
+      it 'shows flash when click update button with no image' do
+        find('.upload-field').find('.btn').click
+        expect(page).to have_content '画像を選択してください'
+      end
+      it 'uploads image to crop field' do
+        page.execute_script("$('input').css('margin-left', '')")
+        page.execute_script("$('input').attr('name', 'image')")
+        attach_file 'image', Rails.root.join('spec/fixtures/texture_face.png')
+        find('.upload-field').find('.btn').click
+        expect(page).to_not have_css '.upload-field'
+      end
     end
     describe 'edit account informations' do
       context 'when valid informations is filled in' do

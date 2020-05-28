@@ -6,25 +6,33 @@ RSpec.describe 'Avatars', type: :system do
   let(:user) { create(:user) }
   let(:avatar) { create(:avatar, user: user) }
 
-  describe 'create new avatar' do
+  describe 'create new avatar', js: true do
     before do
       sign_in user
       visit user_path(user)
+      find('.create-avatar').click
     end
-    it { expect(page).to have_button 'アバター作成' }
+    it { expect(page).to have_css '.upload-field' }
+    it 'removes field' do
+      find('.fa-times-circle').click
+      expect(page).to_not have_css '.upload-field'
+    end
+    it 'shows flash when click update button with no image' do
+      find('.upload-field').find('.btn').click
+      expect(page).to have_content '画像を選択してください'
+    end
+
     it 'create avatar by using Amazon Rekognition and S3', vcr: true do
-      within(:css, '.user-top-wrapper') do
-        click_button 'アバター作成'
-      end
-      attach_file 'picture', Rails.root.join('spec/fixtures/texture_face.png')
+      page.execute_script("$('input').css('margin-left', '')")
+      page.execute_script("$('input').attr('name', 'image')")
+      attach_file 'image', Rails.root.join('spec/fixtures/texture_face.png')
       VCR.use_cassette('create_avatar', preserve_exact_body_bytes: true) do
-        within(:css, '.avatar-create-wrapper') do
-          click_button 'アバター作成'
-        end
+        find('.upload-field').find('.btn').click
       end
-      expect(page).to have_content 'アバターを作成しました！'
+      expect(page).to_not have_css '.upload-field'
     end
   end
+
   describe 'delete avatar', js: true do
     let!(:me) { create(:user) }
     let!(:others) { create(:user) }
