@@ -34,3 +34,4 @@ yarn-debug.log*
 /sandbox.rb
 /spec/cassettes/
 /linebot_richmenu/
+/spec/system/sandbox.rb

@@ -6,6 +6,7 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.ignore_localhost = true
   c.configure_rspec_metadata!
+
   %w[recordable stubbed].each do |method|
     c.after_http_request("#{method}?".to_sym) do |request, _response|
       puts "- VCR - #{method} - [#{request.method}] #{request.parsed_uri}"
