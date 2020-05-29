@@ -21,15 +21,20 @@ RSpec.describe 'Avatars', type: :system do
       find('.upload-field').find('.btn').click
       expect(page).to have_content '画像を選択してください'
     end
-
-    it 'create avatar by using Amazon Rekognition and S3', vcr: true do
+    it 'no avatar at the page' do
+      within(:css, '#avatar-field') do
+        expect(page).to_not have_css '.wrapper'
+      end
+    end
+    it 'create avatar by using Amazon Rekognition and S3',
+       vcr: { cassette_name: 'create_avatar', preserve_exact_body_bytes: true } do
       page.execute_script("$('input').css('margin-left', '')")
       page.execute_script("$('input').attr('name', 'image')")
       attach_file 'image', Rails.root.join('spec/fixtures/texture_face.png')
-      VCR.use_cassette('create_avatar', preserve_exact_body_bytes: true) do
-        find('.upload-field').find('.btn').click
+      find('.upload-field').find('.btn').click
+      within(:css, '#avatar-field') do
+        expect(page).to have_css '.wrapper'
       end
-      expect(page).to_not have_css '.upload-field'
     end
   end
 
@@ -37,55 +42,104 @@ RSpec.describe 'Avatars', type: :system do
     let!(:me) { create(:user) }
     let!(:others) { create(:user) }
     let!(:avatar) { create(:avatar, user: me) }
+    let!(:others_avatar) { create(:avatar, user: others, public: true) }
     before do
       sign_in me
-      visit user_path(me)
-      sleep 0.5
     end
     it 'deletes avatar and files in S3 as well', vcr: true do
-      find('div[id=avatar-edit]').click
-      find('.tab-content').find('.fa-trash-alt').click
+      visit user_path(me)
+      expect(page).to have_content me.name
+      find('.destroy-avatar').click
       VCR.use_cassette('delete_avatar') do
         page.driver.browser.switch_to.alert.accept
       end
       expect(page).to have_content 'アバターを削除しました'
     end
     it "doesn't show the delete link in another user's page" do
-      click_on 'LOGOUT'
-      sign_in others
-      visit user_path(me)
-      expect(page).to_not have_link 'DELETE'
+      visit user_path(others)
+      expect(page).to have_content others.name
+      expect(page).to have_css ".avatar#{others_avatar.id}"
+      expect(page).to_not have_css '.destroy-avatar'
     end
   end
 
-  describe 'public function' do
+  describe 'public function', js: true do
     let!(:me) { create(:user) }
     let!(:others) { create(:user) }
     before do
       sign_in me
     end
-    describe 'check field to activate public function exist' do
+    describe 'the icon is shown to only avatar owner' do
+      context 'avatar owner' do
+        let!(:avatar) { create(:avatar, user: me) }
+        it 'shows icon' do
+          visit user_path(me)
+          within(:css, ".avatar#{avatar.id}") do
+            expect(page).to have_css '.locked-icon'
+          end
+        end
+      end
+      context 'not avatar owner' do
+        let!(:avatar) { create(:avatar, user: others, public: true) }
+        it 'does not show icon' do
+          visit user_path(others)
+          within(:css, ".avatar#{avatar.id}") do
+            expect(page).to_not have_css '.locked-icon'
+          end
+        end
+      end
+    end
+    describe 'click the icon to swich public/private mode' do
       let!(:avatar) { create(:avatar, user: me) }
       before do
         visit user_path(me)
-        find('div[id=avatar-edit]').click
       end
-      it { expect(page).to have_selector 'div[class=form-check-input]' }
-      it { expect(page).to have_unchecked_field('avatar[public]') }
+      it { expect(page).to_not have_css '.unlocked-icon' }
+      it { expect(page).to have_css '.locked-icon' }
+      context 'switch to public' do
+        before do
+          find('.locked-icon').click
+          visit current_path
+        end
+        it { expect(page).to have_content me.name }
+        it 'has icon expresses public' do
+          within(:css, ".avatar#{avatar.id}") do
+            expect(page).to_not have_css '.locked-icon'
+            expect(page).to have_css '.unlocked-icon'
+          end
+        end
+      end
+      context 'switch to private' do
+        before do
+          find('.locked-icon').click
+          sleep 1
+          find('.unlocked-icon').click
+          visit current_path
+        end
+        it { expect(page).to have_content me.name }
+        it 'has icon expresses private' do
+          within(:css, ".avatar#{avatar.id}") do
+            expect(page).to_not have_css '.unlocked-icon'
+            expect(page).to have_css '.locked-icon'
+          end
+        end
+      end
     end
-    context 'private mode' do
-      let!(:avatar) { create(:avatar, user: others, public: false) }
-      before do
-        visit user_path(others)
+    describe 'how  public/private mode avatar has seen' do
+      context 'private mode' do
+        let!(:avatar) { create(:avatar, user: others, public: false) }
+        before do
+          visit user_path(others)
+        end
+        it { expect(page).to_not have_css ".avatar#{avatar.id}" }
       end
-      it { expect(page).to_not have_selector 'iframe' }
-    end
-    context 'public mode' do
-      let!(:avatar) { create(:avatar, user: others, public: true) }
-      before do
-        visit user_path(others)
+      context 'public mode' do
+        let!(:avatar) { create(:avatar, user: others, public: true) }
+        before do
+          visit user_path(others)
+        end
+        it { expect(page).to have_css ".avatar#{avatar.id}" }
       end
-      it { expect(page).to have_selector 'iframe' }
     end
   end
 
