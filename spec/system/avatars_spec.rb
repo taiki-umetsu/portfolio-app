@@ -50,6 +50,7 @@ RSpec.describe 'Avatars', type: :system do
       visit user_path(me)
       expect(page).to have_content me.name
       find('.destroy-avatar').click
+      sleep 0.5
       VCR.use_cassette('delete_avatar') do
         page.driver.browser.switch_to.alert.accept
       end
@@ -93,6 +94,7 @@ RSpec.describe 'Avatars', type: :system do
       let!(:avatar) { create(:avatar, user: me) }
       before do
         visit user_path(me)
+        sleep 0.5
       end
       it { expect(page).to_not have_css '.unlocked-icon' }
       it { expect(page).to have_css '.locked-icon' }
@@ -100,8 +102,8 @@ RSpec.describe 'Avatars', type: :system do
         before do
           find('.locked-icon').click
           visit current_path
+          sleep 0.5
         end
-        it { expect(page).to have_content me.name }
         it 'has icon expresses public' do
           within(:css, ".avatar#{avatar.id}") do
             expect(page).to_not have_css '.locked-icon'
@@ -112,9 +114,11 @@ RSpec.describe 'Avatars', type: :system do
       context 'switch to private' do
         before do
           find('.locked-icon').click
-          sleep 1
+          visit current_path
+          sleep 0.5
           find('.unlocked-icon').click
           visit current_path
+          sleep 0.5
         end
         it { expect(page).to have_content me.name }
         it 'has icon expresses private' do
@@ -143,10 +147,10 @@ RSpec.describe 'Avatars', type: :system do
     end
   end
 
-  describe 'message function' do
+  describe 'message function', js: true do
     let!(:me) { create(:user) }
     let!(:others) { create(:user) }
-    let!(:others_avatar) { create(:avatar, user: others) }
+    let!(:others_avatar) { create(:avatar, user: others, public: true) }
     let!(:my_avatar) { create(:avatar, user: me) }
     before do
       sign_in me
@@ -154,25 +158,47 @@ RSpec.describe 'Avatars', type: :system do
     context 'at my page' do
       before do
         visit user_path(me)
-        fill_in 'avatar[message]', with: 'Hello'
-        click_on 'アップデート'
+        sleep 0.5
+        find(".avatar#{my_avatar.id}").find('.message-board-icon').click
+        sleep 0.5
       end
-      it { expect(page).to have_content 'アップデートしました' }
+      it 'shows field' do
+        expect(page).to have_content 'カオリアル'
+        expect(page).to have_css '.upload-field'
+      end
+      it 'removes field' do
+        find('.fa-times-circle').click
+        sleep 0.5
+        expect(page).to_not have_css '.upload-field'
+      end
+      it 'can not send when click update button with no message' do
+        find('.upload-field').find('.btn').click
+        expect(page).to have_css '.alert-danger'
+      end
+      it 'shows flash when click update button with no message' do
+        fill_in 'メッセージボードに書き込む(最大40文字)', with: 'hello world'
+        find('.upload-field').find('.btn').click
+        sleep 0.5
+        expect(page).to_not have_css '.upload-field'
+        expect(page).to have_selector('.alert-success', text: 'メッセージボードを更新しました')
+      end
     end
     context 'at others page' do
       before do
         visit user_path(others)
       end
-      it { expect(page).to_not have_selector 'div[id=avatar-edit]' }
-      it { expect(page).to_not have_css '#avatar_message' }
+      it { expect(page).to have_css ".avatar#{others_avatar.id}" }
+      it { expect(page).to_not have_css '.message-board-icon' }
     end
     context 'fill over 40 characters' do
       before do
         visit user_path(me)
-        fill_in 'avatar[message]', with: 'a' * 41
-        click_on 'アップデート'
+        sleep 0.5
+        find(".avatar#{my_avatar.id}").find('.message-board-icon').click
+        sleep 0.5
+        fill_in 'メッセージボードに書き込む(最大40文字)', with: 'a' * 41
       end
-      it { expect(page).to have_content 'アップデートできませんでした' }
+      it { expect(find('#content-form').value).to match 'a' * 40 }
     end
   end
 end
