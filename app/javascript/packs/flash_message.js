@@ -1,3 +1,3 @@
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener("turbolinks:load", () => {
   setTimeout("$('.flash-message').fadeOut('slow')", 2000);
-})
+});

@@ -1,18 +1,15 @@
-import TurbolinksAdapter from 'vue-turbolinks'
-import Vue from 'vue/dist/vue.esm'
-import Infinite from './components/infinite_scroll.vue'
+import TurbolinksAdapter from "vue-turbolinks";
+import Vue from "vue/dist/vue.esm";
+import Infinite from "./components/infinite_scroll.vue";
 
-   
+Vue.use(TurbolinksAdapter);
 
-Vue.use(TurbolinksAdapter)
-
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener("turbolinks:load", () => {
   const app = new Vue({
-    el: '#infinite-scroll',
+    el: "#infinite-scroll",
     data: () => {
-      return {
-      }
+      return {};
     },
-    components: { Infinite }
-  })
-})
+    components: { Infinite },
+  });
+});

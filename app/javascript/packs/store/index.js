@@ -1,120 +1,123 @@
-import Vue from 'vue/dist/vue.esm'
-import Vuex from 'vuex'
-import 'es6-promise/auto'
+import Vue from "vue/dist/vue.esm";
+import Vuex from "vuex";
+import "es6-promise/auto";
 
-
-Vue.use(Vuex)
+Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     lists: {
-      'avatarIndex' : [],
-      'userShow' : [],
-      'userLiking' : [],
+      avatarIndex: [],
+      userShow: [],
+      userLiking: [],
     },
-    flash: '',
-    alertColor: '',
-    formInputContent: '',
-    loadingNow: '',
+    flash: "",
+    alertColor: "",
+    formInputContent: "",
+    loadingNow: "",
     collectionTab: true,
     likingTab: false,
   },
   mutations: {
     unshiftToList(state, payload) {
-      for(let key in payload){
-        state.lists[key].unshift(payload[key][0])
+      for (let key in payload) {
+        state.lists[key].unshift(payload[key][0]);
       }
     },
     pushToList(state, payload) {
-      for(let key in payload){
-        state.lists[key].push(payload[key][0])
+      for (let key in payload) {
+        state.lists[key].push(payload[key][0]);
       }
     },
-    updateList(state,payload){
-      for(let key in payload.data){
-        Vue.set(state.lists[payload.keyName][payload.index1], key, payload.data[key])
+    updateList(state, payload) {
+      for (let key in payload.data) {
+        Vue.set(
+          state.lists[payload.keyName][payload.index1],
+          key,
+          payload.data[key]
+        );
       }
     },
-    pushFlash(state,payload) {
+    pushFlash(state, payload) {
       state.alertColor = payload.alertColor;
       state.flash = payload.flash;
       setTimeout(() => {
         state.flash = false;
         state.alertColor = false;
-      } ,2000 );
+      }, 2000);
     },
-    updateContent (state, content) {
-      state.formInputContent = content
+    updateContent(state, content) {
+      state.formInputContent = content;
     },
-    destroyItem (state, payload) {
-      state.lists[payload.keyName].splice(payload.index1,1);
+    destroyItem(state, payload) {
+      state.lists[payload.keyName].splice(payload.index1, 1);
     },
     resetList(state) {
-      for(let key in state.lists){
-        state.lists[key].splice(0,state.lists[key].length)
+      for (let key in state.lists) {
+        state.lists[key].splice(0, state.lists[key].length);
       }
     },
-    loading(state){
+    loading(state) {
       state.loadingNow++;
     },
-    loadingWhenCreateAvatar(state){
-      state.loadingNow += state.lists['userShow'].length
+    loadingWhenCreateAvatar(state) {
+      state.loadingNow += state.lists["userShow"].length;
     },
-    loaded(state){
+    loaded(state) {
       state.loadingNow--;
     },
-    showCollectionTab(state){
-      if(window.scrollY==0){
+    showCollectionTab(state) {
+      if (window.scrollY == 0) {
         scrollTo(0, 1);
-      };
+      }
       state.likingTab = false;
       state.collectionTab = true;
     },
-    showLikingTab(state){
-      if(window.scrollY==0){
+    showLikingTab(state) {
+      if (window.scrollY == 0) {
         scrollTo(0, 1);
-      };
+      }
       state.collectionTab = false;
       state.likingTab = true;
     },
   },
   actions: {
-    unshiftToList(context, payload){
-      context.commit('unshiftToList', payload)
+    unshiftToList(context, payload) {
+      context.commit("unshiftToList", payload);
     },
-    pushToList(context, payload){
-      context.commit('pushToList', payload)
+    pushToList(context, payload) {
+      context.commit("pushToList", payload);
     },
-    updateList(context, payload){
-      context.commit('updateList', payload)
+    updateList(context, payload) {
+      context.commit("updateList", payload);
     },
-    pushFlash(context,payload){
-      context.commit('pushFlash', payload)
+    pushFlash(context, payload) {
+      context.commit("pushFlash", payload);
     },
-    updateContent (context, payload) {
-      context.commit('updateContent', payload)
+    updateContent(context, payload) {
+      context.commit("updateContent", payload);
     },
-    destroyItem (context, payload) {
-      context.commit('destroyItem', payload)
+    destroyItem(context, payload) {
+      context.commit("destroyItem", payload);
     },
-    resetList (context) {
-      context.commit('resetList')
+    resetList(context) {
+      context.commit("resetList");
     },
-    loading (context) {
-      context.commit('loading')
+    loading(context) {
+      context.commit("loading");
     },
-    loaded (context) {
-      context.commit('loaded')
+    loaded(context) {
+      context.commit("loaded");
     },
-    loadingWhenCreateAvatar (context) {
-      context.commit('loadingWhenCreateAvatar')
+    loadingWhenCreateAvatar(context) {
+      context.commit("loadingWhenCreateAvatar");
     },
     showCollectionTab(context) {
-      context.commit('showCollectionTab')
+      context.commit("showCollectionTab");
     },
-    showLikingTab (context) {
-      context.commit('showLikingTab')
+    showLikingTab(context) {
+      context.commit("showLikingTab");
     },
-  }
-})
+  },
+});
 
-export default store
+export default store;
