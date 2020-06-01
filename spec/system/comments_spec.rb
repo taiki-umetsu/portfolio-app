@@ -10,25 +10,25 @@ RSpec.describe 'Comments', type: :system do
     before do
       sign_in me
       visit user_path(others)
-      find('div[id=avatar-comment]').click
-      find('div[id=tab-comment').find('div[id=comment-create-btn').find('button').click
+      sleep 0.5
+      find('#avatar-comment').click
       sleep 0.5
     end
-    it { expect(page).to have_button 'コメント' }
-    context 'fill something in comment form' do
-      before do
-        fill_in 'comment[content]', with: 'LGTM'
-        click_on 'コメント'
-      end
-      it { expect(page).to have_content 'コメントしました！' }
+    it { expect(page).to have_css '.upload-field' }
+    it 'fill something in comment form' do
+      fill_in "#{avatar.user.name}さんのアバターへコメント(最大40文字)", with: 'LGTM'
+      click_on 'コメント'
+      expect(page).to have_content 'コメントしました！'
     end
-    context 'fill nothing in comment form' do
-      before do
-        fill_in 'comment[content]', with: ''
-        click_on 'コメント'
-      end
-      it { expect(page).to_not have_content 'コメントしました！' }
-      it { expect(page).to have_xpath("//textarea[@required='required']") }
+    it 'fill nothing in comment form' do
+      fill_in "#{avatar.user.name}さんのアバターへコメント(最大40文字)", with: ''
+      click_on 'コメント'
+      expect(page).to have_content 'フォームに入力してください'
+    end
+    it 'removes field' do
+      find('.fa-times-circle').click
+      sleep 0.5
+      expect(page).to_not have_css '.upload-field'
     end
   end
   pending 'can not load comment writtten by Vue' do

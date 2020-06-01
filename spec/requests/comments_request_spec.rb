@@ -9,17 +9,15 @@ RSpec.describe 'Comments', type: :request do
     context 'as a sign in user' do
       before do
         sign_in user
-        post comments_path, params: { comment: { avatar_id: avatar.id, content: 'LGTM' } }
+        post api_v1_comments_path, params: { comment: { avatar_id: avatar.id, content: 'LGTM' } }
       end
-      it { expect(response).to redirect_to root_url }
-      it { expect(flash[:success]).to be_truthy }
+      it { expect(response).to have_http_status(:success) }
     end
     context 'as a not sign in user' do
       before do
-        post comments_path, params: { avatar_id: avatar.id, content: 'LGTM' }
+        post api_v1_comments_path, params: { comment: { avatar_id: avatar.id, content: 'LGTM' } }
       end
-      it { expect(response).to redirect_to new_user_session_url }
-      it { expect(flash[:alert]).to be_truthy }
+      it { expect(response.body).to eq '{"error":"アカウント登録もしくはログインしてください。"}' }
     end
   end
 
@@ -31,25 +29,22 @@ RSpec.describe 'Comments', type: :request do
     context 'as a sign in user' do
       before do
         sign_in user
-        delete comment_path(my_comment)
+        delete api_v1_comment_path(my_comment)
       end
-      it { expect(response).to redirect_to root_url }
-      it { expect(flash[:success]).to be_truthy }
+      it { expect(response).to have_http_status(:success) }
     end
     context 'as a not sign in user' do
       before do
-        delete comment_path(my_comment)
+        delete api_v1_comment_path(my_comment)
       end
-      it { expect(response).to redirect_to new_user_session_url }
-      it { expect(flash[:alert]).to be_truthy }
+      it { expect(response.body).to eq '{"error":"アカウント登録もしくはログインしてください。"}' }
     end
     context 'try to destroy others comment' do
       before do
         sign_in user
-        delete comment_path(others_comment)
+        delete api_v1_comment_path(others_comment)
       end
-      it { expect(response).to redirect_to root_url }
-      it { expect(flash[:danger]).to be_truthy }
+      it { expect(response.body).to eq 'コメントの削除権限がありません' }
     end
   end
 end
