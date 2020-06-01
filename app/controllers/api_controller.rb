@@ -2,6 +2,9 @@
 
 class ApiController < ActionController::API
   # protect_from_forgery with: :null_session
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
+    render json: { error: '404 not found' }, status: :not_found
+  end
   def data(avatars, key)
     data = { key => [] }
     avatars.each do |a|

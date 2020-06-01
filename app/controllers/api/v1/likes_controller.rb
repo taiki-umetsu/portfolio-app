@@ -3,10 +3,8 @@
 module Api
   module V1
     class LikesController < ApiController
-      rescue_from ActiveRecord::RecordNotFound do |_exception|
-        render json: { error: '404 not found' }, status: :not_found
-      end
-
+      before_action :authenticate_user!, only: %i[create destroy]
+      before_action :your_like?, only: %i[destroy]
       def create
         like = current_user.likes.build(avatar_id: params[:avatar_id])
         like.save
@@ -17,6 +15,14 @@ module Api
         like = current_user.likes.find(params[:id])
         like.destroy
         render json: 'OK'
+      end
+
+      private
+
+      def your_like?
+        return if Like.find(params[:id]).user_id == current_user.id
+
+        render json: 'いいねの削除権限がありません'
       end
     end
   end

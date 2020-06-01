@@ -3,10 +3,6 @@
 module Api
   module V1
     class UsersController < ApiController
-      rescue_from ActiveRecord::RecordNotFound do |_exception|
-        render json: { error: '404 not found' }, status: :not_found
-      end
-
       def update
         user = User.find(updata_params[:id])
         user.image = updata_params[:image]

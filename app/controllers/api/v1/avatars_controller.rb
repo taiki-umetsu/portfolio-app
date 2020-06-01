@@ -5,9 +5,6 @@ module Api
     class AvatarsController < ApiController
       before_action :authenticate_user!, only: %i[create destroy]
       before_action :correct_user, only: [:destroy]
-      rescue_from ActiveRecord::RecordNotFound do |_exception|
-        render json: { error: '404 not found' }, status: :not_found
-      end
 
       def index
         avatars = Avatar.where(public: true).page(params[:avatar_page]).per(1)
@@ -56,6 +53,7 @@ module Api
 
       def destroy
         data = if @avatar.destroy
+                 @avatar.destroy_s3_file
                  'OK'
                else
                  'NG'
