@@ -10,8 +10,8 @@
                     @click="closeField"
                   ></i>
                 </transition>
-                <textarea id="comment" :placeholder="textAreaPlaceHolder"
-                  v-model="formInputContent"
+                <textarea id="content-form" :placeholder="placeHolder"
+                  v-model="formInputContent" maxlength="40"
                 ></textarea>
                 <div class="comment-btn">
                   <button class="btn btn-primary"
@@ -26,6 +26,7 @@
       </div>
     </transition>
 </template>
+
 
 <script>
 import { mapState } from 'vuex'
@@ -44,6 +45,9 @@ export default {
     },    
     fieldKey(){
       return this.lists[this.keyName][this.index1][this.fieldKeyName]
+    },
+    placeHolder () {
+      return this.textAreaPlaceHolder + '(最大40文字)'
     }
   },
   props: {
