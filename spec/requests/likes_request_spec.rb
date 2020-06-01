@@ -5,20 +5,19 @@ require 'rails_helper'
 RSpec.describe 'Likes', type: :request do
   describe 'POST #create' do
     let!(:user)   { create(:user) }
-    let!(:avatar) { create(:avatar) }
+    let!(:avatar) { create(:avatar, user: user) }
     context 'as a sign in user' do
       before do
         sign_in user
-        post likes_path, params: { like: { avatar_id: avatar.id } }
+        post api_v1_likes_path, params: { avatar_id: avatar.id }
       end
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to have_http_status(:success) }
     end
     context 'as a not sign in user' do
       before do
-        post likes_path, params: { avatar_id: avatar.id }
+        post api_v1_likes_path, params: { avatar_id: avatar.id }
       end
-      it { expect(response).to redirect_to new_user_session_url }
-      it { expect(flash[:alert]).to be_truthy }
+      it { expect(response.body).to eq '{"error":"アカウント登録もしくはログインしてください。"}' }
     end
   end
 
@@ -33,24 +32,22 @@ RSpec.describe 'Likes', type: :request do
     context 'as a sign in user' do
       before do
         sign_in user
-        delete like_path(my_like)
+        delete api_v1_like_path(my_like)
       end
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to have_http_status(:success) }
     end
     context 'as a not sign in user' do
       before do
-        delete like_path(my_like)
+        delete api_v1_like_path(my_like)
       end
-      it { expect(response).to redirect_to new_user_session_url }
-      it { expect(flash[:alert]).to be_truthy }
+      it { expect(response.body).to eq '{"error":"アカウント登録もしくはログインしてください。"}' }
     end
     context 'try to destroy others like' do
       before do
         sign_in user
-        delete like_path(others_like)
+        delete api_v1_like_path(others_like)
       end
-      it { expect(response).to redirect_to root_url }
-      it { expect(flash[:danger]).to be_truthy }
+      it { expect(response.body).to eq 'いいねの削除権限がありません' }
     end
   end
 end

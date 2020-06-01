@@ -83,6 +83,10 @@ export default {
             document.getElementById(`iframe${this.index1}`).contentWindow.location.reload();
             this.loading();
             this.updateContent('')
+            this.pushFlash({
+              'flash' : 'コメントしました！',
+              'alertColor' : 'alert-success'
+            })
           })
       }
     },

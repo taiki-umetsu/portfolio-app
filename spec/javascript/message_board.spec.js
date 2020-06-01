@@ -122,7 +122,7 @@ describe('Comment', () => {
       expect(vm.flash).not.toBe('メッセージボードを更新しました')
       open_field_icon.trigger('click')
       await Vue.nextTick()
-      wrapper.find("#comment").setValue('メッセージ１')
+      wrapper.find("#content-form").setValue('メッセージ１')
       await Vue.nextTick()
       expect(vm.formInputContent).toBe('メッセージ１')
       wrapper.find(".btn").trigger('click')

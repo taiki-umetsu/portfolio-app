@@ -126,7 +126,7 @@ describe('Comment', () => {
       expect(wrapper.find(".comment-counter").text()).toBe('0')
       open_field_icon.trigger('click')
       await Vue.nextTick()
-      wrapper.find("#comment").setValue('コメント１')
+      wrapper.find("#content-form").setValue('コメント１')
       await Vue.nextTick()
       expect(vm.formInputContent).toBe('コメント１')
       wrapper.find(".btn").trigger('click')
