@@ -3,9 +3,9 @@
 module Api
   module V1
     class CommentsController < ApiController
-      rescue_from ActiveRecord::RecordNotFound do |_exception|
-        render json: { error: '404 not found' }, status: :not_found
-      end
+      before_action :authenticate_user!, only: %i[create destroy]
+      before_action :your_comment?, only: %i[destroy]
+
       def create
         comment = current_user.comments.build(create_comment_params)
         comment.save
@@ -22,6 +22,12 @@ module Api
 
       def create_comment_params
         params.require(:comment).permit(:avatar_id, :content)
+      end
+
+      def your_comment?
+        return if Comment.find(params[:id]).user_id == current_user.id
+
+        render json: 'コメントの削除権限がありません'
       end
     end
   end
