@@ -8,16 +8,18 @@
             h6 = @user.avatars.count
             h6 投稿
           .col-3.follower.user-info
-            h6 50
+            h6#followers =@user.followers.count
             h6 フォロワー
           .col-3.following.user-info
-            h6 50
+            h6 =@user.following.count
             h6 フォロー中
         .row.d-flex.align-items-center
-          .col-5
+          .col-4
             h4.user-name=@user.name
-          .col-6
+          .col-4
             h6.user-name 公開アバター #{public_avatars_count(@user)}
+          .col-4
+            = render 'follow_form' if user_signed_in?
   
   #tabs
     Tabs[:base-url="'#{@base_url}'"
