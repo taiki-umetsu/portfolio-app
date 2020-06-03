@@ -7,7 +7,12 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     registrations: 'users/registrations'
   }
-  resources :users, only: %i[index show]
+  resources :users, only: %i[index show] do
+    member do
+      get :following, :followers
+    end
+  end
+  resources :relationships, only: %i[create destroy]
   resources :avatars, only: %i[show] do
     member do
       get :markerless_ar

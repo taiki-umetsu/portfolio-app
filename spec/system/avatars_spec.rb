@@ -48,6 +48,7 @@ RSpec.describe 'Avatars', type: :system do
     end
     it 'deletes avatar and files in S3 as well', vcr: true do
       visit user_path(me)
+      sleep 0.5
       expect(page).to have_content me.name
       find('.destroy-avatar').click
       sleep 0.5
