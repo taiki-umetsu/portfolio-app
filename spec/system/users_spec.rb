@@ -79,6 +79,7 @@ RSpec.describe 'Users', type: :system do
     before do
       sign_in me
       visit edit_user_registration_path
+      sleep 0.5
     end
     it { expect(page).to have_css 'h4', text: '登録内容の設定' }
     it { expect(page).to have_css '#trim' }
@@ -87,6 +88,7 @@ RSpec.describe 'Users', type: :system do
     describe 'edit icon image field' do
       before do
         find('#trim').find('.icon').click
+        sleep 0.5
       end
       it { expect(page).to have_css '.upload-field' }
       it 'removes field' do

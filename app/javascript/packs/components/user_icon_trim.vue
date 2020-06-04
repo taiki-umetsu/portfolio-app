@@ -1,12 +1,6 @@
 <template>
   <div>
-    <div
-      class="alert flash-message fixed-top"
-      :class="alertColor"
-      v-show="flash"
-    >
-      {{ flash }}
-    </div>
+    <div class="alert flash-message fixed-top" :class="alertColor" v-show="flash">{{ flash }}</div>
     <div class="icon" @click="imageUploadField">
       <div class="fillter"></div>
       <i class="fas fa-camera-retro fa-2x"></i>
@@ -16,9 +10,7 @@
       <div class="upload-field" v-show="uploadField">
         <div class="trim-field container">
           <div class="row">
-            <div
-              class="col-10 offset-1 col-md-6 offset-md-3 responsive-wrapper"
-            >
+            <div class="col-10 offset-1 col-md-6 offset-md-3 responsive-wrapper">
               <div class="items-wrapper">
                 <transition name="slide-fade">
                   <i class="fas fa-times-circle fa-2x" @click="removeField"></i>
@@ -40,15 +32,10 @@
                 ></croppa>
                 <ul class="update-btn">
                   <li class="gif">
-                    <img
-                      src="../../../assets/images/trim.gif"
-                      class="trim-gif"
-                    />
+                    <img src="../../../assets/images/trim.gif" class="trim-gif" />
                   </li>
                   <li>
-                    <div class="btn btn-primary" @click="uploadCroppedImage">
-                      アップデート
-                    </div>
+                    <div class="btn btn-primary" @click="uploadCroppedImage">アップデート</div>
                   </li>
                 </ul>
               </div>
@@ -67,13 +54,13 @@ import { mapActions } from "vuex";
 export default {
   props: {
     userId: Number,
-    baseUrl: String,
+    baseUrl: String
   },
   data() {
     return {
       croppa: null,
       uploadField: "",
-      path: "",
+      path: ""
     };
   },
   computed: {
@@ -82,14 +69,14 @@ export default {
       return this.path
         ? this.path
         : require("../../../assets/images/default_icon.png");
-    },
+    }
   },
   mounted() {
     axios.defaults.baseURL = this.baseUrl;
     axios.defaults.headers.get["Accepts"] = "application/json";
     axios
       .get(`/api/v1/users/${this.userId}/image`)
-      .then((response) => (this.path = response.data));
+      .then(response => (this.path = response.data));
   },
   methods: {
     ...mapActions(["pushFlash"]),
@@ -100,22 +87,22 @@ export default {
       if (this.croppa.chosenFile == null) {
         this.pushFlash({
           flash: "画像を選択してください",
-          alertColor: "alert-danger",
+          alertColor: "alert-danger"
         });
       } else {
         this.croppa.generateBlob(
-          (blob) => {
+          blob => {
             const data = new FormData();
             data.append("image", blob, "image.png");
             axios
               .patch(`/api/v1/users/${this.userId}`, data, {
-                headers: { "content-type": "multipart/form-data" },
+                headers: { "content-type": "multipart/form-data" }
               })
-              .then((response) => {
+              .then(response => {
                 this.path = response.data;
                 this.pushFlash({
                   flash: "アイコン画像をアップデートしました！",
-                  alertColor: "alert-success",
+                  alertColor: "alert-success"
                 });
               })
               .catch(function(error) {
@@ -149,8 +136,8 @@ export default {
         ctx.arc(x + w / 2, y + h / 2, w / 2, 0, 2 * Math.PI, true);
         ctx.closePath();
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

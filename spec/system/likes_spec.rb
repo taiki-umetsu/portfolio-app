@@ -36,6 +36,7 @@ RSpec.describe 'Likes', type: :system do
     before do
       sign_in me
       visit user_path(others)
+      sleep 0.5
     end
     it 'confirms the number of likes counter' do
       within(:css, '.heart-counter') do
@@ -43,10 +44,9 @@ RSpec.describe 'Likes', type: :system do
       end
     end
     context 'try to destroy my like' do
-      before do
-        find('#heart').click
-      end
       it 'decreases the number of likes counter' do
+        find('#heart').click
+        sleep 0.5
         within(:css, '.heart-counter') do
           expect(page).to have_content 0
         end

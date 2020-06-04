@@ -9,9 +9,12 @@ Vue.use(Croppa);
 Vue.use(TurbolinksAdapter);
 
 document.addEventListener("turbolinks:load", () => {
-  const app = new Vue({
-    el: "#trim",
-    store,
-    components: { Trim },
-  });
+  const el = document.getElementById("trim");
+  if (el) {
+    const app = new Vue({
+      el: el,
+      store,
+      components: { Trim },
+    });
+  }
 });
