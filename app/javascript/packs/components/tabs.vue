@@ -61,6 +61,12 @@ export default {
       isFixed: false
     };
   },
+  beforeCreate() {
+    document.addEventListener("turbolinks:click", () => {
+      this.resetLoadingNow();
+      this.resetTab();
+    });
+  },
   mounted() {
     window.addEventListener("scroll", this.fixedPosition),
       this.triggerInfiniteScroll();
@@ -78,7 +84,14 @@ export default {
     ...mapState(["loadingNow", "collectionTab", "likingTab"])
   },
   methods: {
-    ...mapActions(["loading", "loaded", "showCollectionTab", "showLikingTab"]),
+    ...mapActions([
+      "loading",
+      "loaded",
+      "showCollectionTab",
+      "showLikingTab",
+      "resetLoadingNow",
+      "resetTab"
+    ]),
     triggerInfiniteScroll() {
       if (window.scrollY == 0) {
         scrollTo(0, 100);
