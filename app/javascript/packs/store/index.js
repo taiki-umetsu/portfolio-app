@@ -56,6 +56,13 @@ const store = new Vuex.Store({
         state.lists[key].splice(0, state.lists[key].length);
       }
     },
+    resetLoadingNow(state) {
+      state.loadingNow = "";
+    },
+    resetTab(state) {
+      state.collectionTab = true;
+      state.likingTab = false;
+    },
     loading(state) {
       state.loadingNow++;
     },
@@ -101,6 +108,12 @@ const store = new Vuex.Store({
     },
     resetList(context) {
       context.commit("resetList");
+    },
+    resetLoadingNow(context) {
+      context.commit("resetLoadingNow");
+    },
+    resetTab(context) {
+      context.commit("resetTab");
     },
     loading(context) {
       context.commit("loading");
