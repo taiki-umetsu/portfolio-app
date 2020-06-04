@@ -17,4 +17,18 @@ class UsersController < ApplicationController
                end
     @comment = current_user.comments.build
   end
+
+  def following
+    @title = 'フォロー中'
+    @user  = User.find(params[:id])
+    @api = 'following'
+    render 'show_follow'
+  end
+
+  def followers
+    @title = 'フォロワー'
+    @user  = User.find(params[:id])
+    @api = 'followers'
+    render 'show_follow'
+  end
 end

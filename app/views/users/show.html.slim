@@ -8,11 +8,13 @@
             h6 = @user.avatars.count
             h6 投稿
           .col-3.follower.user-info
-            h6#followers =@user.followers.count
-            h6 フォロワー
+            =link_to followers_user_path(@user), class: 'follow-link' do
+              h6#followers =@user.followers.count
+              h6 フォロワー
           .col-3.following.user-info
-            h6 =@user.following.count
-            h6 フォロー中
+            =link_to following_user_path(@user), class: 'follow-link' do
+              h6 =@user.following.count
+              h6 フォロー中
         .row.d-flex.align-items-center
           .col-4
             h4.user-name=@user.name
