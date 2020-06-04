@@ -6,9 +6,12 @@ import store from "./store/index.js";
 Vue.use(TurbolinksAdapter);
 
 document.addEventListener("turbolinks:load", () => {
-  const app = new Vue({
-    el: "#infinite-scroll-avatars",
-    store,
-    components: { Infinite },
-  });
+  const el = document.getElementById("infinite-scroll-avatars");
+  if (el) {
+    const app = new Vue({
+      el: el,
+      store,
+      components: { Infinite },
+    });
+  }
 });

@@ -22,7 +22,8 @@
             h6.user-name 公開アバター #{public_avatars_count(@user)}
           .col-4
             = render 'follow_form' if user_signed_in?
-  
+
+
   #tabs
     Tabs[:base-url="'#{@base_url}'"
           :current-user-id="#{current_user_id}"

@@ -8,19 +8,25 @@ import store from "./store/index.js";
 
 Vue.use(TurbolinksAdapter);
 Vue.use(Croppa);
-
+//app1 and app2 share the store
 document.addEventListener("turbolinks:load", () => {
-  const app1 = new Vue({
-    el: "#tabs",
-    store,
-    components: { Tabs },
-  });
+  const el = document.getElementById("tabs");
+  if (el) {
+    const app1 = new Vue({
+      el: el,
+      store,
+      components: { Tabs },
+    });
+  }
 });
 
 document.addEventListener("turbolinks:load", () => {
-  const app2 = new Vue({
-    el: "#create-avatar",
-    store,
-    components: { CreateAvatar },
-  });
+  const el = document.getElementById("create-avatar");
+  if (el) {
+    const app2 = new Vue({
+      el: el,
+      store,
+      components: { CreateAvatar },
+    });
+  }
 });
