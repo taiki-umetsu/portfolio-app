@@ -25,8 +25,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: %i[update edit show] do
         member do
-          get :image
-          get :liking
+          get :following, :followers, :image, :liking
         end
         collection do
           post :check_password

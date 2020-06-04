@@ -285,3 +285,30 @@ label {
     border: 1px solid #0a7cfb;
   }
 }
+.follow-link {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  &:hover {
+    color: gray;
+    text-decoration: none;
+  }
+}
+.follow-wrapper {
+  margin: 50px auto 0 auto;
+  padding-top: 10px;
+}
+
+.follow-top-wrapper {
+  z-index: 2;
+  margin: 60px auto 0 auto;
+  background-color: #f8f9ff;
+  box-shadow: 0 4px 3px -3px lightgray;
+  a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    &:hover {
+      color: gray;
+      text-decoration: none;
+    }
+  }
+}

@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      class="col-md-6 offset-md-3 tabs-container"
-      :class="{ fixed: isFixed }"
-    >
+    <div class="col-md-6 offset-md-3 tabs-container" :class="{ fixed: isFixed }">
       <div class="container">
         <div id="tabs" class="row d-flex align-items-center shadow-under">
           <button
@@ -13,10 +10,7 @@
             @click="showCollectionTab"
           >
             <i class="fas fa-user-astronaut fa-lg tab-icon"></i>
-            <div
-              v-show="loadingNow && collectionTab"
-              class="spinner-loading"
-            ></div>
+            <div v-show="loadingNow && collectionTab" class="spinner-loading"></div>
           </button>
           <button
             class="col-6"
@@ -59,12 +53,12 @@ export default {
   props: {
     currentUserId: Number,
     userId: Number,
-    baseUrl: String,
+    baseUrl: String
   },
   components: { Infinite },
   data() {
     return {
-      isFixed: false,
+      isFixed: false
     };
   },
   mounted() {
@@ -81,13 +75,13 @@ export default {
     loadingNowBoolean() {
       return this.loadingNow == 0 ? false : true;
     },
-    ...mapState(["loadingNow", "collectionTab", "likingTab"]),
+    ...mapState(["loadingNow", "collectionTab", "likingTab"])
   },
   methods: {
     ...mapActions(["loading", "loaded", "showCollectionTab", "showLikingTab"]),
     triggerInfiniteScroll() {
       if (window.scrollY == 0) {
-        scrollTo(0, 1);
+        scrollTo(0, 100);
       }
     },
     fixedPosition() {
@@ -96,8 +90,8 @@ export default {
       } else {
         this.isFixed = false;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
