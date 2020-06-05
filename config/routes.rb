@@ -15,11 +15,13 @@ Rails.application.routes.draw do
   resources :relationships, only: %i[create destroy]
   resources :avatars, only: %i[show] do
     member do
-      get :markerless_ar
+      get :markerless_ar, :likers
     end
   end
+
   post '/callback', to: 'line_bots#callback'
   resources :line_bots, only: %i[new]
+
   # for Vue
   namespace :api, { format: 'json' } do
     namespace :v1 do
@@ -31,7 +33,11 @@ Rails.application.routes.draw do
           post :check_password
         end
       end
-      resources :avatars, only: %i[show index update create destroy]
+      resources :avatars, only: %i[show index update create destroy] do
+        member do
+          get :likers
+        end
+      end
       resources :comments, only: %i[create destroy]
       resources :likes, only: %i[create destroy]
     end

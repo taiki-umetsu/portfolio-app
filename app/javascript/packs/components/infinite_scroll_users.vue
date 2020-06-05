@@ -3,7 +3,7 @@
     <div v-for="(list, $index1) in lists" :key="$index1">
       <div v-for="(item, $index2) in list" :key="$index2">
         <a :href="userPath(item['user_id'])">
-          <div class="wrapper-sm shadow-sm" :class="setFollowId(item['user_id'])">
+          <div class="wrapper-sm shadow-sm" :class="setUserId(item['user_id'])">
             <div class="container">
               <div class="row d-flex align-items-center">
                 <get-user-icon :userId="item['user_id']" :baseUrl="baseUrl"></get-user-icon>
@@ -30,12 +30,11 @@ export default {
   },
   props: {
     baseUrl: String,
-    userId: Number,
     api: String
   },
   data() {
     return {
-      follow_page: 1,
+      users_page: 1,
       lists: []
     };
   },
@@ -47,14 +46,14 @@ export default {
   methods: {
     infiniteHandler($state) {
       axios
-        .get(`/api/v1/users/${this.userId}/${this.api}`, {
+        .get(this.api, {
           params: {
-            follow_page: this.follow_page
+            users_page: this.users_page
           }
         })
         .then(response => {
           if (response.data.length) {
-            this.follow_page += 1;
+            this.users_page += 1;
             this.lists.push(response.data);
             $state.loaded();
           } else {
@@ -62,7 +61,7 @@ export default {
           }
         });
     },
-    setFollowId(id) {
+    setUserId(id) {
       return `user${id}`;
     },
     triggerInfiniteScroll() {

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: :show
+  before_action :authenticate_user!, only: %i[show followers following]
   before_action :set_base_url
   def index
     @avatars = Avatar.where(public: true).page(params[:page]).per(2)
@@ -21,14 +21,16 @@ class UsersController < ApplicationController
   def following
     @title = 'フォロー中'
     @user  = User.find(params[:id])
-    @api = 'following'
-    render 'show_follow'
+    @api = following_api_v1_user_path(@user)
+    @url = request.referer || root_url
+    render 'show_group'
   end
 
   def followers
     @title = 'フォロワー'
     @user  = User.find(params[:id])
-    @api = 'followers'
-    render 'show_follow'
+    @api = followers_api_v1_user_path(@user)
+    @url = request.referer || root_url
+    render 'show_group'
   end
 end
