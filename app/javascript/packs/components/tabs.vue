@@ -7,7 +7,7 @@
             class="col-6"
             :class="{ active: collectionTab }"
             :disabled="loadingNowBoolean"
-            @click="showCollectionTab"
+            @click="showCollectionTab()"
           >
             <i class="fas fa-user-astronaut fa-lg tab-icon"></i>
             <div v-show="loadingNow && collectionTab" class="spinner-loading"></div>
@@ -16,7 +16,7 @@
             class="col-6"
             :class="{ active: likingTab }"
             :disabled="loadingNowBoolean"
-            @click="showLikingTab"
+            @click="showLikingTab();firstLoadLiking()"
           >
             <i class="fas fa-heart fa-lg tab-icon"></i>
             <div v-show="loadingNow && likingTab" class="spinner-loading"></div>
@@ -32,6 +32,7 @@
         :api="`${apiUserShow}`"
         :key-name="'userShow'"
         v-show="collectionTab"
+        ref="infiniteCollection"
       ></Infinite>
       <Infinite
         :base-url="baseUrl"
@@ -39,6 +40,7 @@
         :api="`${apiUserLiking}`"
         :key-name="'userLiking'"
         v-show="likingTab"
+        ref="infiniteLiking"
       ></Infinite>
     </div>
   </div>
@@ -58,7 +60,9 @@ export default {
   components: { Infinite },
   data() {
     return {
-      isFixed: false
+      isFixed: false,
+      firstLoadCollectionTab: true,
+      firstLoadLikingTab: true
     };
   },
   beforeCreate() {
@@ -68,8 +72,7 @@ export default {
     });
   },
   mounted() {
-    window.addEventListener("scroll", this.fixedPosition),
-      this.triggerInfiniteScroll();
+    window.addEventListener("scroll", this.fixedPosition);
   },
   computed: {
     apiUserShow() {
@@ -92,16 +95,23 @@ export default {
       "resetLoadingNow",
       "resetTab"
     ]),
-    triggerInfiniteScroll() {
-      if (window.scrollY == 0) {
-        scrollTo(0, 100);
-      }
-    },
     fixedPosition() {
       if (window.scrollY > 200) {
         this.isFixed = true;
       } else {
         this.isFixed = false;
+      }
+    },
+    firstLoadLiking() {
+      if (this.firstLoadLikingTab == true) {
+        this.$refs.infiniteLiking.manualLoad();
+        this.firstLoadLikingTab = false;
+      }
+    },
+    firstLoadCollection() {
+      if (this.firstLoadCollectionTab == true) {
+        this.$refs.infiniteCollection.manualLoad();
+        this.firstLoadCollectionTab = false;
       }
     }
   }

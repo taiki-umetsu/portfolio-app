@@ -73,18 +73,18 @@ const store = new Vuex.Store({
       state.loadingNow--;
     },
     showCollectionTab(state) {
-      if (window.scrollY == 0) {
-        scrollTo(0, 1);
-      }
       state.likingTab = false;
       state.collectionTab = true;
-    },
-    showLikingTab(state) {
       if (window.scrollY == 0) {
         scrollTo(0, 1);
       }
+    },
+    showLikingTab(state) {
       state.collectionTab = false;
       state.likingTab = true;
+      if (window.scrollY == 0) {
+        window.scrollBy(0, 1);
+      }
     },
   },
   actions: {

@@ -3,8 +3,8 @@ import Tabs from "tabs";
 import Vuex from "vuex";
 import Vue from "vue";
 const localVue = createLocalVue();
-const triggerInfiniteScroll = jest.fn();
-global.scrollTo = jest.fn();
+const firstLoadLiking = jest.fn();
+const firstLoadCollection = jest.fn();
 localVue.use(Vuex);
 
 describe("Tabs", () => {
@@ -41,12 +41,24 @@ describe("Tabs", () => {
       },
       actions,
     });
+    const $refs = {
+      infiniteCollection: "",
+      infiniteLiking: "",
+    };
+
     wrapper = shallowMount(Tabs, {
       propsData: {
         currentUserId: 1,
         userId: 1,
       },
-      method: { triggerInfiniteScroll },
+      data() {
+        return {
+          isFixed: false,
+          firstLoadCollectionTab: false,
+          firstLoadLikingTab: false,
+        };
+      },
+      method: { firstLoadCollection, firstLoadLiking },
       store,
       localVue,
     });
