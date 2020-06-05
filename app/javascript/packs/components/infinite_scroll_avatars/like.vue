@@ -15,9 +15,9 @@
         </div>
       </div>
     </div>
-    <div class="heart-counter inline">
-      {{ item.like_count }}
-    </div>
+    <a :href="link">
+      <div class="heart-counter inline">{{ item.like_count }}</div>
+    </a>
   </div>
 </template>
 
@@ -33,18 +33,23 @@ export default {
   },
   computed: {
     ...mapState(["lists"]),
+    link() {
+      return this.currentUserId == false
+        ? "/users/sign_in"
+        : `/avatars/${this.item.avatar_id}/likers`;
+    }
   },
   props: {
     currentUserId: Number,
     item: Object,
     index1: Number,
     baseUrl: String,
-    keyName: String,
+    keyName: String
   },
   methods: {
     ...mapActions(["updateList"]),
     destroyLike() {
-      axios.delete(`/api/v1/likes/${this.item.like_id}`).then((response) => {
+      axios.delete(`/api/v1/likes/${this.item.like_id}`).then(response => {
         if (response.data == "OK") {
           this.updateList({
             index1: this.index1,
@@ -52,8 +57,8 @@ export default {
             data: {
               like_count:
                 this.lists[this.keyName][this.index1]["like_count"] - 1,
-              like_id: false,
-            },
+              like_id: false
+            }
           });
         }
       });
@@ -61,19 +66,19 @@ export default {
     createLike() {
       axios
         .post("/api/v1/likes/", { avatar_id: this.item.avatar_id })
-        .then((response) => {
+        .then(response => {
           this.updateList({
             index1: this.index1,
             keyName: this.keyName,
             data: {
               like_count:
                 this.lists[this.keyName][this.index1]["like_count"] + 1,
-              like_id: response.data["like_id"],
-            },
+              like_id: response.data["like_id"]
+            }
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

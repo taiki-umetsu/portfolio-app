@@ -5,6 +5,7 @@ module Api
     class AvatarsController < ApiController
       before_action :authenticate_user!, only: %i[create destroy]
       before_action :correct_user, only: [:destroy]
+      before_action :set_base_url, only: [:likers]
 
       def index
         avatars = Avatar.where(public: true).page(params[:avatar_page]).per(1)
@@ -59,6 +60,12 @@ module Api
                  'NG'
                end
         render json: data
+      end
+
+      def likers
+        avatar = Avatar.find(params[:id])
+        likers = avatar.likers.page(params[:users_page]).per(10)
+        render json: data_users(likers)
       end
 
       private

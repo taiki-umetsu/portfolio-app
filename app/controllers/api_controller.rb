@@ -26,7 +26,26 @@ class ApiController < ActionController::API
     data
   end
 
+  def data_users(users)
+    data = []
+    users.each do |u|
+      data << {
+        user_id: u.id,
+        user_name: u.name
+      }
+    end
+    data
+  end
+
   def current_user?(user)
     current_user == user
+  end
+
+  def set_base_url
+    @base_url = if Rails.env.test?
+                  "http://127.0.0.1:#{request.port}"
+                else
+                  ENV['BASE_URL']
+                end
   end
 end

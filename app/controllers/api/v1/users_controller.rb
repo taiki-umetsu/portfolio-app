@@ -45,31 +45,20 @@ module Api
 
       def following
         user = User.find(params[:id])
-        following = user.following.page(params[:follow_page]).per(10)
-        render json: data_follow(following)
+        following = user.following.page(params[:users_page]).per(10)
+        render json: data_users(following)
       end
 
       def followers
         user = User.find(params[:id])
-        followers = user.followers.page(params[:follow_page]).per(10)
-        render json: data_follow(followers)
+        followers = user.followers.page(params[:users_page]).per(10)
+        render json: data_users(followers)
       end
 
       private
 
       def updata_params
         params.permit(:id, :image)
-      end
-
-      def data_follow(follow)
-        data = []
-        follow.each do |f|
-          data << {
-            user_id: f.id,
-            user_name: f.name
-          }
-        end
-        data
       end
     end
   end

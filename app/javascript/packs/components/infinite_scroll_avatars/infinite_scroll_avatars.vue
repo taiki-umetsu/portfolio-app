@@ -122,7 +122,6 @@ export default {
   mounted() {
     axios.defaults.baseURL = this.baseUrl;
     axios.defaults.headers.get["Accepts"] = "application/json";
-    this.manualLoad();
   },
   methods: {
     ...mapActions([

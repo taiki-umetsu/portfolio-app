@@ -107,12 +107,6 @@ export default {
         this.$refs.infiniteLiking.manualLoad();
         this.firstLoadLikingTab = false;
       }
-    },
-    firstLoadCollection() {
-      if (this.firstLoadCollectionTab == true) {
-        this.$refs.infiniteCollection.manualLoad();
-        this.firstLoadCollectionTab = false;
-      }
     }
   }
 };
