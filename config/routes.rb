@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :relationships, only: %i[create destroy]
   resources :avatars, only: %i[show] do
     member do
-      get :markerless_ar, :likers
+      get :markerless_ar, :likers, :comments
     end
   end
 
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       end
       resources :avatars, only: %i[show index update create destroy] do
         member do
-          get :likers
+          get :likers, :comments
         end
       end
       resources :comments, only: %i[create destroy]

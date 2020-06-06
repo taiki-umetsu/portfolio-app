@@ -1,0 +1,8 @@
+.row
+  = render 'shared/list_top_wrapper' 
+.row
+    .users-wrapper.col-12.col-md-6.offset-md-1
+      #infinite-scroll-comments
+        infinite[:base-url="'#{@base_url}'"
+                 :avatar-id="#{@avatar.id}"
+                 :current-user-id="#{current_user.id}"]

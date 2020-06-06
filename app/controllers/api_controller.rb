@@ -40,12 +40,4 @@ class ApiController < ActionController::API
   def current_user?(user)
     current_user == user
   end
-
-  def set_base_url
-    @base_url = if Rails.env.test?
-                  "http://127.0.0.1:#{request.port}"
-                else
-                  ENV['BASE_URL']
-                end
-  end
 end

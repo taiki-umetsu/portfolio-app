@@ -3,7 +3,8 @@
 class AvatarsController < ApplicationController
   include AvatarsHelper
   before_action :private?, only: %i[show markerless_ar]
-  before_action :authenticate_user!, only: :likers
+  before_action :authenticate_user!, only: %i[likers comments]
+  before_action :set_base_url, only: %i[likers comments]
 
   def show
     if comments = @avatar.comments.first(15)
@@ -28,8 +29,13 @@ class AvatarsController < ApplicationController
     @title = 'いいねしたアカウント'
     avatar = Avatar.find(params[:id])
     @api = likers_api_v1_avatar_path(avatar)
-    @url = request.referer || root_url
     render template: 'users/show_group'
+  end
+
+  def comments
+    @title = 'コメント一覧'
+    @avatar = Avatar.find(params[:id])
+    render 'show_comments'
   end
 
   private
