@@ -99,11 +99,18 @@ export default {
                 headers: { "content-type": "multipart/form-data" }
               })
               .then(response => {
-                this.path = response.data;
-                this.pushFlash({
-                  flash: "アイコン画像をアップデートしました！",
-                  alertColor: "alert-success"
-                });
+                if (response.data == "OK") {
+                  this.path = this.croppa.generateDataUrl();
+                  this.pushFlash({
+                    flash: "アイコン画像をアップデートしました！",
+                    alertColor: "alert-success"
+                  });
+                } else {
+                  this.pushFlash({
+                    flash: "アップデートできませんでした",
+                    alertColor: "alert-danger"
+                  });
+                }
               })
               .catch(function(error) {
                 console.log(error);
@@ -131,7 +138,6 @@ export default {
          * w: croppa width
          * h: croppa height
          */
-        console.log(x, y, w, h);
         ctx.beginPath();
         ctx.arc(x + w / 2, y + h / 2, w / 2, 0, 2 * Math.PI, true);
         ctx.closePath();

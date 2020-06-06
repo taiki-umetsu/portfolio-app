@@ -6,9 +6,7 @@ module Api
       def update
         user = User.find(updata_params[:id])
         user.image = updata_params[:image]
-        user.save
-        image = user.image.attached? ? url_for(user.image) : false
-        render json: image
+        render json: user.save ? 'OK' : 'NG'
       end
 
       def image
