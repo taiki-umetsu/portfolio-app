@@ -5,29 +5,11 @@ module Api
     class AvatarsController < ApiController
       before_action :authenticate_user!, only: %i[create destroy]
       before_action :correct_user, only: [:destroy]
-      before_action :set_base_url, only: [:likers]
 
       def index
         avatars = Avatar.where(public: true).page(params[:avatar_page]).per(1)
         data(avatars, 'avatarIndex')
         render json: data(avatars, 'avatarIndex')
-      end
-
-      def show
-        avatar = Avatar.find(params[:id])
-        comments = avatar.comments.page(params[:comment_page]).per(10)
-        data = []
-        comments.each do |c|
-          data << {
-            comment_id: c.id,
-            content: c.content,
-            created_at: c.created_at,
-            user_name: c.user.name,
-            user_image: c.user.image.attached? ? url_for(c.user.image) : false,
-            user_id: c.user.id
-          }
-        end
-        render json: data
       end
 
       def create
@@ -66,6 +48,22 @@ module Api
         avatar = Avatar.find(params[:id])
         likers = avatar.likers.page(params[:users_page]).per(10)
         render json: data_users(likers)
+      end
+
+      def comments
+        avatar = Avatar.find(params[:id])
+        comments = avatar.comments.page(params[:comment_page]).per(10)
+        data = []
+        comments.each do |c|
+          data << {
+            comment_id: c.id,
+            content: c.content,
+            created_at: c.created_at,
+            user_name: c.user.name,
+            user_id: c.user.id
+          }
+        end
+        render json: data
       end
 
       private

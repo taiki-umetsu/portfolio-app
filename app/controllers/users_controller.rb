@@ -22,7 +22,6 @@ class UsersController < ApplicationController
     @title = 'フォロー中'
     @user  = User.find(params[:id])
     @api = following_api_v1_user_path(@user)
-    @url = request.referer || root_url
     render 'show_group'
   end
 
@@ -30,7 +29,6 @@ class UsersController < ApplicationController
     @title = 'フォロワー'
     @user  = User.find(params[:id])
     @api = followers_api_v1_user_path(@user)
-    @url = request.referer || root_url
     render 'show_group'
   end
 end

@@ -1,8 +1,5 @@
 .row
-  .users-top-wrapper.col-12.col-md-6.offset-md-1.fixed-top
-    = link_to @url do
-       #page-back=icon 'fas', 'arrow-circle-left fa-2x'
-    h5.text-center#title = @title
+  = render 'shared/list_top_wrapper' 
 .row
     .users-wrapper.col-12.col-md-6.offset-md-1
       #infinite-scroll-users

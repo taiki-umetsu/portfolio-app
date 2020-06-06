@@ -1,5 +1,5 @@
 <template>
-  <div id="comment-field">
+  <div>
     <div class="alert alert-success" v-show="flash">{{ flash }}</div>
     <div v-for="(list, $index1) in lists" :key="$index1">
       <div v-for="(item, $index2) in list" :key="$index2">
@@ -10,17 +10,21 @@
         >
           <div class="container">
             <div class="row d-flex align-items-center">
-              <img :src="setImage(item['user_image'])" class="user-icon" />
-              <div id="user-name">{{ item["user_name"] }}</div>
+              <a :href="userPath(item['user_id'])">
+                <get-user-icon :userId="item['user_id']" :baseUrl="baseUrl"></get-user-icon>
+              </a>
+              <a :href="userPath(item['user_id'])">
+                <div id="user-name">{{ item["user_name"] }}</div>
+              </a>
               <div id="comment-time">
-                <time class="text-muted">{{
+                <time class="text-muted">
+                  {{
                   item["created_at"] | moment
-                }}</time>
+                  }}
+                </time>
               </div>
             </div>
-            <div class="row" id="comment-content">
-              {{ item["content"] }}
-            </div>
+            <div class="row" id="comment-content">{{ item["content"] }}</div>
             <div
               v-show="commentedUser(item['user_id'])"
               id="icon-delete"
@@ -32,10 +36,7 @@
         </div>
       </div>
     </div>
-    <infinite-loading
-      :distance="0"
-      @infinite="infiniteHandler"
-    ></infinite-loading>
+    <infinite-loading :distance="0" @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
@@ -43,22 +44,24 @@
 import axios from "axios";
 import InfiniteLoading from "vue-infinite-loading";
 import moment from "moment";
+import GetUserIcon from "./get_user_icon.vue";
 
 export default {
   components: {
     InfiniteLoading,
+    GetUserIcon
   },
   props: {
     avatarId: Number,
     baseUrl: String,
-    currentUserId: Number,
+    currentUserId: Number
   },
   data() {
     return {
       comment_page: 1,
       lists: [],
       commentId: "",
-      flash: "",
+      flash: ""
     };
   },
   mounted() {
@@ -68,17 +71,17 @@ export default {
   computed: {
     deleteLink() {
       return `/api/v1/comments/${this.commentId}`;
-    },
+    }
   },
   methods: {
     infiniteHandler($state) {
       axios
-        .get(`/api/v1/avatars/${this.avatarId}`, {
+        .get(`/api/v1/avatars/${this.avatarId}/comments`, {
           params: {
-            comment_page: this.comment_page,
-          },
+            comment_page: this.comment_page
+          }
         })
-        .then((response) => {
+        .then(response => {
           if (response.data.length) {
             this.comment_page += 1;
             this.lists.push(response.data);
@@ -88,9 +91,6 @@ export default {
           }
         });
     },
-    setImage(image) {
-      return image ? image : require("../../../assets/images/default_icon.png");
-    },
     setCommmentId(id) {
       return `comment${id}`;
     },
@@ -99,7 +99,7 @@ export default {
     },
     deleteComment(id, index1, index2) {
       if (confirm("コメントを削除してもよろしいですか？")) {
-        axios.delete(`/api/v1/comments/${id}`).then((response) => {
+        axios.delete(`/api/v1/comments/${id}`).then(response => {
           if (response.data == "OK") {
             this.lists[index1].splice(index2, 1);
             this.showFlash();
@@ -113,13 +113,16 @@ export default {
         this.flash = false;
       }, 2000);
     },
+    userPath(id) {
+      return `/users/${id}`;
+    }
   },
   filters: {
     moment: function(date) {
       moment.lang("ja");
       return moment(date).fromNow();
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -131,11 +134,6 @@ export default {
 }
 #comment-wrap {
   position: relative;
-}
-.user-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 40px;
 }
 
 #user-name {
@@ -152,5 +150,13 @@ export default {
 }
 #comment-content {
   font-size: 18px;
+}
+a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+a:hover {
+  text-decoration: none;
+  color: gray;
 }
 </style>
