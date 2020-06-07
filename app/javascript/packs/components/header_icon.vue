@@ -1,31 +1,32 @@
 <template>
   <div>
     <div @click="show = !show">
-      <get-user-icon
-        v-if="userId"
-        :userId="userId"
-        :baseUrl="baseUrl"
-      ></get-user-icon>
+      <get-user-icon v-if="userId" :userId="userId" :baseUrl="baseUrl"></get-user-icon>
       <i class="fas fa-bars fa-lg" v-else></i>
     </div>
     <transition name="slide-fade">
       <div id="nav-window-field" v-show="show" @click="show = !show">
         <div class="container">
           <div class="row">
-            <div id="nav-window" class="col-5 col-md-2 ">
+            <div id="nav-window" class="col-5 col-md-2">
               <ul v-if="userId">
-                <li><a :href="userPath">マイページ</a></li>
-                <li><a href="/users/edit">設定</a></li>
                 <li>
-                  <a rel="nofollow" data-method="delete" href="/users/sign_out"
-                    >ログアウト</a
-                  >
+                  <a :href="userPath">マイページ</a>
+                </li>
+                <li>
+                  <a href="/users/edit">設定</a>
+                </li>
+                <li>
+                  <a rel="nofollow" data-method="delete" href="/users/sign_out">ログアウト</a>
                 </li>
               </ul>
               <ul v-else>
-                <li><a href="">テストログイン</a></li>
-                <li><a href="/users/sign_in">ログイン</a></li>
-                <li><a href="/users/sign_up">アカウント作成</a></li>
+                <li>
+                  <a href="/users/sign_in">ログイン</a>
+                </li>
+                <li>
+                  <a href="/users/sign_up">アカウント作成</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -39,29 +40,30 @@
 import GetUserIcon from "./get_user_icon.vue";
 export default {
   components: {
-    GetUserIcon,
+    GetUserIcon
   },
   computed: {
     userPath() {
       return `/users/${this.userId}`;
-    },
+    }
   },
   props: {
     userId: Number,
-    baseUrl: String,
+    baseUrl: String
   },
   data() {
     return {
-      show: false,
+      show: false
     };
   },
-  methods: {},
+  methods: {}
 };
 </script>
 
 <style scoped>
 .fa-bars {
   color: gray;
+  margin-top: 7px;
 }
 #nav-window-field {
   background-color: rgba(73, 73, 73, 0.5);
