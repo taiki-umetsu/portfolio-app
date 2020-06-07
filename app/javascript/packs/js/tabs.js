@@ -1,10 +1,10 @@
 import TurbolinksAdapter from "vue-turbolinks";
 import Vue from "vue/dist/vue.esm";
-import Tabs from "./components/tabs.vue";
-import CreateAvatar from "./components/create_avatar.vue";
+import Tabs from "../components/tabs.vue";
+import CreateAvatar from "../components/create_avatar.vue";
 import "vue-croppa/dist/vue-croppa.css";
 import Croppa from "vue-croppa";
-import store from "./store/index.js";
+import store from "../store/index.js";
 
 Vue.use(TurbolinksAdapter);
 Vue.use(Croppa);

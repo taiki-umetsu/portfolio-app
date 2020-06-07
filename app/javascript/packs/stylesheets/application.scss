@@ -1,6 +1,9 @@
 @import "bootstrap";
-@import "font-awesome-sprockets";
-@import "font-awesome";
+$fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-solid";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-regular";
+
 @import "./static_pages";
 
 * {
@@ -105,26 +108,11 @@ body {
   margin-right: -30px;
 }
 
-#heart {
-  color: red;
-  padding: 6px;
-  &:hover {
-    background-color: rgb(253, 209, 217);
-    border-radius: 15px;
-  }
-}
-
 #button {
   border: none;
   &:focus {
     outline: none;
   }
-}
-
-.heart-counter {
-  margin-left: 4px;
-  padding: 1.5px;
-  color: red;
 }
 
 .avatar-frame {
@@ -152,20 +140,6 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-  }
-}
-
-#avatar-edit {
-  color: gray;
-}
-
-#avatar-comment {
-  color: skyblue;
-  padding: 6px;
-  margin-left: 10px;
-  &:hover {
-    background-color: rgb(212, 240, 251);
-    border-radius: 15px;
   }
 }
 

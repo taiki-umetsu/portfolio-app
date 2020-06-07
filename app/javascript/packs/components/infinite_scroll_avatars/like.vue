@@ -7,11 +7,11 @@
         </a>
       </div>
       <div v-else>
-        <div v-if="item.like_id == false">
-          <i class="far fa-heart" id="heart" @click="createLike"></i>
+        <div v-if="item.like_id == false" @click="createLike">
+          <i class="far fa-heart" id="heart"></i>
         </div>
-        <div v-else>
-          <i class="fas fa-heart" id="heart" @click="destroyLike"></i>
+        <div v-else @click="destroyLike">
+          <i class="fas fa-heart" id="heart"></i>
         </div>
       </div>
     </div>
@@ -37,19 +37,19 @@ export default {
       return this.currentUserId == false
         ? "/users/sign_in"
         : `/avatars/${this.item.avatar_id}/likers`;
-    }
+    },
   },
   props: {
     currentUserId: Number,
     item: Object,
     index1: Number,
     baseUrl: String,
-    keyName: String
+    keyName: String,
   },
   methods: {
     ...mapActions(["updateList"]),
     destroyLike() {
-      axios.delete(`/api/v1/likes/${this.item.like_id}`).then(response => {
+      axios.delete(`/api/v1/likes/${this.item.like_id}`).then((response) => {
         if (response.data == "OK") {
           this.updateList({
             index1: this.index1,
@@ -57,8 +57,8 @@ export default {
             data: {
               like_count:
                 this.lists[this.keyName][this.index1]["like_count"] - 1,
-              like_id: false
-            }
+              like_id: false,
+            },
           });
         }
       });
@@ -66,19 +66,19 @@ export default {
     createLike() {
       axios
         .post("/api/v1/likes/", { avatar_id: this.item.avatar_id })
-        .then(response => {
+        .then((response) => {
           this.updateList({
             index1: this.index1,
             keyName: this.keyName,
             data: {
               like_count:
                 this.lists[this.keyName][this.index1]["like_count"] + 1,
-              like_id: response.data["like_id"]
-            }
+              like_id: response.data["like_id"],
+            },
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -93,5 +93,18 @@ export default {
 #likes {
   padding: 0;
   border-radius: 10px;
+}
+#heart {
+  color: red;
+  padding: 6px;
+}
+#heart:hover {
+  background-color: rgb(253, 209, 217);
+  border-radius: 15px;
+}
+.heart-counter {
+  margin-left: 4px;
+  padding: 1.5px;
+  color: red;
 }
 </style>

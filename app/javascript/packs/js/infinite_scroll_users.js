@@ -1,6 +1,6 @@
 import TurbolinksAdapter from "vue-turbolinks";
 import Vue from "vue/dist/vue.esm";
-import InfiniteScrollUsers from "./components/infinite_scroll_users.vue";
+import InfiniteScrollUsers from "../components/infinite_scroll_users.vue";
 
 Vue.use(TurbolinksAdapter);
 
