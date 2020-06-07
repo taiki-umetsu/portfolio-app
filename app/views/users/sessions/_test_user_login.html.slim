@@ -1,0 +1,6 @@
+#test-login= form_with(model: User.new, url: user_session_path, local:true) do |f|
+  .field
+    =f.hidden_field :email ,value: "test.user@example.com", id: 'email'
+    =f.hidden_field :password ,value: "123456789", id: 'password'
+  .actions.center
+    = f.submit "簡単ログイン", class: "btn"

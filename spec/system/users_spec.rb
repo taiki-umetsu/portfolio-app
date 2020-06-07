@@ -23,7 +23,7 @@ RSpec.describe 'Users', type: :system do
         it { expect(page).to_not have_link 'アカウント作成' }
         it { expect(page).to_not have_link 'ログイン' }
         it { expect(page).to have_link 'マイページ' }
-        it { expect(page).to_not have_link '設定' }
+        it { expect(page).to have_link '設定' }
         it ' is successful to log out ' do
           click_on 'ログアウト'
           expect(page).to have_content 'ログアウトしました'

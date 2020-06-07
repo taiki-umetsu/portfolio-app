@@ -48,4 +48,8 @@ module ApplicationHelper
   def your_avatar?(avatar)
     current_user?(avatar.user)
   end
+
+  def test_user?
+    current_user.email == 'test.user@example.com'
+  end
 end

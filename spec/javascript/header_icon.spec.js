@@ -43,7 +43,7 @@ describe("HeaderIcon for not logged in user", () => {
     expect(vm.show).toBe(true);
   });
   it("shows links for not logged in user", () => {
-    expect(wrapper.text()).toBe("テストログイン ログイン アカウント作成");
+    expect(wrapper.text()).toBe("ログイン アカウント作成");
     expect(wrapper.text()).not.toBe("マイページ 設定 ログアウト");
   });
 });
