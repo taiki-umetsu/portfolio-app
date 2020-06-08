@@ -96,6 +96,9 @@ export default {
   height: 100px;
   margin-top: 20px;
   border-radius: 10px;
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
 }
 .comment-form .comment-btn {
   width: 100%;
