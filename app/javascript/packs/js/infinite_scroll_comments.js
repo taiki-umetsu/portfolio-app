@@ -1,6 +1,6 @@
 import TurbolinksAdapter from "vue-turbolinks";
 import Vue from "vue/dist/vue.esm";
-import Infinite from "./components/infinite_scroll_comments.vue";
+import Infinite from "../components/infinite_scroll_comments.vue";
 
 Vue.use(TurbolinksAdapter);
 

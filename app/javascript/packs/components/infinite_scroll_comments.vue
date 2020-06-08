@@ -11,16 +11,17 @@
           <div class="container">
             <div class="row d-flex align-items-center">
               <a :href="userPath(item['user_id'])">
-                <get-user-icon :userId="item['user_id']" :baseUrl="baseUrl"></get-user-icon>
+                <get-user-icon
+                  :userId="item['user_id']"
+                  :baseUrl="baseUrl"
+                ></get-user-icon>
               </a>
               <a :href="userPath(item['user_id'])">
                 <div id="user-name">{{ item["user_name"] }}</div>
               </a>
               <div id="comment-time">
                 <time class="text-muted">
-                  {{
-                  item["created_at"] | moment
-                  }}
+                  {{ item["created_at"] | moment }}
                 </time>
               </div>
             </div>
@@ -36,7 +37,10 @@
         </div>
       </div>
     </div>
-    <infinite-loading :distance="0" @infinite="infiniteHandler"></infinite-loading>
+    <infinite-loading
+      :distance="0"
+      @infinite="infiniteHandler"
+    ></infinite-loading>
   </div>
 </template>
 
@@ -49,19 +53,19 @@ import GetUserIcon from "./get_user_icon.vue";
 export default {
   components: {
     InfiniteLoading,
-    GetUserIcon
+    GetUserIcon,
   },
   props: {
     avatarId: Number,
     baseUrl: String,
-    currentUserId: Number
+    currentUserId: Number,
   },
   data() {
     return {
       comment_page: 1,
       lists: [],
       commentId: "",
-      flash: ""
+      flash: "",
     };
   },
   mounted() {
@@ -71,17 +75,17 @@ export default {
   computed: {
     deleteLink() {
       return `/api/v1/comments/${this.commentId}`;
-    }
+    },
   },
   methods: {
     infiniteHandler($state) {
       axios
         .get(`/api/v1/avatars/${this.avatarId}/comments`, {
           params: {
-            comment_page: this.comment_page
-          }
+            comment_page: this.comment_page,
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.length) {
             this.comment_page += 1;
             this.lists.push(response.data);
@@ -99,7 +103,7 @@ export default {
     },
     deleteComment(id, index1, index2) {
       if (confirm("コメントを削除してもよろしいですか？")) {
-        axios.delete(`/api/v1/comments/${id}`).then(response => {
+        axios.delete(`/api/v1/comments/${id}`).then((response) => {
           if (response.data == "OK") {
             this.lists[index1].splice(index2, 1);
             this.showFlash();
@@ -115,14 +119,14 @@ export default {
     },
     userPath(id) {
       return `/users/${id}`;
-    }
+    },
   },
   filters: {
     moment: function(date) {
       moment.lang("ja");
       return moment(date).fromNow();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -147,6 +151,13 @@ export default {
   position: absolute;
   right: 2%;
   top: 2%;
+}
+.fa-trash-alt {
+  font-size: 1em;
+  color: gray;
+}
+.fa-trash-alt:hover {
+  color: rgb(158, 157, 157);
 }
 #comment-content {
   font-size: 18px;

@@ -1,0 +1,62 @@
+@import "bootstrap";
+$fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-solid";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-regular";
+@import "./static_pages";
+@import "./users.scss";
+
+* {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.flash-message {
+  margin-top: 60px;
+  text-align: center;
+}
+body {
+  background-color: #f8f9ff;
+  .contents {
+    margin-top: 70px;
+  }
+}
+header {
+  height: 60px;
+  background-color: white;
+  #app-name {
+    font-size: 20px;
+  }
+  a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    &:hover {
+      color: gray;
+      text-decoration: none;
+    }
+  }
+  ul {
+    li {
+      margin: 0 10px;
+    }
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+#error_explanation {
+  color: red;
+}
+.wrapper {
+  background-color: white;
+  border-radius: 20px;
+  padding: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.wrapper-sm {
+  margin-bottom: 10px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
