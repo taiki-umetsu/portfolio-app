@@ -42,7 +42,7 @@ module ApplicationHelper
   end
 
   def current_user_id
-    user_signed_in? ? current_user.id : false
+    user_signed_in? ? current_user.id : 0
   end
 
   def your_avatar?(avatar)

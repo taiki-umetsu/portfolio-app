@@ -2,25 +2,17 @@
   <div>
     <div>
       <div class="inline" id="comments">
-        <div v-if="currentUserId == false">
+        <div v-if="currentUserId == 0">
           <a href="/users/sign_in">
             <i class="far fa-comment" id="avatar-comment"></i>
           </a>
         </div>
         <div v-else>
           <div v-if="item.comment_id == false">
-            <i
-              class="far fa-comment"
-              id="avatar-comment"
-              @click="showField"
-            ></i>
+            <i class="far fa-comment" id="avatar-comment" @click="showField"></i>
           </div>
           <div v-else>
-            <i
-              class="fas fa-comment"
-              id="avatar-comment"
-              @click="showField"
-            ></i>
+            <i class="fas fa-comment" id="avatar-comment" @click="showField"></i>
           </div>
         </div>
       </div>
@@ -46,7 +38,7 @@ import { mapActions } from "vuex";
 import UploadField from "./upload_field.vue";
 export default {
   components: {
-    UploadField,
+    UploadField
   },
   mounted() {
     axios.defaults.baseURL = this.baseUrl;
@@ -55,17 +47,17 @@ export default {
   computed: {
     ...mapState(["lists", "flash", "alertColor", "formInputContent"]),
     link() {
-      return this.currentUserId == false
+      return this.currentUserId == 0
         ? "/users/sign_in"
         : `/avatars/${this.item.avatar_id}/comments`;
-    },
+    }
   },
   props: {
     currentUserId: Number,
     item: Object,
     index1: Number,
     baseUrl: String,
-    keyName: String,
+    keyName: String
   },
   methods: {
     ...mapActions(["updateList", "pushFlash", "updateContent", "loading"]),
@@ -73,24 +65,24 @@ export default {
       if (!this.formInputContent || !this.formInputContent.match(/\S/g)) {
         this.pushFlash({
           flash: "フォームに入力してください",
-          alertColor: "alert-danger",
+          alertColor: "alert-danger"
         });
       } else {
         this.closeField();
         axios
           .post("/api/v1/comments/", {
             avatar_id: this.item.avatar_id,
-            content: this.formInputContent,
+            content: this.formInputContent
           })
-          .then((response) => {
+          .then(response => {
             this.updateList({
               index1: this.index1,
               keyName: this.keyName,
               data: {
                 comment_count:
                   this.lists[this.keyName][this.index1].comment_count + 1,
-                comment_id: response.data.comment_id,
-              },
+                comment_id: response.data.comment_id
+              }
             });
             document
               .getElementById(`iframe${this.index1}`)
@@ -99,7 +91,7 @@ export default {
             this.updateContent("");
             this.pushFlash({
               flash: "コメントしました！",
-              alertColor: "alert-success",
+              alertColor: "alert-success"
             });
           });
       }
@@ -108,17 +100,17 @@ export default {
       this.updateList({
         index1: this.index1,
         keyName: this.keyName,
-        data: { comment_field: false },
+        data: { comment_field: false }
       });
     },
     showField() {
       this.updateList({
         index1: this.index1,
         keyName: this.keyName,
-        data: { comment_field: true },
+        data: { comment_field: true }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
