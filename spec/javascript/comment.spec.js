@@ -148,7 +148,7 @@ describe("Comment", () => {
 
   describe("not logged in user", () => {
     beforeEach(() => {
-      wrapper.setProps({ currentUserId: false });
+      wrapper.setProps({ currentUserId: 0 });
     });
     it("has link to login in comment icon", () => {
       expect(wrapper.html()).toContain(
