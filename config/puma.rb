@@ -12,11 +12,15 @@ threads min_threads_count, max_threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port        ENV.fetch('PORT') { 3000 }
-
-# Specifies the `environment` that Puma will run in.
-#
-environment ENV.fetch('RAILS_ENV') { 'development' }
+if Rails.env.production?
+  bind 'unix:///var/www/rails/portfolio-app/tmp/sockets/puma.sock'
+  daemonize
+  stdout_redirect Rails.root.join('log/stdout'), Rails.root.join('log/stderr')
+  environment 'production'
+else
+  port        ENV.fetch('PORT') { 3000 }
+  environment ENV.fetch('RAILS_ENV') { 'development' }
+end
 
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch('PIDFILE') { 'tmp/pids/server.pid' }
