@@ -162,12 +162,12 @@ class LineBotsController < ApplicationController
           {
             "type": 'uri',
             "label": 'Sign up',
-            "uri": "https://portfolio-app-123.herokuapp.com/users/sign_up?linkToken=#{token}"
+            "uri": "https://www.kaoreal.com/users/sign_up?linkToken=#{token}"
           },
           {
             "type": 'uri',
             "label": 'Log in',
-            "uri": "https://portfolio-app-123.herokuapp.com/users/sign_in?linkToken=#{token}"
+            "uri": "https://www.kaoreal.com/users/sign_in?linkToken=#{token}"
           }
         ]
       }
@@ -191,7 +191,7 @@ class LineBotsController < ApplicationController
     }
   }.freeze
 
-  CREATE_ACCOUNT_LINK = 'FaceRealAvatarアカウントとLineアカウントの連携をしてください'
+  CREATE_ACCOUNT_LINK = 'カオリアルのアカウントとLineアカウントの連携をしてください'
   SEND_FACE_IMAGE = '顔画像を送ってみてね！'
   SUCCESS = 'アカウント連携を解除しました'
   NO_ACCOUNT_LINK = 'アカウント連携していません'
