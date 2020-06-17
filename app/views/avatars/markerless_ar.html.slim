@@ -8,7 +8,7 @@ html
     
     a-scene
       a-assets
-        a-asset-item#avatar[src="https://s3-ap-northeast-1.amazonaws.com/avatar.portfolio/avatar/#{Rails.env}/#{@avatar.id}/astronaut.gltf"]
+        a-asset-item#avatar[src="https://files.kaoreal.com/avatar/#{Rails.env}/#{@avatar.id}/astronaut.gltf"]
       a-entity[gltf-model="#avatar" position="0 0 -5" scale="0.5 0.5 0.5" ] 
       a-text#text[position="0 2.5 -5" value="Hello AR!" color="pink" align="center"]
       a-link[href="#{user_path(@user)}" position="-2 1.5 -8" title="use cursor and click me to back!"]
