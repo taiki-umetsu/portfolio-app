@@ -1,6 +1,7 @@
 .row
-  .col-10.offset-1.col-md-6.offset-md-3
-    h2="#{app_name}とLINEの連携を許可しますか？"
-    =link_to '許可する',  "https://access.line.me/dialog/bot/accountLink?linkToken=#{@link_token}&nonce=#{@nonce}", class: 'btn btn-primary'
+  .shadow-sm.wrapper.col-10.offset-1.col-md-6.offset-md-3.text-center
+    h4.="#{app_name}とLINEの"
+    h4="連携を許可しますか？"
+    =link_to '許可する',  "https://access.line.me/dialog/bot/accountLink?linkToken=#{@link_token}&nonce=#{@nonce}", class: 'btn btn-primary btn-margin'
 
-    =link_to '許可しない', root_url, class: 'btn btn-primary'
+    =link_to '許可しない', root_url, class: 'btn btn-primary btn-margin'
