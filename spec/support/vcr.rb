@@ -6,6 +6,8 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.ignore_localhost = true
   c.configure_rspec_metadata!
+  c.filter_sensitive_data('<AWS_ACCESS_KEY>') { ENV['AWS_ACCESS_KEY'] }
+  c.filter_sensitive_data('<AWS_S3_BUCKET>') { ENV['AWS_S3_BUCKET'] }
 
   %w[recordable stubbed].each do |method|
     c.after_http_request("#{method}?".to_sym) do |request, _response|

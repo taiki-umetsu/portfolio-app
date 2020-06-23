@@ -1,0 +1,75 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://s3.ap-northeast-1.amazonaws.com/<AWS_S3_BUCKET>?delete
+      body:
+        encoding: UTF-8
+        string: |
+          <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+            <Object>
+              <Key>avatar/test/astronaut.gltf</Key>
+            </Object>
+            <Object>
+              <Key>avatar/test/astronaut.bin</Key>
+            </Object>
+            <Object>
+              <Key>avatar/test/astronaut.png</Key>
+            </Object>
+            <Object>
+              <Key>avatar/test/texture_face.png</Key>
+            </Object>
+            <Quiet>false</Quiet>
+          </Delete>
+      headers:
+        Content-Type:
+          - ""
+        Accept-Encoding:
+          - ""
+        User-Agent:
+          - aws-sdk-ruby3/3.94.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.61.2
+        Expect:
+          - 100-continue
+        Content-Md5:
+          - UMmijQKGO69wX6ab6kP2Og==
+        Host:
+          - s3.ap-northeast-1.amazonaws.com
+        X-Amz-Date:
+          - 20200416T132745Z
+        X-Amz-Content-Sha256:
+          - 32a72defd8086ce9afc73e3911b8eb7c3b3272d7434cce85253fe17a33474838
+        Authorization:
+          - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY>/20200416/ap-northeast-1/s3/aws4_request,
+            SignedHeaders=content-md5;expect;host;user-agent;x-amz-content-sha256;x-amz-date,
+            Signature=0bc6f5e392a50f1ffb4dd773a4d35d948b831fb56eae6c1239a53dd7357eee67
+        Content-Length:
+          - "350"
+        Accept:
+          - "*/*"
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Amz-Id-2:
+          - GDqkprKV7b2+2z9zmtJXTSjJLpfg0oCq8mCR8VYiP5w1e4u3XigZIaXDvO4BrTwrEP2NWxMl3kY=
+        X-Amz-Request-Id:
+          - 93A6892C934234AF
+        Date:
+          - Thu, 16 Apr 2020 13:27:47 GMT
+        Connection:
+          - close
+        Content-Type:
+          - application/xml
+        Transfer-Encoding:
+          - chunked
+        Server:
+          - AmazonS3
+      body:
+        encoding: UTF-8
+        string: |-
+          <?xml version="1.0" encoding="UTF-8"?>
+          <DeleteResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Deleted><Key>avatar/test/astronaut.bin</Key></Deleted><Deleted><Key>avatar/test/texture_face.png</Key></Deleted><Deleted><Key>avatar/test/astronaut.gltf</Key></Deleted><Deleted><Key>avatar/test/astronaut.png</Key></Deleted></DeleteResult>
+      http_version: null
+    recorded_at: Thu, 16 Apr 2020 13:27:46 GMT
+recorded_with: VCR 5.1.0
