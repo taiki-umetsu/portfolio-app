@@ -12,10 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_base_url
-    @base_url = if Rails.env.test?
-                  "http://127.0.0.1:#{request.port}"
-                else
-                  ENV['BASE_URL']
-                end
+    @base_url = "#{request.protocol}#{request.host}:#{request.port}"
   end
 end

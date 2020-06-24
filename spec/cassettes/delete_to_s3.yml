@@ -1,0 +1,114 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://s3.ap-northeast-1.amazonaws.com/<AWS_S3_BUCKET>?delete
+      body:
+        encoding: UTF-8
+        string: |
+          <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+            <Object>
+              <Key>avatar/test/astronaut.gltf</Key>
+            </Object>
+            <Object>
+              <Key>avatar/test/astronaut.bin</Key>
+            </Object>
+            <Object>
+              <Key>avatar/test/astronaut.png</Key>
+            </Object>
+            <Object>
+              <Key>avatar/test/texture_face.png</Key>
+            </Object>
+            <Quiet>false</Quiet>
+          </Delete>
+      headers:
+        Content-Type:
+          - ""
+        Accept-Encoding:
+          - ""
+        User-Agent:
+          - aws-sdk-ruby3/3.94.0 ruby/2.7.1 x86_64-darwin19 aws-sdk-s3/1.61.2
+        Expect:
+          - 100-continue
+        Content-Md5:
+          - UMmijQKGO69wX6ab6kP2Og==
+        Host:
+          - s3.ap-northeast-1.amazonaws.com
+        X-Amz-Date:
+          - 20200417T024601Z
+        X-Amz-Content-Sha256:
+          - 32a72defd8086ce9afc73e3911b8eb7c3b3272d7434cce85253fe17a33474838
+        Authorization:
+          - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY>/20200417/ap-northeast-1/s3/aws4_request,
+            SignedHeaders=content-md5;expect;host;user-agent;x-amz-content-sha256;x-amz-date,
+            Signature=d5695c0b44b75de268cb6b7986ac59ae3474889a83465a0820178366ba80f31e
+        Content-Length:
+          - "350"
+        Accept:
+          - "*/*"
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Amz-Id-2:
+          - LaorRZy9wayCSqBR9ZIkIzsoctQvaqaoed+ajzcVbz3dRbn1suGd1cxobu2huX2TijkKqdTXCgU=
+        X-Amz-Request-Id:
+          - 964A8C6814C7F3B5
+        Date:
+          - Fri, 17 Apr 2020 02:46:03 GMT
+        Connection:
+          - close
+        Content-Type:
+          - application/xml
+        Transfer-Encoding:
+          - chunked
+        Server:
+          - AmazonS3
+      body:
+        encoding: UTF-8
+        string: |-
+          <?xml version="1.0" encoding="UTF-8"?>
+          <DeleteResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Deleted><Key>avatar/test/astronaut.png</Key></Deleted><Deleted><Key>avatar/test/texture_face.png</Key></Deleted><Deleted><Key>avatar/test/astronaut.gltf</Key></Deleted><Deleted><Key>avatar/test/astronaut.bin</Key></Deleted></DeleteResult>
+      http_version: null
+    recorded_at: Fri, 17 Apr 2020 02:46:02 GMT
+  - request:
+      method: get
+      uri: https://s3-ap-northeast-1.amazonaws.com/<AWS_S3_BUCKET>/avatar/test/texture_face.png
+      body:
+        encoding: US-ASCII
+        string: ""
+      headers:
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - Ruby
+        Host:
+          - s3-ap-northeast-1.amazonaws.com
+    response:
+      status:
+        code: 403
+        message: Forbidden
+      headers:
+        X-Amz-Request-Id:
+          - 9C364538A28F8E9A
+        X-Amz-Id-2:
+          - eS8/IHiXFl+DtWt5gDvUteDPTBcvluKLkFTzMuA2I+fWMdb5XfA9OsgFDHWkm3XJVhX9MwL4WK8=
+        Content-Type:
+          - application/xml
+        Transfer-Encoding:
+          - chunked
+        Date:
+          - Fri, 17 Apr 2020 02:46:01 GMT
+        Server:
+          - AmazonS3
+      body:
+        encoding: UTF-8
+        string: |-
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>9C364538A28F8E9A</RequestId><HostId>eS8/IHiXFl+DtWt5gDvUteDPTBcvluKLkFTzMuA2I+fWMdb5XfA9OsgFDHWkm3XJVhX9MwL4WK8=</HostId></Error>
+      http_version: null
+    recorded_at: Fri, 17 Apr 2020 02:46:02 GMT
+recorded_with: VCR 5.1.0

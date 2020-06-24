@@ -87,8 +87,8 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
-  # For test to Web servise, once HTTP request to the service and get data,
-  # record the data, and use it repeatedly
+  # rspec will retry the example the specified number of times until the example succeeds
+  gem 'rspec-retry'
   gem 'shoulda-matchers'
   gem 'vcr'
   gem 'webmock'

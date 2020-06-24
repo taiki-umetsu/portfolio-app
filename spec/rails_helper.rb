@@ -72,6 +72,20 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   # You can use devise in RSpec
   config.include Devise::Test::IntegrationHelpers
+
+  #############################################################################
+  # for rspec-retry
+  config.verbose_retry = true
+  config.display_try_failure_messages = true
+  config.around :each, :js do |ex|
+    ex.run_with_retry retry: 5
+  end
+  config.retry_callback = proc do |ex|
+    if ex.metadata[:js]
+      Capybara.reset!
+    end
+  end
+  #############################################################################
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -80,4 +94,4 @@ Shoulda::Matchers.configure do |config|
   end
 end
 # dir for chrome driver
-Webdrivers.install_dir = '/usr/local/bin'
+# Webdrivers.install_dir = '/usr/local/bin'

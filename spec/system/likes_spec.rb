@@ -13,14 +13,14 @@ RSpec.describe 'Likes', type: :system do
         visit user_path(others)
         sleep 0.5
       end
-      it 'confirms the number of likes counter' do
+      it 'confirms the number of likes counter', retry: 5 do
         within(:css, '.heart-counter') do
           expect(page).to have_content 0
         end
       end
       it { expect(page).to have_css '#heart' }
       context 'click like button' do
-        it 'changes the number of likes counter' do
+        it 'changes the number of likes counter', retry: 5 do
           find('#heart').click
           sleep 0.5
           within(:css, '.heart-counter') do
@@ -36,13 +36,13 @@ RSpec.describe 'Likes', type: :system do
         visit user_path(others)
         sleep 0.5
       end
-      it 'confirms the number of likes counter' do
+      it 'confirms the number of likes counter', retry: 5 do
         within(:css, '.heart-counter') do
           expect(page).to have_content 1
         end
       end
       context 'try to destroy my like' do
-        it 'decreases the number of likes counter' do
+        it 'decreases the number of likes counter', retry: 5 do
           find('#heart').click
           sleep 0.5
           within(:css, '.heart-counter') do
@@ -62,19 +62,19 @@ RSpec.describe 'Likes', type: :system do
         find('.heart-counter').click
         sleep 0.5
       end
-      it 'goes likers page' do
+      it 'goes likers page', retry: 5 do
         expect(page).to have_content 'いいねしたアカウント'
         expect(page).to have_css '.users-wrapper'
       end
-      it 'goes back to user page' do
+      it 'goes back to user page', retry: 5 do
         find('#page-back').click
         expect(page).to have_content '公開アバター'
       end
-      it 'is likers names on the page' do
+      it 'is likers names on the page', retry: 5 do
         expect(page).to have_content me.name
         expect(page).to have_content someone.name
       end
-      it 'goes to liker page' do
+      it 'goes to liker page', retry: 5 do
         click_on someone.name
         expect(page).to have_content someone.name
         expect(page).to have_content '公開アバター'
@@ -83,7 +83,7 @@ RSpec.describe 'Likes', type: :system do
   end
 
   describe 'not sign in user' do
-    it 'redirects login page' do
+    it 'redirects login page', retry: 5 do
       visit likers_avatar_path(others)
       expect(page).to have_content 'ログイン'
     end
