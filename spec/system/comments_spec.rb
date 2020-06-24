@@ -27,7 +27,7 @@ RSpec.describe 'Comments', type: :system do
       click_on 'コメント'
       expect(page).to have_content 'フォームに入力してください'
     end
-    it 'removes field' do
+    it 'removes field', retry: 3 do
       find('.fa-times-circle').click
       sleep 0.5
       expect(page).to_not have_css '.upload-field'
@@ -46,11 +46,11 @@ RSpec.describe 'Comments', type: :system do
       expect(page).to have_content 'コメント一覧'
       expect(page).to have_css '.users-wrapper'
     end
-    it 'goes back to user page' do
+    it 'goes back to user page', retry: 3 do
       find('#page-back').click
       expect(page).to have_content '公開アバター'
     end
-    it 'is comments on the page' do
+    it 'is comments on the page', retry: 3 do
       expect(page).to have_content my_comment.content
       expect(page).to have_content others_comment.content
     end
@@ -75,7 +75,7 @@ RSpec.describe 'Comments', type: :system do
             expect(page).to have_css '.fa-trash-alt'
           end
         end
-        it 'does not exist link to delete comment at others comment part' do
+        it 'does not exist link to delete comment at others comment part', retry: 3 do
           within(:css, ".comment#{others_comment.id}") do
             expect(page).to_not have_css '.fa-trash-alt'
           end

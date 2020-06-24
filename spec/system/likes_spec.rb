@@ -20,7 +20,7 @@ RSpec.describe 'Likes', type: :system do
       end
       it { expect(page).to have_css '#heart' }
       context 'click like button' do
-        it 'changes the number of likes counter' do
+        it 'changes the number of likes counter', retry: 3 do
           find('#heart').click
           sleep 0.5
           within(:css, '.heart-counter') do
@@ -62,7 +62,7 @@ RSpec.describe 'Likes', type: :system do
         find('.heart-counter').click
         sleep 0.5
       end
-      it 'goes likers page' do
+      it 'goes likers page', retry: 3 do
         expect(page).to have_content 'いいねしたアカウント'
         expect(page).to have_css '.users-wrapper'
       end

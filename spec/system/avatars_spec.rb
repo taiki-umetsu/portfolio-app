@@ -46,7 +46,7 @@ RSpec.describe 'Avatars', type: :system do
     before do
       sign_in me
     end
-    it 'deletes avatar and files in S3 as well', vcr: true do
+    it 'deletes avatar and files in S3 as well', vcr: true, retry: 3 do
       visit user_path(me)
       sleep 0.5
       expect(page).to have_content me.name
@@ -105,7 +105,7 @@ RSpec.describe 'Avatars', type: :system do
           visit current_path
           sleep 0.5
         end
-        it 'has icon expresses public' do
+        it 'has icon expresses public', retry: 3 do
           within(:css, ".avatar#{avatar.id}") do
             expect(page).to_not have_css '.locked-icon'
             expect(page).to have_css '.unlocked-icon'
@@ -122,7 +122,7 @@ RSpec.describe 'Avatars', type: :system do
           sleep 0.5
         end
         it { expect(page).to have_content me.name }
-        it 'has icon expresses private' do
+        it 'has icon expresses private', retry: 3 do
           within(:css, ".avatar#{avatar.id}") do
             expect(page).to_not have_css '.unlocked-icon'
             expect(page).to have_css '.locked-icon'
@@ -163,20 +163,20 @@ RSpec.describe 'Avatars', type: :system do
         find(".avatar#{my_avatar.id}").find('.message-board-icon').click
         sleep 0.5
       end
-      it 'shows field' do
+      it 'shows field', retry: 3 do
         expect(page).to have_content 'カオリアル'
         expect(page).to have_css '.upload-field'
       end
-      it 'removes field' do
+      it 'removes field', retry: 3 do
         find('.fa-times-circle').click
         sleep 0.5
         expect(page).to_not have_css '.upload-field'
       end
-      it 'can not send when click update button with no message' do
+      it 'can not send when click update button with no message', retry: 3 do
         find('.upload-field').find('.btn').click
         expect(page).to have_css '.alert-danger'
       end
-      it 'shows flash when click update button with no message' do
+      it 'shows flash when click update button with no message', retry: 3 do
         fill_in 'メッセージボードに書き込む(最大40文字)', with: 'hello world'
         find('.upload-field').find('.btn').click
         sleep 0.5
@@ -191,7 +191,7 @@ RSpec.describe 'Avatars', type: :system do
       it { expect(page).to have_css ".avatar#{others_avatar.id}" }
       it { expect(page).to_not have_css '.message-board-icon' }
     end
-    context 'fill over 40 characters' do
+    context 'fill over 40 characters', retry: 3 do
       before do
         visit user_path(me)
         sleep 0.5
