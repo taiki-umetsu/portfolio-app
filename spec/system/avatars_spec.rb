@@ -122,7 +122,7 @@ RSpec.describe 'Avatars', type: :system do
           sleep 0.5
         end
         it { expect(page).to have_content me.name }
-        it 'has icon expresses private', retry: 3 do
+        it 'has icon expresses private', retry: 5 do
           within(:css, ".avatar#{avatar.id}") do
             expect(page).to_not have_css '.unlocked-icon'
             expect(page).to have_css '.locked-icon'

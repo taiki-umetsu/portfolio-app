@@ -42,7 +42,7 @@ RSpec.describe 'Likes', type: :system do
         end
       end
       context 'try to destroy my like' do
-        it 'decreases the number of likes counter' do
+        it 'decreases the number of likes counter', retry: 3 do
           find('#heart').click
           sleep 0.5
           within(:css, '.heart-counter') do
@@ -74,7 +74,7 @@ RSpec.describe 'Likes', type: :system do
         expect(page).to have_content me.name
         expect(page).to have_content someone.name
       end
-      it 'goes to liker page' do
+      it 'goes to liker page', retry: 3 do
         click_on someone.name
         expect(page).to have_content someone.name
         expect(page).to have_content '公開アバター'
