@@ -80,4 +80,4 @@ Shoulda::Matchers.configure do |config|
   end
 end
 # dir for chrome driver
-Webdrivers.install_dir = '/usr/local/bin'
+# Webdrivers.install_dir = '/usr/local/bin'
