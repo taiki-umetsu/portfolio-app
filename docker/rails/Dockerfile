@@ -1,3 +1,6 @@
+# when building the image, being needed to upload rails app to docker deamon 
+# therefore, at /portfolio-app, input this command
+# docker build -f docker/rails/Dockerfile .
 FROM ruby:2.7
 RUN apt-get update -qq && apt-get install -y nodejs 
 RUN apt-get update && apt-get install -y curl apt-transport-https wget && \
@@ -13,9 +16,8 @@ COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 COPY . /app
 
-COPY entrypoint.sh /usr/bin/
+COPY ./docker/rails/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
 
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["rails", "s", "-e", "production"]

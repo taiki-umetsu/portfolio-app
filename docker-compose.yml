@@ -6,12 +6,28 @@ services:
       - ./tmp/db:/var/lib/mysql
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=1
-  web:
-    build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/rails/Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s"
     volumes:
       - .:/app
-    ports:
-      - "3000:3000"
+      - /var/tmp
+      # socketファイルの共有
+      - sockets:/app/tmp/sockets
     depends_on:
       - db
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+      #socketファイルの共有
+    volumes:
+      - sockets:/app/tmp/sockets
+    depends_on:
+      - app
+volumes:
+  sockets:

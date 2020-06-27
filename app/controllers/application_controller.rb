@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_base_url
-    @base_url = "#{request.protocol}#{request.host}:#{request.port}"
+    @base_url = ENV['BASE_URL']
   end
 end
