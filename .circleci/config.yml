@@ -2,10 +2,87 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.9.1
   aws-ecs: circleci/aws-ecs@1.2.0
+jobs:
+  test:
+    docker:
+      # Ruby
+      - image: circleci/ruby:2.7.1-node-browsers
+        environment:
+          - RAILS_ENV: test
+      # MySQL
+      - image: circleci/mysql:8.0.3
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          - MYSQL_ROOT_HOST: "%"
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            # キャッシュが見つからなかったら、今あるなかで最新のキャッシュを使う
+            - v1-dependencies-
+      # Chrome
+      - run:
+          name: Install System Dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y libappindicator1 fonts-liberation
+            export CHROME_BIN=/usr/bin/google-chrome
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i google-chrome*.deb
+      # Node.js
+      - run:
+          name: update node v12.13.0
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run:
+          name: install dependencies
+          command: yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+            - ./node_modules
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+      # Database
+      - run: mv config/database.yml.ci config/database.yml
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      # Webpack
+      - run: bundle exec bin/webpack
+
+      # Rspec
+      - run:
+          name: run rspec
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+            bundle exec rspec \
+              --format progress \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
 workflows:
-  nginx-deploy:
+  version: 2.1
+  test-and-deploy:
     jobs:
+      - test
       - aws-ecr/build-and-push-image:
+          name: nginx-build-and-push-image
+          requires:
+            - test
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY
           aws-secret-access-key: AWS_SECRET_KEY
@@ -17,15 +94,17 @@ workflows:
           repo: kaoreal-nginx
           tag: "${CIRCLE_SHA1}"
       - aws-ecs/deploy-service-update:
+          name: nginx-deploy-service-update
           requires:
-            - aws-ecr/build-and-push-image
+            - nginx-build-and-push-image
           family: "kaoreal-task-df"
           cluster-name: "kaoreal-cluster"
           service-name: "kaoreal-service"
           container-image-name-updates: "container=nginx,tag=${CIRCLE_SHA1}"
-  rails-deploy:
-    jobs:
       - aws-ecr/build-and-push-image:
+          name: rails-build-and-push-image
+          requires:
+            - test
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY
           aws-secret-access-key: AWS_SECRET_KEY
@@ -37,8 +116,9 @@ workflows:
           repo: kaoreal-rails
           tag: "${CIRCLE_SHA1}"
       - aws-ecs/deploy-service-update:
+          name: rails-deploy-service-update
           requires:
-            - aws-ecr/build-and-push-image
+            - rails-build-and-push-image
           family: "kaoreal-task-df"
           cluster-name: "kaoreal-cluster"
           service-name: "kaoreal-service"
