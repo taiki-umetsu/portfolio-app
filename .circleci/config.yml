@@ -66,6 +66,8 @@ jobs:
           destination: test-results
 
 default-aws-ecr: &default-aws-ecr
+  requires:
+    - test
   account-url: AWS_ECR_ACCOUNT_URL
   aws-access-key-id: AWS_ACCESS_KEY
   aws-secret-access-key: AWS_SECRET_KEY
@@ -73,11 +75,17 @@ default-aws-ecr: &default-aws-ecr
   no-output-timeout: 20m
   region: AWS_REGION
   tag: "${CIRCLE_SHA1}"
+  filters:
+    branches:
+      only: master
 
 default-aws-ecs: &default-aws-ecs
   family: "kaoreal-task-df"
   cluster-name: "kaoreal-cluster"
   service-name: "kaoreal-service"
+  filters:
+    branches:
+      only: master
 
 workflows:
   version: 2.1
@@ -86,8 +94,6 @@ workflows:
       - test
       - aws-ecr/build-and-push-image:
           name: nginx-build-and-push-image
-          requires:
-            - test
           dockerfile: Dockerfile
           path: ./docker/nginx/
           repo: kaoreal-nginx
@@ -100,8 +106,6 @@ workflows:
           <<: *default-aws-ecs
       - aws-ecr/build-and-push-image:
           name: rails-build-and-push-image
-          requires:
-            - test
           dockerfile: ./docker/rails/Dockerfile
           path: .
           repo: kaoreal-rails
