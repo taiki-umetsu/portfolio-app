@@ -74,6 +74,20 @@ jobs:
           path: /tmp/test-results
           destination: test-results
 
+default-aws-ecr: &default-aws-ecr
+  account-url: AWS_ECR_ACCOUNT_URL
+  aws-access-key-id: AWS_ACCESS_KEY
+  aws-secret-access-key: AWS_SECRET_KEY
+  create-repo: true
+  no-output-timeout: 20m
+  region: AWS_REGION
+  tag: "${CIRCLE_SHA1}"
+
+default-aws-ecs: &default-aws-ecs
+  family: "kaoreal-task-df"
+  cluster-name: "kaoreal-cluster"
+  service-name: "kaoreal-service"
+
 workflows:
   version: 2.1
   test-and-deploy:
@@ -83,43 +97,27 @@ workflows:
           name: nginx-build-and-push-image
           requires:
             - test
-          account-url: AWS_ECR_ACCOUNT_URL
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_SECRET_KEY
-          create-repo: true
           dockerfile: Dockerfile
-          no-output-timeout: 20m
           path: ./docker/nginx/
-          region: AWS_REGION
           repo: kaoreal-nginx
-          tag: "${CIRCLE_SHA1}"
+          <<: *default-aws-ecr
       - aws-ecs/deploy-service-update:
           name: nginx-deploy-service-update
           requires:
             - nginx-build-and-push-image
-          family: "kaoreal-task-df"
-          cluster-name: "kaoreal-cluster"
-          service-name: "kaoreal-service"
           container-image-name-updates: "container=nginx,tag=${CIRCLE_SHA1}"
+          <<: *default-aws-ecs
       - aws-ecr/build-and-push-image:
           name: rails-build-and-push-image
           requires:
             - test
-          account-url: AWS_ECR_ACCOUNT_URL
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_SECRET_KEY
-          create-repo: true
           dockerfile: ./docker/rails/Dockerfile
-          no-output-timeout: 20m
           path: .
-          region: AWS_REGION
           repo: kaoreal-rails
-          tag: "${CIRCLE_SHA1}"
+          <<: *default-aws-ecr
       - aws-ecs/deploy-service-update:
           name: rails-deploy-service-update
           requires:
             - rails-build-and-push-image
-          family: "kaoreal-task-df"
-          cluster-name: "kaoreal-cluster"
-          service-name: "kaoreal-service"
           container-image-name-updates: "container=rails,tag=${CIRCLE_SHA1}"
+          <<: *default-aws-ecs
