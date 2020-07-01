@@ -10,3 +10,6 @@ RUN apt-get update && \
 ENV LC_ALL ja_JP.UTF-8
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+ARG NGINX_HOST_NAME=www.kaoreal.com
+# Using environment variables in nginx configuration
+RUN envsubst '$$NGINX_HOST_NAME' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
