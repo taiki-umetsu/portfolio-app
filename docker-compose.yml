@@ -20,16 +20,13 @@ services:
   nginx:
     build:
       context: ./docker/nginx
+      args:
+        NGINX_HOST_NAME: "localhost"
       dockerfile: Dockerfile
     ports:
       - "80:80"
     depends_on:
       - app
-    environment:
-      NGINX_HOST_NAME: "localhost"
-    # Using environment variables in nginx configuration
-    command: >
-      /bin/sh -c "envsubst '$$NGINX_HOST_NAME' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     volumes:
       - sockets:/app/tmp/sockets
 
