@@ -12,16 +12,11 @@ https://www.kaoreal.com/
 
 ![image](https://user-images.githubusercontent.com/53265885/86504241-2abcb680-bdf1-11ea-8987-9574e21b9267.png)
 
-**_カンタンログイン:_**
-
-- カンタンログインを押してください
-  ※観覧用としてご自由にお使いください
-
 ## 特に見ていただきたい部分
 
 - 開発/本番環境で Docker を使用している点
 
-  （開発環境：Docker-compose、本番環境：ECR/ECS（EC2））
+  （開発環境：Docker-compose、本番環境：ECR/ECS）
 
 - AWS を使い ALB を通すことで常時 SSL 通信を行っている点
 - CircleCI を用い CI/CD パイプラインを構築している点
@@ -118,11 +113,9 @@ https://www.kaoreal.com/
   - jquery-validation
   - moment
 
-## インフラ構成図
+## クラウドアーキテクチャ
 
-![infrastracture-kaoreal](https://user-images.githubusercontent.com/53265885/86514919-62a71680-be50-11ea-92d4-0c8bb9c9624a.png)
-
-CircleCI を用いて Github の master ブランチへのプッシュをウェブフックにして 自動テスト/自動デプロイを実現しています。
+![image](https://user-images.githubusercontent.com/53265885/86527330-f1f80c80-bed8-11ea-9cbb-ea4a5c576d93.png)
 
 ## 機能一覧
 
