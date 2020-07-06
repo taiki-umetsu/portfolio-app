@@ -19,6 +19,9 @@
                 <li>
                   <a rel="nofollow" data-method="delete" href="/users/sign_out">ログアウト</a>
                 </li>
+                <li>
+                  <a href="https://poly.google.com/view/dLHpzNdygsg">引用</a>
+                </li>
               </ul>
               <ul v-else>
                 <li>
@@ -26,6 +29,9 @@
                 </li>
                 <li>
                   <a href="/users/sign_up">アカウント作成</a>
+                </li>
+                <li>
+                  <a href="https://poly.google.com/view/dLHpzNdygsg">引用</a>
                 </li>
               </ul>
             </div>
