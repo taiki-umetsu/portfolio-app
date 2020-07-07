@@ -53,6 +53,11 @@ module Api
         render json: data_users(followers)
       end
 
+      def index
+        users = User.all.page(params[:users_page]).per(10)
+        render json: data_users(users)
+      end
+
       private
 
       def updata_params

@@ -4,7 +4,11 @@ class AvatarsController < ApplicationController
   include AvatarsHelper
   before_action :private?, only: %i[show markerless_ar]
   before_action :authenticate_user!, only: %i[likers comments]
-  before_action :set_base_url, only: %i[likers comments]
+  before_action :set_base_url, only: %i[index likers comments]
+  def index
+    @avatars = Avatar.where(public: true).page(params[:page]).per(2)
+    @comment = current_user.comments.build if user_signed_in?
+  end
 
   def show
     if comments = @avatar.comments.first(15)

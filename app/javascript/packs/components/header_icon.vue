@@ -17,6 +17,9 @@
                   <a href="/users/edit">設定</a>
                 </li>
                 <li>
+                  <a href="/users">ユーザー一覧</a>
+                </li>
+                <li>
                   <a rel="nofollow" data-method="delete" href="/users/sign_out">ログアウト</a>
                 </li>
                 <li>
