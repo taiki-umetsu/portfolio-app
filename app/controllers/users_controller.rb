@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: %i[show followers following]
+  before_action :authenticate_user!
   before_action :set_base_url
   def index
-    @avatars = Avatar.where(public: true).page(params[:page]).per(2)
-    @comment = current_user.comments.build if user_signed_in?
+    @title = 'ユーザー一覧'
+    @api = api_v1_users_path
+    render 'show_group'
   end
 
   def show

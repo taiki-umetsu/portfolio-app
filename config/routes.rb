@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'users#index'
+  root 'avatars#index'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     passwords: 'users/passwords',
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     end
   end
   resources :relationships, only: %i[create destroy]
-  resources :avatars, only: %i[show] do
+  resources :avatars, only: %i[index show] do
     member do
       get :markerless_ar, :likers, :comments
     end
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   # for Vue
   namespace :api, { format: 'json' } do
     namespace :v1 do
-      resources :users, only: %i[update edit show] do
+      resources :users, only: %i[index update edit show] do
         member do
           get :following, :followers, :image, :liking
         end
