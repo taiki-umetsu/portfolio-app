@@ -18,3 +18,4 @@ yarn-debug.log*
 /sandbox.rb
 /linebot_richmenu/
 /spec/system/sandbox.rb
+/package-lock.json
