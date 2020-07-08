@@ -37,6 +37,10 @@
                   <a href="https://poly.google.com/view/dLHpzNdygsg">引用</a>
                 </li>
               </ul>
+              <div class="line-bot">
+                <p>↓ LINE BOT</p>
+                <img src="../../../assets/images/line_bot_qr.png" id="line-bot-qr" />
+              </div>
             </div>
           </div>
         </div>
@@ -106,6 +110,15 @@ li {
 }
 .row {
   width: 100%;
+}
+#line-bot-qr {
+  width: 100px;
+  height: 100px;
+}
+.line-bot {
+  position: absolute;
+  bottom: 100px;
+  right: 20px;
 }
 
 /* animation */
