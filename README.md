@@ -11,6 +11,9 @@
 https://www.kaoreal.com/
 
 ![image](https://user-images.githubusercontent.com/53265885/86504241-2abcb680-bdf1-11ea-8987-9574e21b9267.png)
+LINE BOT からもアバターを作成できます。
+<br >
+<img src="https://user-images.githubusercontent.com/53265885/87167032-5bc44c00-c307-11ea-914c-59cd5cee31e4.gif" width="200px">
 
 ## 特に見ていただきたい部分
 
