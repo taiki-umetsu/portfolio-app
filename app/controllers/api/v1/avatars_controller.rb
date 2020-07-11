@@ -17,10 +17,12 @@ module Api
           render json: '画像がありません'
         else
           image = avatar_params[:image].read
-          avatar = current_user.avatars.build
-          if avatar.save
-            avatar.generate(image)
+          avatar = current_user.avatars.create
+          if avatar.generate(image)
             render json: data([avatar], 'userShow')
+          else
+            avatar.destroy
+            render json: '正面を向いている顔画像を投稿して下さい'
           end
         end
       end

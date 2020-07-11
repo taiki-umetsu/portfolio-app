@@ -25,14 +25,24 @@ class Avatar < ApplicationRecord
     end
   end
 
+  def check_face_pose(face)
+    # face angle (yaw rotation) less than 7 degrees  is permitted
+    face.pose >= -7 && face.pose < 7 ? true : false
+  end
+
   def generate(image)
     face = DetectFace.new(image)
-    calculate = Calculate.new(
-      face.angle, face.nose, face.scaling_rate, face.dimension_original_image
-    )
-    distance = calculate.distance_between_model_and_user_nose
-    trimed_image = triming(face.image, face.scaling_rate, face.angle, distance)
-    Ready3dFiles.new(id, trimed_image)
+    if check_face_pose(face)
+      calculate = Calculate.new(
+        face.angle, face.nose, face.scaling_rate, face.dimension_original_image
+      )
+      distance = calculate.distance_between_model_and_user_nose
+      trimed_image = triming(face.image, face.scaling_rate, face.angle, distance)
+      Ready3dFiles.new(id, trimed_image)
+      true
+    else
+      false
+    end
   end
 
   def destroy_s3_file
@@ -79,6 +89,10 @@ class Avatar < ApplicationRecord
                              face_detail.landmarks[4].y]
       end
       @image = MiniMagick::Image.read(image_bytes)
+    end
+
+    def pose
+      @response.face_details[0].pose.yaw
     end
 
     def dimension_original_image
