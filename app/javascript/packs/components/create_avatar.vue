@@ -1,26 +1,15 @@
 <template>
   <div>
-    <div
-      class="alert flash-message fixed-top"
-      :class="alertColor"
-      v-show="flash"
-    >
-      {{ flash }}
-    </div>
+    <div class="alert flash-message fixed-top" :class="alertColor" v-show="flash">{{ flash }}</div>
     <transition name="slide-fade">
       <div class="upload-field" v-show="showField">
         <div class="comment-form container">
           <div class="row content-field">
-            <div
-              class="col-10 offset-1 col-md-6 offset-md-3 responsive-wrapper"
-            >
+            <div class="col-10 offset-1 col-md-6 offset-md-3 responsive-wrapper">
               <div class="items-wrapper">
                 <div class="close-field-btn">
                   <transition name="slide-fade">
-                    <i
-                      class="fas fa-times-circle fa-2x"
-                      @click="showField = !showField"
-                    ></i>
+                    <i class="fas fa-times-circle fa-2x" @click="showField = !showField"></i>
                   </transition>
                 </div>
                 <div class="image-upload-field">
@@ -29,18 +18,16 @@
                     class="crop-field"
                     :width="300"
                     :height="400"
-                    placeholder="顔画像をアップロードして下さい"
-                    :placeholder-font-size="18"
+                    placeholder="正面を向いた顔画像を選択して下さい"
+                    :placeholder-font-size="16"
                     :accept="'image/*'"
                     :remove-button-color="'gray'"
-                    :file-size-limit="2097152"
+                    :file-size-limit="4194304"
                     @file-size-exceed="onFileSizeExceed"
                   ></croppa>
                 </div>
                 <div class="comment-btn">
-                  <button class="btn btn-primary" @click="submit">
-                    アバター作成
-                  </button>
+                  <button class="btn btn-primary" @click="submit">アバター作成</button>
                 </div>
               </div>
             </div>
@@ -66,17 +53,17 @@ import axios from "axios";
 export default {
   props: {
     currentUserId: Number,
-    baseUrl: String,
+    baseUrl: String
   },
   data() {
     return {
       croppa: null,
       showField: false,
-      showCreating: false,
+      showCreating: false
     };
   },
   computed: {
-    ...mapState(["lists", "flash", "alertColor", "loadingNow"]),
+    ...mapState(["lists", "flash", "alertColor", "loadingNow"])
   },
   mounted() {
     axios.defaults.baseURL = this.baseUrl;
@@ -92,12 +79,12 @@ export default {
       "loaded",
       "loadingWhenCreateAvatar",
       "showCollectionTab",
-      "showLikingTab",
+      "showLikingTab"
     ]),
     onFileSizeExceed(file) {
       this.pushFlash({
-        flash: "ファイルサイズ2MB以下でアップロードして下さい",
-        alertColor: "alert-danger",
+        flash: "ファイルサイズ4MB以下でアップロードして下さい",
+        alertColor: "alert-danger"
       });
     },
     submit() {
@@ -105,24 +92,31 @@ export default {
       if (this.croppa.chosenFile == null) {
         this.pushFlash({
           flash: "画像を選択してください",
-          alertColor: "alert-danger",
+          alertColor: "alert-danger"
         });
       } else {
         this.croppa.generateBlob(
-          (blob) => {
+          blob => {
             const data = new FormData();
             data.append("image", blob, "image.png");
             axios
               .post("/api/v1/avatars", data, {
-                headers: { "content-type": "multipart/form-data" },
+                headers: { "content-type": "multipart/form-data" }
               })
-              .then((response) => {
-                if (response.data["userShow"].length) {
+              .then(response => {
+                if (response.data == "正面を向いている顔画像を投稿して下さい") {
+                  this.showCreating = false;
+                  this.pushFlash({
+                    flash: "正面を向いている顔画像を投稿して下さい",
+                    alertColor: "alert-danger"
+                  });
+                  this.showCollectionTab();
+                } else if (response.data["userShow"].length) {
                   this.unshiftToList(response.data);
                   this.showCreating = false;
                   this.pushFlash({
                     flash: "アバターを作成しました！",
-                    alertColor: "alert-success",
+                    alertColor: "alert-success"
                   });
                   this.showCollectionTab();
                   this.loadingWhenCreateAvatar();
@@ -140,8 +134,8 @@ export default {
     },
     sandbox() {
       console.log(this.lists);
-    },
-  },
+    }
+  }
 };
 </script>
 
