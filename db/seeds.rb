@@ -7,7 +7,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-99.times do |n|
+60.times do |n|
   name  = Faker::Name.name
   email = "faker-#{n + 1}@example.com"
   password = 'password'
@@ -18,8 +18,16 @@
 end
 # relationship
 users = User.all
-user  = users.first
-following = users[2..100]
-followers = users[3..100]
-following.each { |followed| user.follow(followed) }
-followers.each { |follower| follower.follow(user) }
+test_user = User.find_by(email: 'test.user@example.com')
+following = users[10..59]
+followers = users[10..59]
+following.each { |followed| test_user.follow(followed) }
+followers.each { |follower| follower.follow(test_user) }
+
+# like
+likers = users[10..19]
+Avatar.all.each do |avatar|
+  likers.each do |liker|
+    Like.create!(user_id: liker.id, avatar_id: avatar.id)
+  end
+end
