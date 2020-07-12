@@ -1,6 +1,7 @@
-header.navbar.navbar-light.border-bottom.fixed-top.shadow-sm
+header.navbar.navbar-light.fixed-top.shadow-sm
   .container
-    #app-name= link_to app_name, root_path
+    = link_to root_path do
+      =image_tag "kaoreal-logo.png"
     nav
       ul.nav.list-group-horizontal
         -if !user_signed_in?

@@ -144,17 +144,17 @@ export default {
   margin: auto;
   width: 40px;
   height: 40px;
-  color: gray;
+  color: white;
 }
 .show-create-avatar-field-btn {
-  border: 0.5px solid gray;
+  border: 2px solid white;
   border-radius: 10px;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   cursor: pointer;
   outline: none;
   padding: 0;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
 }
 .upload-field {
   background-color: rgba(73, 73, 73, 0.5);
