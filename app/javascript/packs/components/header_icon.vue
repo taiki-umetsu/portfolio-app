@@ -75,7 +75,7 @@ export default {
 
 <style scoped>
 .fa-bars {
-  color: gray;
+  color: white;
   margin-top: 7px;
 }
 #nav-window-field {
@@ -94,8 +94,9 @@ export default {
   background-color: white;
   position: fixed;
   right: 0;
-  text-align: right;
+  text-align: left;
   padding-bottom: 20px;
+  padding: 3%;
 }
 ul {
   list-style: none;

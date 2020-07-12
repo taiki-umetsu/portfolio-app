@@ -1,26 +1,17 @@
 <template>
   <div id="avatar-field">
-    <div
-      class="alert flash-message fixed-top"
-      :class="alertColor"
-      v-show="flash"
-    >
-      {{ flash }}
-    </div>
+    <div class="alert flash-message fixed-top" :class="alertColor" v-show="flash">{{ flash }}</div>
 
     <div class="row" v-for="(item, $index1) in lists[keyName]" :key="$index1">
       <div
-        class="wrapper shadow-sm col-12 col-md-6 offset-md-3"
+        class="wrapper shadow col-12 col-md-6 offset-md-3"
         :class="setAvatarId(item.avatar_id)"
         v-show="item.avatar_field"
       >
         <div class="container">
           <div class="row d-flex align-items-center avatar-info">
             <a :href="userPath(item.user_id)">
-              <img
-                :src="setImage(item.user_image)"
-                class="user-icon user-link"
-              />
+              <img :src="setImage(item.user_image)" class="user-icon user-link" />
             </a>
             <a :href="userPath(item.user_id)">
               <div id="user-name">{{ item.user_name }}</div>
@@ -81,11 +72,7 @@
         </div>
       </div>
     </div>
-    <infinite-loading
-      :distance="100"
-      @infinite="infiniteHandler"
-      ref="infiniteLoading"
-    ></infinite-loading>
+    <infinite-loading :distance="100" @infinite="infiniteHandler" ref="infiniteLoading"></infinite-loading>
   </div>
 </template>
 
@@ -104,7 +91,7 @@ import { mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["lists", "flash", "alertColor"]),
+    ...mapState(["lists", "flash", "alertColor"])
   },
   components: {
     InfiniteLoading,
@@ -112,18 +99,18 @@ export default {
     Comment,
     Public,
     DestroyAvatar,
-    MessageBoard,
+    MessageBoard
   },
   props: {
     currentUserId: Number,
     baseUrl: String,
     api: String,
-    keyName: String,
+    keyName: String
   },
   data() {
     return {
       avatar_page: 1,
-      firstLoad: true,
+      firstLoad: true
     };
   },
   beforeCreate() {
@@ -141,16 +128,16 @@ export default {
       "updateList",
       "resetList",
       "loading",
-      "loaded",
+      "loaded"
     ]),
     infiniteHandler($state) {
       axios
         .get(this.api, {
           params: {
-            avatar_page: this.avatar_page,
-          },
+            avatar_page: this.avatar_page
+          }
         })
-        .then((response) => {
+        .then(response => {
           if (response.data[`${this.keyName}`].length) {
             this.avatar_page += 1;
             this.pushToList(response.data);
@@ -182,14 +169,14 @@ export default {
     },
     iframe(index1) {
       return `iframe${index1}`;
-    },
+    }
   },
   filters: {
     moment: function(date) {
       moment.locale("ja");
       return moment(date).fromNow();
-    },
-  },
+    }
+  }
 };
 </script>
 

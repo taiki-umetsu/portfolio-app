@@ -3,7 +3,7 @@
     <div v-for="(list, $index1) in lists" :key="$index1">
       <div v-for="(item, $index2) in list" :key="$index2">
         <a :href="userPath(item['user_id'])">
-          <div class="wrapper-sm shadow-sm" :class="setUserId(item['user_id'])">
+          <div class="wrapper-sm shadow" :class="setUserId(item['user_id'])">
             <div class="container">
               <div class="row d-flex align-items-center">
                 <get-user-icon :userId="item['user_id']" :baseUrl="baseUrl"></get-user-icon>

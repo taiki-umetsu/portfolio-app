@@ -50,7 +50,8 @@
     width: 110px;
     height: 30px;
     margin: 0;
-    border: 1px solid #bbb;
+    border: 2px solid white;
+    color: white;
   }
 }
 
@@ -133,17 +134,13 @@ label {
 
 .btn-primary {
   border: none;
-  background: -moz-linear-gradient(left, #2ac0ff, #0a7cfb);
-  background: -webkit-linear-gradient(left, #2ac0ff, #0a7cfb);
-  background: linear-gradient(to right, #2ac0ff, #0a7cfb);
+  background: -moz-linear-gradient(90deg, #8ac8fe, #80f2e0);
+  background: -webkit-linear-gradient(90deg, #8ac8fe, #80f2e0);
+  background: linear-gradient(90deg, #8ac8fe, #80f2e0);
   &:hover {
-    background: -moz-linear-gradient(left, rgb(42, 175, 233), rgb(11, 93, 187));
-    background: -webkit-linear-gradient(
-      left,
-      rgb(42, 175, 233),
-      rgb(11, 93, 187)
-    );
-    background: linear-gradient(to right, rgb(42, 175, 233), rgb(11, 93, 187));
+    background: -moz-linear-gradient(left, #75a9d6, #75ddcd);
+    background: -webkit-linear-gradient(left, #75a9d6, #75ddcd);
+    background: linear-gradient(to right, #75a9d6, #75ddcd);
   }
   &:focus {
     box-shadow: none !important;
