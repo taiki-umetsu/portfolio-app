@@ -160,7 +160,6 @@ RSpec.describe 'Avatars', type: :system do
         sleep 0.5
       end
       it 'shows field', retry: 5, retry_wait: 5, exponential_backoff: true do
-        expect(page).to have_content 'カオリアル'
         expect(page).to have_css '.upload-field'
       end
       it 'removes field', retry: 5, retry_wait: 5, exponential_backoff: true do
