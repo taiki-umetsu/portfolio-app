@@ -31,7 +31,7 @@
                   <a href="/users/sign_in">ログイン</a>
                 </li>
                 <li>
-                  <a href="/users/sign_up">アカウント作成</a>
+                  <a href="/users/sign_up">新規作成</a>
                 </li>
                 <li>
                   <a href="https://poly.google.com/view/dLHpzNdygsg">引用</a>

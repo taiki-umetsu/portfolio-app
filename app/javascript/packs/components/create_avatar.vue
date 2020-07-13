@@ -88,13 +88,13 @@ export default {
       });
     },
     submit() {
-      this.showCreating = true;
       if (this.croppa.chosenFile == null) {
         this.pushFlash({
           flash: "画像を選択してください",
           alertColor: "alert-danger"
         });
       } else {
+        this.showCreating = true;
         this.croppa.generateBlob(
           blob => {
             const data = new FormData();

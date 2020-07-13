@@ -23,7 +23,7 @@ describe("HeaderIcon for logged in user", () => {
   });
   it("shows links for logged in user", () => {
     expect(wrapper.text()).toBe("マイページ 設定 ログアウト");
-    expect(wrapper.text()).not.toBe("テストログイン ログイン アカウント作成");
+    expect(wrapper.text()).not.toBe("テストログイン ログイン 新規作成");
   });
 });
 
@@ -43,7 +43,7 @@ describe("HeaderIcon for not logged in user", () => {
     expect(vm.show).toBe(true);
   });
   it("shows links for not logged in user", () => {
-    expect(wrapper.text()).toBe("ログイン アカウント作成");
+    expect(wrapper.text()).toBe("ログイン 新規作成");
     expect(wrapper.text()).not.toBe("マイページ 設定 ログアウト");
   });
 });
