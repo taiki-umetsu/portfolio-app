@@ -10,10 +10,7 @@
 
 https://www.kaoreal.com/
 
-![image](https://user-images.githubusercontent.com/53265885/86504241-2abcb680-bdf1-11ea-8987-9574e21b9267.png)
-LINE BOT からもアバターを作成できます。
-<br >
-<img src="https://user-images.githubusercontent.com/53265885/87167032-5bc44c00-c307-11ea-914c-59cd5cee31e4.gif" width="200px">
+<img  alt="1" src="https://user-images.githubusercontent.com/53265885/87270224-7d415580-c50a-11ea-9027-0c81a19d48ca.png">
 
 ## 特に見ていただきたい部分
 
@@ -137,3 +134,27 @@ LINE BOT からもアバターを作成できます。
 - 無限スクロール（アバター一覧、コメント一覧、いいね一覧）
 - タブ切り替え
 - LINE ボットに画像投稿 → アバター作成
+
+## 画面一覧
+
+<img  alt="1" src="https://user-images.githubusercontent.com/53265885/87270224-7d415580-c50a-11ea-9027-0c81a19d48ca.png">
+<img  alt="2" src="https://user-images.githubusercontent.com/53265885/87270231-80d4dc80-c50a-11ea-9d80-2ee4a14544ca.png">
+<img  alt="3" src="https://user-images.githubusercontent.com/53265885/87271049-05c0f580-c50d-11ea-8b06-60e8ef2a9b05.png">
+<img  alt="4" src="https://user-images.githubusercontent.com/53265885/87270233-82060980-c50a-11ea-9348-5b479d97179a.png">
+<img  alt="5" src="https://user-images.githubusercontent.com/53265885/87271053-0a85a980-c50d-11ea-9aec-7f2488fbe7f5.png">
+<img  alt="10" src="https://user-images.githubusercontent.com/53265885/87271063-12dde480-c50d-11ea-916a-4e6bb3fe2237.png">
+<img  alt="6" src="https://user-images.githubusercontent.com/53265885/87270236-83373680-c50a-11ea-80e0-7192284a57a2.png">
+<img  alt="7" src="https://user-images.githubusercontent.com/53265885/87270238-83cfcd00-c50a-11ea-8c9a-b97f14464744.png">
+<img  alt="8" src="https://user-images.githubusercontent.com/53265885/87270239-84686380-c50a-11ea-953a-c72a4e2a09f0.png">
+<img  alt="11" src="https://user-images.githubusercontent.com/53265885/87271524-6e5ca200-c50e-11ea-94f2-4e567c0be957.png">
+<img  alt="12" src="https://user-images.githubusercontent.com/53265885/87271526-71f02900-c50e-11ea-8756-64df39a229e6.png">
+
+<img  alt="9" src="https://user-images.githubusercontent.com/53265885/87271057-0fe2f400-c50d-11ea-90bf-a19e5a48581e.png">
+
+<img src="https://user-images.githubusercontent.com/53265885/87270330-cc878600-c50a-11ea-8db3-dd0dd82fe74b.gif" height="390px">
+<img src="https://user-images.githubusercontent.com/53265885/87270439-14a6a880-c50b-11ea-9df3-7e5862717985.gif" height="390px">
+<img src="https://user-images.githubusercontent.com/53265885/87270444-17090280-c50b-11ea-8f85-6b3ccdaa85a6.gif" height="390px">
+
+LINE BOT からもアバターを作成できます。
+<br >
+<img src="https://user-images.githubusercontent.com/53265885/87167032-5bc44c00-c307-11ea-914c-59cd5cee31e4.gif" height="390px">
