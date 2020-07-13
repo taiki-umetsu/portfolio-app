@@ -20,7 +20,7 @@ RSpec.describe 'Users', type: :system do
           sleep 1
           find('#header-icon').click
         end
-        it { expect(page).to_not have_link 'アカウント作成' }
+        it { expect(page).to_not have_link '新規作成' }
         it { expect(page).to_not have_link 'ログイン' }
         it { expect(page).to have_link 'マイページ' }
         it { expect(page).to have_link '設定' }

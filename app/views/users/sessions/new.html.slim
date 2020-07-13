@@ -22,5 +22,3 @@
           = hidden_field_tag :linkToken, @link_token
       .actions
         = f.submit "ログイン", class: "btn btn-primary shadow-sm float-right"
-    - unless line_user?
-      = render "users/shared/links"
