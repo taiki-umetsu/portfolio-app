@@ -68,7 +68,7 @@ RSpec.describe 'Likes', type: :system do
       end
       it 'goes back to user page', retry: 5 do
         find('#page-back').click
-        expect(page).to have_content '公開アバター'
+        expect(page).to have_content others.name
       end
       it 'is likers names on the page', retry: 5 do
         expect(page).to have_content me.name
@@ -77,7 +77,6 @@ RSpec.describe 'Likes', type: :system do
       it 'goes to liker page', retry: 5 do
         click_on someone.name
         expect(page).to have_content someone.name
-        expect(page).to have_content '公開アバター'
       end
     end
   end

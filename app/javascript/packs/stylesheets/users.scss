@@ -180,3 +180,11 @@ label {
     box-shadow: none !important;
   }
 }
+
+#user-page > .row {
+  margin-left: 0px;
+  margin-right: 0px;
+  .wrapper {
+    padding: 25px 10px;
+  }
+}

@@ -48,7 +48,7 @@ RSpec.describe 'Comments', type: :system do
     end
     it 'goes back to user page', retry: 5 do
       find('#page-back').click
-      expect(page).to have_content '公開アバター'
+      expect(page).to have_content others.name
     end
     it 'is comments on the page', retry: 5 do
       expect(page).to have_content my_comment.content

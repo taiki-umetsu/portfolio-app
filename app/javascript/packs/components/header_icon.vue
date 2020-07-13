@@ -94,13 +94,16 @@ export default {
   background-color: white;
   position: fixed;
   right: 0;
-  text-align: left;
+  text-align: center;
   padding-bottom: 20px;
-  padding: 3%;
 }
 ul {
   list-style: none;
   padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  width: 100px;
 }
 li {
   margin: 20px 0;
@@ -117,9 +120,8 @@ li {
   height: 100px;
 }
 .line-bot {
-  position: absolute;
-  bottom: 100px;
-  right: 20px;
+  margin-top: 350px;
+  text-align: center;
 }
 
 /* animation */

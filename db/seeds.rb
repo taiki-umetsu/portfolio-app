@@ -7,15 +7,16 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-60.times do |n|
-  name  = Faker::Name.name
-  email = "faker-#{n + 1}@example.com"
-  password = 'password'
-  User.create!(name: name,
-               email: email,
-               password: password,
-               password_confirmation: password)
-end
+# 60.times do |n|
+#   name  = Faker::Name.name
+#   email = "faker-#{n + 1}@example.com"
+#   password = 'password'
+#   User.create!(name: name,
+#                email: email,
+#                password: password,
+#                password_confirmation: password)
+# end
+
 # relationship
 users = User.all
 test_user = User.find_by(email: 'test.user@example.com')
