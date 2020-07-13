@@ -120,7 +120,7 @@ li {
   height: 100px;
 }
 .line-bot {
-  margin-top: 350px;
+  margin-top: 250px;
   text-align: center;
 }
 
