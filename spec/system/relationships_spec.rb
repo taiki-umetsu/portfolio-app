@@ -50,7 +50,7 @@ RSpec.describe 'Relationships', type: :system do
       end
       it 'goes back to user page' do
         find('#page-back').click
-        expect(page).to have_content '公開アバター'
+        expect(page).to have_content me.name
       end
       it 'is followers names on the page' do
         expect(page).to have_content others.name
@@ -59,7 +59,6 @@ RSpec.describe 'Relationships', type: :system do
       it 'goes to follower user page' do
         click_on others.name
         expect(page).to have_content others.name
-        expect(page).to have_content '公開アバター'
       end
     end
     describe 'following page' do
@@ -84,7 +83,6 @@ RSpec.describe 'Relationships', type: :system do
       it 'goes to following user page' do
         click_on others.name
         expect(page).to have_content others.name
-        expect(page).to have_content '公開アバター'
       end
     end
   end

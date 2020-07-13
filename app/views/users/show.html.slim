@@ -5,7 +5,10 @@
         .row.d-flex.align-items-center
           .col-3= image_tag user_icon(@user), class:'user-icon'
           .col-3.avatar-count.user-info
-            h6 = @user.avatars.count
+            - if current_user?(@user)
+              h6 = @user.avatars.count
+            -else
+              h6 = public_avatars_count(@user)
             h6 投稿
           .col-3.follower.user-info
             =link_to followers_user_path(@user), class: 'follow-link' do
@@ -16,12 +19,12 @@
               h6 =@user.following.count
               h6 フォロー中
         .row.d-flex.align-items-center
-          .col-4
-            h4.user-name=@user.name
-          .col-4
-            h6.user-name 公開アバター #{public_avatars_count(@user)}
-          .col-4
+          .col-6
+            h6.user-name=@user.name
+          .col-6
             = render 'follow_form' if user_signed_in?
+            - if current_user?(@user)
+              h6 = "公開アバター #{public_avatars_count(@user)}"
 
 
   #tabs
