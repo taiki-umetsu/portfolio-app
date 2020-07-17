@@ -6,6 +6,9 @@ class UsersController < ApplicationController
   def index
     @title = 'ユーザー一覧'
     @api = api_v1_users_path
+    @q = User.all.ransack(params[:q])
+    @searched_users = @q.result(distinct: true)
+
     render 'show_group'
   end
 

@@ -18,8 +18,22 @@
     text-decoration: none;
   }
 }
-.users-wrapper {
+.searched-users-wrapper {
   margin: 50px auto 0 auto;
+  padding-top: 10px;
+  .btn {
+    width: 20%;
+  }
+  a {
+    color: black;
+    &:hover {
+      color: gray;
+      text-decoration: none;
+    }
+  }
+}
+.users-wrapper {
+  margin: 10px auto 0 auto;
   padding-top: 10px;
 }
 
